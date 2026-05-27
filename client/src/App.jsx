@@ -77,20 +77,35 @@ function Nav({ current, goto, chanting, toggleChant }) {
               </button>
             </li>
           )}
+          {/* Login/logout hiện trong dropdown trên mobile */}
+          <li className="nav-links-auth">
+            {user ? (
+              <button onClick={() => { logout(); setOpen(false); }}>
+                {t('Đăng xuất', 'Logout')} — {user.email}
+              </button>
+            ) : (
+              <button onClick={() => { goto('login'); setOpen(false); }}>
+                {t('Đăng nhập', 'Sign in')}
+              </button>
+            )}
+          </li>
         </ul>
         <div className="nav-actions">
           <LanguageToggle />
           <ChantToggle playing={chanting} onToggle={toggleChant} />
+          {/* Ẩn trên mobile — đã có trong dropdown */}
           {user ? (
             <button
+              className="nav-auth-btn"
               onClick={logout}
-              style={{ background: 'none', border: '1px solid var(--gold-700)', color: 'var(--gold-400)', padding: '4px 10px', fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', borderRadius: 999, cursor: 'pointer' }}
+              style={{ background: 'none', border: '1px solid var(--gold-700)', color: 'var(--gold-400)', padding: '4px 10px', fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', borderRadius: 999, cursor: 'pointer', whiteSpace: 'nowrap' }}
               title={user.email}
             >{t('Đăng xuất', 'Logout')}</button>
           ) : (
             <button
+              className="nav-auth-btn"
               onClick={() => goto('login')}
-              style={{ background: 'none', border: '1px solid var(--gold-700)', color: 'var(--gold-400)', padding: '4px 10px', fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', borderRadius: 999, cursor: 'pointer' }}
+              style={{ background: 'none', border: '1px solid var(--gold-700)', color: 'var(--gold-400)', padding: '4px 10px', fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', borderRadius: 999, cursor: 'pointer', whiteSpace: 'nowrap' }}
             >{t('Đăng nhập', 'Sign in')}</button>
           )}
           <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
