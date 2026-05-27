@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useT, LanguageToggle } from './contexts/LanguageContext.jsx';
 import { useAuth } from './contexts/AuthContext.jsx';
 import {
-  HomePage, TantraPage, TeacherPage, LecturesPage,
-  EventsPage, PrayerPage, ForumPage,
+  HomePage, LineagePage, KhenpoPage, TeachingPage,
+  ProjectPage, BlogPage, DonatePage, ForumPage,
 } from './pages.jsx';
 import AdminPage from './pages/AdminPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
@@ -11,21 +11,22 @@ import RegisterPage from './pages/RegisterPage.jsx';
 
 const PAGES = (t) => [
   { key: 'home', label: t('Trang chủ', 'Home') },
-  { key: 'tantra', label: t('Mật tông', 'Vajrayāna') },
-  { key: 'teacher', label: t('Rinpoche', 'Rinpoche') },
-  { key: 'lectures', label: t('Bài giảng', 'Teachings') },
-  { key: 'events', label: t('Sự kiện', 'Events') },
-  { key: 'prayer', label: t('Cầu nguyện', 'Prayer') },
-  { key: 'forum', label: t('Diễn đàn', 'Forum') },
+  { key: 'lineage', label: t('Dòng truyền thừa', 'Lineage') },
+  { key: 'khenpo', label: t('Khenpo', 'Khenpo') },
+  { key: 'teaching', label: t('Giảng dạy', 'Teaching') },
+  { key: 'project', label: t('Dự án', 'Project') },
+  { key: 'blog', label: t('Blog', 'Blog') },
+  { key: 'donate', label: t('Cúng dường', 'Donate') },
 ];
 
 const PAGE_COMPONENTS = {
   home: HomePage,
-  tantra: TantraPage,
-  teacher: TeacherPage,
-  lectures: LecturesPage,
-  events: EventsPage,
-  prayer: PrayerPage,
+  lineage: LineagePage,
+  khenpo: KhenpoPage,
+  teaching: TeachingPage,
+  project: ProjectPage,
+  blog: BlogPage,
+  donate: DonatePage,
   forum: ForumPage,
   admin: AdminPage,
   login: LoginPage,
@@ -140,21 +141,21 @@ function Footer({ goto }) {
             <div className="footer-mantra">ॐ मणि पद्मे हूँ</div>
           </div>
           <div>
-            <h4>{t('Pháp môn', 'Dharma')}</h4>
+            <h4>{t('Dòng truyền thừa', 'Lineage')}</h4>
             <ul>
-              <li><a onClick={() => goto('tantra')} style={{ cursor: 'pointer' }}>{t('Giới thiệu Mật tông', 'About Vajrayāna')}</a></li>
-              <li><a onClick={() => goto('teacher')} style={{ cursor: 'pointer' }}>{t('Rinpoche', 'About Rinpoche')}</a></li>
-              <li><a onClick={() => goto('lectures')} style={{ cursor: 'pointer' }}>{t('Bài giảng & Kinh điển', 'Teachings & scriptures')}</a></li>
-              <li><a onClick={() => goto('events')} style={{ cursor: 'pointer' }}>{t('Khóa nhập thất', 'Retreats')}</a></li>
+              <li><a onClick={() => goto('lineage')} style={{ cursor: 'pointer' }}>{t('Lịch sử Dudjom Tersar', 'Dudjom Tersar History')}</a></li>
+              <li><a onClick={() => goto('lineage')} style={{ cursor: 'pointer' }}>{t('Tiểu sử bậc thầy', 'Master Biography')}</a></li>
+              <li><a onClick={() => goto('khenpo')} style={{ cursor: 'pointer' }}>{t('Khenpo Ogen Kalsang', 'Khenpo Ogen Kalsang')}</a></li>
+              <li><a onClick={() => goto('teaching')} style={{ cursor: 'pointer' }}>{t('Bài giảng & Kinh điển', 'Teachings & Scriptures')}</a></li>
             </ul>
           </div>
           <div>
             <h4>{t('Cộng đồng', 'Community')}</h4>
             <ul>
-              <li><a onClick={() => goto('prayer')} style={{ cursor: 'pointer' }}>{t('Cầu nguyện trực tuyến', 'Online prayer')}</a></li>
-              <li><a onClick={() => goto('prayer')} style={{ cursor: 'pointer' }}>{t('Cúng dường hồi hướng', 'Offerings & dedication')}</a></li>
+              <li><a onClick={() => goto('project')} style={{ cursor: 'pointer' }}>{t('Dự án tu viện', 'Monastery project')}</a></li>
+              <li><a onClick={() => goto('project')} style={{ cursor: 'pointer' }}>{t('Sự kiện & Khóa tu', 'Events & Retreats')}</a></li>
               <li><a onClick={() => goto('forum')} style={{ cursor: 'pointer' }}>{t('Diễn đàn hỏi đáp', 'Forum & Q&A')}</a></li>
-              <li><a onClick={() => goto('events')} style={{ cursor: 'pointer' }}>{t('Hoạt động thiện nguyện', 'Volunteer activities')}</a></li>
+              <li><a onClick={() => goto('donate')} style={{ cursor: 'pointer' }}>{t('Cúng dường hộ trì', 'Donate & Support')}</a></li>
             </ul>
           </div>
           <div>

@@ -446,9 +446,9 @@ function TantraPage() {
 }
 
 // ===================================================================
-// 3. TEACHER - Khenpo Shedup Ogen Kalsang Rinpoche
+// 3. KHENPO - Biography · Puja · Pilgrimage · Activity
 // ===================================================================
-function TeacherPage() {
+function KhenpoPage() {
   const { t, lang } = useT();
   const cms = useCMS();
   const [portraitLit, setPortraitLit] = useState(false);
@@ -540,21 +540,24 @@ function TeacherPage() {
         </div>
       </section>
 
-      {/* Lineage History */}
-      <section className="section">
-        <Eyebrow>{t('Lịch sử Dòng truyền thừa', 'Lineage History')}</Eyebrow>
-        <h2>{t('Dudjom Tersar — Dòng Kho tàng Mới', 'Dudjom Tersar — The New Treasure Lineage')}</h2>
-        <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, maxWidth: 780, marginBottom: 40 }}>
-          {t(
-            'Dudjom Tersar là một Dòng Kho tàng Mới (New Treasure Lineage) — một dòng truyền thừa mật thừa Phật giáo tương đối mới hơn, rất thích hợp trong thời điểm khó khăn của lịch sử, đúng như lời tiên tri của Đạo sư Padmasambhava. Dudjom Tersar đặc biệt ở chỗ đây là con đường mật thừa hoàn chỉnh dẫn đến giác ngộ dành cho cả hành giả cư sĩ. Chữ "Dudjom" nghĩa là "người hàng phục ma" và "Tersar" nghĩa là "kho tàng mới". Từ bi và trí tuệ là nền tảng của dòng truyền thừa sâu xa này. Tất nhiên, những "ma" thực sự chính là những quan niệm sai lầm trong tâm chúng ta.',
-            'Dudjom Tersar is a New Treasure Lineage, meaning that it is a newer Buddhist tantric lineage. It is a very appropriate spiritual path during this difficult time in history, as foretold by Guru Padmasambhava. Dudjom Tersar is unique in that it is a complete tantric path to enlightenment available to householder practitioners. The word Dudjom itself means "demon defeater". Tersar means "new treasure". Compassion and wisdom are the basis of this profound lineage. Of course, the real demons are the demons of our own mistaken views.'
-          )}
-        </p>
-        <div style={{ borderBottom: '1px solid var(--cream-300)' }}>
-          {LINEAGE_MASTERS(lang).map((m, i) => (
-            <LineageAccordion key={i} name={m.name} dates={m.dates} role={m.role} content={m.content} />
-          ))}
+      {/* Puja placeholder */}
+      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Eyebrow>{t('Pháp lễ', 'Puja')}</Eyebrow>
+          <h2>{t('Lễ khóa & Cúng dường', 'Ceremonies & Offerings')}</h2>
+          <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 16 }}>
+            {t('Nội dung đang được cập nhật — sắp ra mắt.', 'Content in preparation — coming soon.')}
+          </p>
         </div>
+      </section>
+
+      {/* Pilgrimage placeholder */}
+      <section className="section">
+        <Eyebrow>{t('Hành hương', 'Pilgrimage')}</Eyebrow>
+        <h2>{t('Hành hương thánh địa', 'Sacred Site Pilgrimage')}</h2>
+        <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 16 }}>
+          {t('Nội dung đang được cập nhật — sắp ra mắt.', 'Content in preparation — coming soon.')}
+        </p>
       </section>
 
       {/* Teaching subjects */}
@@ -1582,5 +1585,305 @@ const EXPERIENCES = (lang) => lang === 'vi' ? [
   { avatar: '智', author: 'Quang Tri', role: 'Practitioner · 8 years', time: '1 week ago', text: "Rinpoche's teaching tour in Vietnam last year dissolved many doubts I had carried for years. Deep gratitude to Rinpoche and the entire Samye Memorial sangha.", likes: 412, comments: 58 },
 ];
 
+// ===================================================================
+// LINEAGE PAGE — History + Master Biography
+// ===================================================================
+function LineagePage() {
+  const { t, lang } = useT();
+  return (
+    <div className="page">
+      {/* History */}
+      <section className="section">
+        <Eyebrow>{t('Dòng truyền thừa · Lịch sử', 'Lineage · History')}</Eyebrow>
+        <h2>{t('Dudjom Tersar — Dòng Kho tàng Mới', 'Dudjom Tersar — The New Treasure Lineage')}</h2>
+        <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, maxWidth: 780, marginBottom: 48 }}>
+          {t(
+            'Dudjom Tersar là một Dòng Kho tàng Mới (New Treasure Lineage) — một dòng truyền thừa mật thừa Phật giáo tương đối mới hơn, rất thích hợp trong thời điểm khó khăn của lịch sử, đúng như lời tiên tri của Đạo sư Padmasambhava. Dudjom Tersar đặc biệt ở chỗ đây là con đường mật thừa hoàn chỉnh dẫn đến giác ngộ dành cho cả hành giả cư sĩ. Chữ "Dudjom" nghĩa là "người hàng phục ma". "Tersar" nghĩa là "kho tàng mới". Từ bi và trí tuệ là nền tảng của dòng truyền thừa sâu xa này.',
+            'Dudjom Tersar is a New Treasure Lineage, meaning that it is a newer Buddhist tantric lineage. It is a very appropriate spiritual path during this difficult time in history, as foretold by Guru Padmasambhava. Dudjom Tersar is unique in that it is a complete tantric path to enlightenment available to householder practitioners. The word Dudjom itself means "demon defeater". Tersar means "new treasure". Compassion and wisdom are the basis of this profound lineage.'
+          )}
+        </p>
+        <div className="timeline-tantra">
+          {TANTRA_TIMELINE(lang).map((tt, i) => (
+            <div className="item" key={i}>
+              <div className="year">{tt.year}</div>
+              <h3>{tt.title}</h3>
+              <p style={{ color: 'var(--ink-700)', fontSize: 14 }}>{tt.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Master Biography */}
+      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Eyebrow>{t('Tiểu sử Bậc Thầy', 'Master Biography')}</Eyebrow>
+          <h2>{t('Các bậc thầy dòng Dudjom', 'Masters of the Dudjom Lineage')}</h2>
+          <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, maxWidth: 720, marginBottom: 8 }}>
+            {t(
+              'Dưới đây là tiểu sử của các vị thầy chính trong dòng Dudjom Tersar — nhấn vào tên để đọc đầy đủ.',
+              'Below are the biographies of the principal masters of the Dudjom Tersar lineage — click to expand each entry.'
+            )}
+          </p>
+          <div style={{ borderBottom: '1px solid var(--cream-300)', marginTop: 32 }}>
+            {LINEAGE_MASTERS(lang).map((m, i) => (
+              <LineageAccordion key={i} name={m.name} dates={m.dates} role={m.role} content={m.content} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ===================================================================
+// TEACHING PAGE — Ngondro · Empowerment · DDL Shedra
+// ===================================================================
+function TeachingPage() {
+  return <LecturesPage />;
+}
+
+// ===================================================================
+// PROJECT PAGE — Monastery · Centers · Upcoming Event
+// ===================================================================
+function ProjectPage({ goto }) {
+  const { t, lang } = useT();
+  const cms = useCMS();
+  const [view, setView] = useState(lang === 'vi' ? 'Tháng' : 'Month');
+  const [registerEvent, setRegisterEvent] = useState(null);
+  const [regForm, setRegForm] = useState({ name: '', email: '', phone: '', note: '' });
+  const [regDone, setRegDone] = useState(false);
+
+  useEffect(() => { setView(lang === 'vi' ? 'Tháng' : 'Month'); }, [lang]);
+
+  const allEvents = cms ? cms.events.map(e => cmsEventToDisplay(e, lang)) : EVENTS(lang);
+  const grouped = useMemo(() => {
+    const g = {};
+    allEvents.forEach(e => { if (!g[e.month]) g[e.month] = []; g[e.month].push(e); });
+    return g;
+  }, [lang, cms?.events]);
+
+  const handleRegister = () => {
+    if (!regForm.name || !regForm.email) return;
+    setRegDone(true);
+    setTimeout(() => { setRegisterEvent(null); setRegDone(false); setRegForm({ name: '', email: '', phone: '', note: '' }); }, 3000);
+  };
+
+  return (
+    <div className="page">
+      {/* Monastery placeholder */}
+      <section className="section">
+        <Eyebrow>{t('Dự án', 'Project')}</Eyebrow>
+        <h2>{t('Tu viện & Trung tâm', 'Monastery & Centers')}</h2>
+        <div className="grid-2" style={{ marginTop: 40, gap: 32 }}>
+          <div className="card" style={{ padding: 40 }}>
+            <div style={{ fontFamily: 'var(--f-serif)', fontSize: 40, color: 'var(--gold-500)', marginBottom: 16 }}>🏯</div>
+            <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{t('Tu viện Kathmandu', 'Kathmandu Monastery')}</h3>
+            <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-700)', marginBottom: 12 }}>
+              {t('ĐANG LÊN KẾ HOẠCH', 'IN PLANNING')}
+            </div>
+            <p style={{ color: 'var(--ink-700)', fontSize: 14, lineHeight: 1.7 }}>
+              {t(
+                'Khenpo Ogen đang lên kế hoạch xây dựng một tu viện nhỏ tại Kathmandu, Nepal theo yêu cầu của đệ tử Nepal.',
+                'Khenpo Ogen has begun preliminary plans to build a small monastery in Kathmandu, Nepal at the request of his Nepali students.'
+              )}
+            </p>
+          </div>
+          <div className="card" style={{ padding: 40 }}>
+            <div style={{ fontFamily: 'var(--f-serif)', fontSize: 40, color: 'var(--gold-500)', marginBottom: 16 }}>🌏</div>
+            <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{t('Trung tâm Pháp', 'Dharma Centers')}</h3>
+            <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-700)', marginBottom: 12 }}>
+              {t('SẮP RA MẮT', 'COMING SOON')}
+            </div>
+            <p style={{ color: 'var(--ink-700)', fontSize: 14, lineHeight: 1.7 }}>
+              {t(
+                'Các trung tâm Pháp sẽ được thiết lập tại Việt Nam, châu Á, châu Âu và Hoa Kỳ để hỗ trợ học trò tu tập.',
+                'Dharma centers will be established in Vietnam, Asia, Europe and the United States to support students in their practice.'
+              )}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Upcoming Events */}
+      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Eyebrow>{t('Sự kiện sắp tới', 'Upcoming Events')}</Eyebrow>
+          <h2>{t('Khóa tu & Pháp hội', 'Retreats & Teachings')}</h2>
+          <div className="calendar-tabs" style={{ marginTop: 24 }}>
+            {(lang === 'vi' ? ['Năm', 'Tháng', 'Tuần'] : ['Year', 'Month', 'Week']).map(v => (
+              <button key={v} className={view === v ? 'active' : ''} onClick={() => setView(v)}>{v}</button>
+            ))}
+          </div>
+          <div className="timeline-events" style={{ marginTop: 32 }}>
+            {Object.entries(grouped).map(([month, items]) => (
+              <div key={month}>
+                <div className="month-label">{month}</div>
+                {items.map((e, i) => (
+                  <div key={e.id || i} className="event-row" style={{ gridTemplateColumns: '100px 110px 1fr auto' }}>
+                    <div className="date-block">
+                      <div className="day">{e.day}</div>
+                      <div className="month">{e.monthShort}</div>
+                    </div>
+                    <div className="event-row-img" style={{ aspectRatio: 1, overflow: 'hidden', borderRadius: 2 }}>
+                      <PhotoSlot id={e.imageSlotId || `proj-evt-${i}`} placeholder={t('Ảnh', 'Photo')} variant={i % 2 ? 'gold' : ''} />
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+                        <Tag>{e.type}</Tag>
+                        {e.live && <Tag variant="live">{t('Trực tuyến', 'Livestream')}</Tag>}
+                      </div>
+                      <h3>{e.title}</h3>
+                      <div className="meta">{e.date} · {e.location}</div>
+                    </div>
+                    <button className="btn btn-ghost" onClick={() => setRegisterEvent(e)}>{t('Đăng ký', 'Register')} →</button>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {registerEvent && (
+        <div className="modal-overlay" onClick={() => { setRegisterEvent(null); setRegDone(false); }}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => { setRegisterEvent(null); setRegDone(false); }}>✕</button>
+            {regDone ? (
+              <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                <div style={{ fontSize: 40, marginBottom: 12 }}>🪷</div>
+                <h3>{t('Đã nhận đăng ký!', 'Registration received!')}</h3>
+                <p style={{ color: 'var(--ink-700)', fontFamily: 'var(--f-serif)', fontStyle: 'italic' }}>
+                  {t(`Cảm ơn ${regForm.name}. Chúng tôi sẽ liên hệ qua ${regForm.email}.`, `Thank you ${regForm.name}. We will contact you at ${regForm.email}.`)}
+                </p>
+              </div>
+            ) : (
+              <>
+                <Eyebrow>{t('Đăng ký tham dự', 'Register')}</Eyebrow>
+                <h3 style={{ marginBottom: 20 }}>{registerEvent.title}</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div><label>{t('Họ tên *', 'Full name *')}</label><input className="input" value={regForm.name} onChange={e => setRegForm(f => ({ ...f, name: e.target.value }))} /></div>
+                  <div><label>Email *</label><input className="input" type="email" value={regForm.email} onChange={e => setRegForm(f => ({ ...f, email: e.target.value }))} /></div>
+                  <div><label>{t('Số điện thoại', 'Phone')}</label><input className="input" value={regForm.phone} onChange={e => setRegForm(f => ({ ...f, phone: e.target.value }))} /></div>
+                  <button className="btn btn-primary" onClick={handleRegister} disabled={!regForm.name || !regForm.email} style={{ marginTop: 4, opacity: (!regForm.name || !regForm.email) ? 0.5 : 1 }}>
+                    {t('Xác nhận', 'Confirm')} →
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ===================================================================
+// BLOG PAGE — Coming soon
+// ===================================================================
+function BlogPage() {
+  const { t } = useT();
+  return (
+    <div className="page">
+      <section className="section">
+        <Eyebrow>{t('Blog', 'Blog')}</Eyebrow>
+        <h2>{t('Chia sẻ từ Rinpoche', 'From Rinpoche\'s Desk')}</h2>
+        <p className="lede">
+          {t(
+            'Những suy tư, pháp ngữ ngắn và thông điệp từ Khenpo Shedup Ogen Kalsang Rinpoche.',
+            'Reflections, short dharma teachings, and messages from Khenpo Shedup Ogen Kalsang Rinpoche.'
+          )}
+        </p>
+        <div style={{ padding: '60px 0', textAlign: 'center', color: 'var(--ink-500)' }}>
+          <div style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic', fontSize: 28, color: 'var(--gold-600)', marginBottom: 16 }}>ॐ</div>
+          <div style={{ fontFamily: 'var(--f-mono)', fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+            {t('Nội dung sắp ra mắt', 'Content coming soon')}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ===================================================================
+// DONATE / CONTACT PAGE
+// ===================================================================
+function DonatePage() {
+  const { t, lang } = useT();
+  return (
+    <div className="page">
+      <section className="section">
+        <Eyebrow>{t('Cúng dường · Liên hệ', 'Donate · Contact')}</Eyebrow>
+        <h2>{t('Hộ trì Pháp bảo', 'Support the Dharma')}</h2>
+        <p className="lede">
+          {t(
+            'Mỗi đóng góp hỗ trợ hoạt động giảng dạy, dịch kinh, in ấn pháp bảo và các khóa nhập thất của Rinpoche.',
+            'Every contribution supports teaching activities, translations, publication of dharma texts, and retreats.'
+          )}
+        </p>
+        <div className="grid-3" style={{ marginTop: 48 }}>
+          {OFFERINGS(lang).map((o, i) => (
+            <div key={i} className="card" style={{ padding: 28 }}>
+              <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{o.title}</h3>
+              <p style={{ color: 'var(--ink-700)', fontSize: 14, margin: '0 0 16px' }}>{o.desc}</p>
+              <button className="btn btn-ghost" style={{ width: '100%' }}>{t('Cúng dường', 'Donate')} →</button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Needs */}
+      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Eyebrow>{t('Ưu tiên hiện tại', 'Current needs')}</Eyebrow>
+          <h2>{t('Hộ trì ngay hôm nay', 'Support today')}</h2>
+          <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column', gap: 28 }}>
+            {SUPPORT_NEEDS(lang).map((n, i) => (
+              <div key={i} style={{ padding: 28, background: 'var(--cream-100)', border: '1px solid var(--cream-300)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: 16, flexWrap: 'wrap', marginBottom: 12 }}>
+                  <div>
+                    <Tag>{n.tag}</Tag>
+                    <h3 style={{ marginTop: 8, marginBottom: 4 }}>{n.title}</h3>
+                    <p style={{ color: 'var(--ink-700)', fontSize: 14, margin: 0 }}>{n.desc}</p>
+                  </div>
+                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                    <div style={{ fontFamily: 'var(--f-mono)', fontSize: 22, color: 'var(--maroon-800)', lineHeight: 1 }}>{n.progress}%</div>
+                    <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', marginTop: 2 }}>{n.donors} {t('người hộ trì', 'donors')}</div>
+                  </div>
+                </div>
+                <div style={{ height: 4, background: 'var(--cream-300)', borderRadius: 2, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${n.progress}%`, background: 'var(--maroon-700)', borderRadius: 2 }}></div>
+                </div>
+                <button className="btn btn-primary" style={{ marginTop: 16 }}>{t('Hộ trì ngay', 'Support now')} →</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section className="section">
+        <Eyebrow>{t('Liên hệ', 'Contact')}</Eyebrow>
+        <h2>{t('Kết nối với chúng tôi', 'Get in touch')}</h2>
+        <div className="grid-2" style={{ marginTop: 40, gap: 32 }}>
+          <div className="card" style={{ padding: 32 }}>
+            <h3 style={{ color: 'var(--maroon-800)', marginBottom: 16 }}>{t('Địa chỉ', 'Address')}</h3>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.8 }}>
+              Samye Memorial Buddhist Vihara<br />
+              Kathmandu, Nepal
+            </p>
+          </div>
+          <div className="card" style={{ padding: 32 }}>
+            <h3 style={{ color: 'var(--maroon-800)', marginBottom: 16 }}>{t('Mạng xã hội', 'Social media')}</h3>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.8 }}>
+              YouTube · Facebook<br />
+              {t('Theo dõi để nhận thông tin mới nhất.', 'Follow for the latest updates.')}
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 // Expose to other scripts
-export { HomePage, TantraPage, TeacherPage, LecturesPage, EventsPage, PrayerPage, ForumPage };
+export { HomePage, LineagePage, KhenpoPage, TeachingPage, ProjectPage, BlogPage, DonatePage, ForumPage };
