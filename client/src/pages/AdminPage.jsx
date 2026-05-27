@@ -58,7 +58,7 @@ function EventEditor({ event, onSave, onCancel, onDelete }) {
     <div className="admin-editor">
       <h3 style={{ marginBottom: 18 }}>{event ? t('Sửa sự kiện', 'Edit event') : t('Thêm sự kiện mới', 'Add new event')}</h3>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+      <div className="admin-form-grid" style={{ gap: 14 }}>
         <Field label={t('Tiêu đề (Tiếng Việt)', 'Title (Vietnamese)')}>
           <input className="input" value={form.title_vi} onChange={e => set('title_vi', e.target.value)} />
         </Field>
@@ -161,7 +161,7 @@ function LectureEditor({ lecture, onSave, onCancel, onDelete }) {
     <div className="admin-editor">
       <h3 style={{ marginBottom: 18 }}>{lecture ? t('Sửa bài giảng', 'Edit teaching') : t('Thêm bài giảng mới', 'Add new teaching')}</h3>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+      <div className="admin-form-grid" style={{ gap: 14 }}>
         <Field label={t('Tiêu đề (VI)', 'Title (VI)')}>
           <input className="input" value={form.title_vi} onChange={e => set('title_vi', e.target.value)} />
         </Field>
@@ -237,7 +237,7 @@ function TeacherEventEditor({ event, onSave, onCancel, onDelete }) {
         {event ? t('Sửa hoạt động hoằng pháp', 'Edit dharma activity') : t('Thêm hoạt động hoằng pháp', 'Add dharma activity')}
       </h3>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+      <div className="admin-form-grid" style={{ gap: 14 }}>
         <Field label={t('Tiêu đề (VI)', 'Title (VI)')}>
           <input className="input" value={form.title_vi} onChange={e => set('title_vi', e.target.value)} />
         </Field>
