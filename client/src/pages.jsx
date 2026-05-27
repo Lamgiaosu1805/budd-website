@@ -290,7 +290,7 @@ function HomePage({ goto }) {
           {MODULES(lang).map((m, i) => (
             <button key={i} className="card" onClick={() => goto(m.key)} style={{ textAlign: 'left', border: 'none', cursor: 'pointer', background: 'var(--paper)' }}>
               <div style={{ padding: '32px 28px' }}>
-                <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.2em', color: 'var(--gold-700)', textTransform: 'uppercase', marginBottom: 14 }}>0{i + 1} · {t('Phần', 'Section')}</div>
+                <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.2em', color: 'var(--gold-700)', textTransform: 'uppercase', marginBottom: 14 }}>{t('Phần', 'Section')} · 0{i + 1}</div>
                 <h3 style={{ fontSize: 26, color: 'var(--maroon-800)', marginBottom: 10 }}>{m.title}</h3>
                 <p style={{ color: 'var(--ink-700)', fontSize: 14, margin: 0 }}>{m.desc}</p>
                 <div style={{ marginTop: 20, color: 'var(--maroon-700)', fontFamily: 'var(--f-mono)', fontSize: 12, letterSpacing: '0.1em' }}>{t('BƯỚC VÀO', 'ENTER')} →</div>
