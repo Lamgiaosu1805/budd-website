@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(docker build *)"
+      "Bash(docker build *)",
+      "Bash(node -e \"require\\('sharp'\\)\")",
+      "Bash(node -e \"require\\('canvas'\\)\")"
     ]
   }
 }
