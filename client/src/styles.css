@@ -118,11 +118,11 @@ h1,h2,h3,h4 {
   color: var(--cream-100);
 }
 .nav-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 14px var(--gutter);
+  width: 100%;
+  padding: 14px clamp(24px, 5vw, 80px);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 24px;
 }
 .brand {
@@ -166,9 +166,9 @@ h1,h2,h3,h4 {
 .nav-links {
   display: flex;
   gap: 4px;
-  margin-left: auto;
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 .nav-links button {
   background: none;
