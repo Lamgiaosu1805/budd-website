@@ -25,6 +25,30 @@ const PhotoSlot = ({ id, placeholder, shape = "rounded", style, className = "", 
   ></image-slot>
 );
 
+// Accordion for lineage master entries
+function LineageAccordion({ name, dates, role, content }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ borderTop: '1px solid var(--cream-300)' }}>
+      <button
+        onClick={() => setOpen(!open)}
+        style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', padding: '20px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'left', gap: 16 }}
+      >
+        <div>
+          <div style={{ fontFamily: 'var(--f-serif)', fontSize: 20, color: 'var(--maroon-800)', lineHeight: 1.3 }}>{name}</div>
+          <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-700)', textTransform: 'uppercase', marginTop: 4 }}>{dates}{role ? ` · ${role}` : ''}</div>
+        </div>
+        <span style={{ fontFamily: 'var(--f-mono)', fontSize: 22, color: 'var(--gold-600)', flexShrink: 0, lineHeight: 1 }}>{open ? '−' : '+'}</span>
+      </button>
+      {open && (
+        <div style={{ paddingBottom: 28 }}>
+          <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, margin: 0 }}>{content}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // CMS adapters - convert bilingual records to display objects
 const cmsEventToDisplay = (e, lang) => ({
   ...e,
@@ -464,20 +488,14 @@ function TeacherPage() {
             </p>
             <p style={{ color: 'var(--ink-700)', marginBottom: 16 }}>
               {t(
-                'Khenpo Ogen Kalsang Rinpoche là một vị thầy và học giả thuộc dòng truyền thừa Dudjom Tersar của Phật giáo Tây Tạng. Từ thuở thiếu thời, Khenpo đã tu học tại Samye Memorial Institute ở Kathmandu, Nepal dưới sự dẫn dắt của H.E. Yeshe Sangpo Rinpoche. Tại đây, Ngài hoàn thành chương trình học kinh và mật thừa theo truyền thống Nyingma và đạt được danh hiệu Khenpo. Trong 15 năm qua, Khenpo đã giảng dạy tăng chúng tại học viện, chủ yếu về các Mật tông thượng thừa và kinh điển cổ điển.',
-                'Khenpo Ogen Kalsang Rinpoche is a teacher and scholar of the Dudjom Tersar lineage of Tibetan Buddhism. Starting in his youth, Khenpo trained as a monk at Samye Memorial Institute in Kathmandu, Nepal under the guidance of His Eminence Yeshe Sangpo Rinpoche. There he completed sutra and tantra studies according to the Nyingma tradition of Tibetan Buddhism and achieved his Khenpo title. For the past 15 years, Khenpo has been teaching monastics at the institute, primarily in higher tantras and classical texts.'
+                'Khenpo Ogen Kalsang Rinpoche là một vị thầy và học giả thuộc dòng truyền thừa Dudjom Tersar của Phật giáo Tây Tạng. Từ thuở thiếu thời, Khenpo đã tu học tại Samye Memorial Institute ở Kathmandu, Nepal dưới sự dẫn dắt của H.E. Yeshe Sangpo Rinpoche. Tại đây, Ngài hoàn thành chương trình học kinh và mật thừa theo truyền thống Nyingma và đạt được danh hiệu Khenpo. Trong 15 năm qua, Khenpo đã giảng dạy tăng chúng tại học viện, chủ yếu về các Mật tông thượng thừa và kinh điển cổ điển. Từ năm 1994 đến 2005, Ngài nghiên cứu nội và ngoại mật thừa cùng Đại Toàn Thiện (Dzogchen). Từ năm 2005 đến 2011, Ngài hoàn thành nhiều khóa nhập thất truyền thống về pháp tu tiền hành (ngöndro) và các giai đoạn phát sinh — viên mãn của Đại Toàn Thiện. Dựa trên dòng Dudjom, các vị thầy chính của Khenpo là H.H. Dudjom Rinpoche, H.H. Thinley Norbu Rinpoche và H.E. Yeshe Sangpo Rinpoche. Khenpo còn có pháp duyên với nhiều bậc thầy của trường phái cũ và mới trong Phật giáo Tây Tạng, đặc biệt là truyền thống Nyingthik của Đại Toàn Thiện từ H.H. Drubwang Pema Norbu Rinpoche. Sau nhiều năm phụng sự, H.E. Yeshe Sangpo Rinpoche đã trao cho Khenpo quyền công khai truyền dạy Phật pháp với tư cách người nắm giữ dòng Dudjom.',
+                'Khenpo Ogen Kalsang Rinpoche is a teacher and scholar of the Dudjom Tersar lineage of Tibetan Buddhism. Starting in his youth, Khenpo trained as a monk at Samye Memorial Institute in Kathmandu, Nepal under the guidance of His Eminence Yeshe Sangpo Rinpoche. There he completed sutra and tantra studies according to the Nyingma tradition of Tibetan Buddhism and achieved his Khenpo title. For the past 15 years, Khenpo has been teaching monastics at the institute, primarily in higher tantras and classical texts. From 1994 to 2005, he studied outer and inner tantras and The Great Perfection. From 2005 to 2011, he completed a number of traditional retreats devoted to preliminary practices (ngöndro) and the main practices of the creation and completion stages of The Great Perfection. Based on the Dudjom lineage, Khenpo\'s main teachers are His Holiness Dudjom Rinpoche, His Holiness Thinley Norbu Rinpoche, and His Eminence Yeshe Sangpo Rinpoche. Khenpo is connected to many teachers within the pure lineages of old and new schools of Tibetan Buddhism, such as the Nyingthik tradition of Great Perfection from H.H. Drubwang Pema Norbu Rinpoche. After years of service, HE Yeshe Sangpo Rinpoche has given Khenpo permission to teach Buddhadharma publicly as a Dudjom lineage holder.'
               )}
             </p>
             <p style={{ color: 'var(--ink-700)', marginBottom: 16 }}>
               {t(
-                'Từ năm 1994 đến 2005, Ngài nghiên cứu nội và ngoại mật thừa cùng Đại Toàn Thiện (Dzogchen). Từ năm 2005 đến 2011, Ngài hoàn thành nhiều khóa nhập thất truyền thống về pháp tu tiền hành (ngöndro) và các giai đoạn phát sinh — viên mãn của Đại Toàn Thiện. Các vị thầy chính của Khenpo trong dòng Dudjom là H.H. Dudjom Rinpoche, H.H. Thinley Norbu Rinpoche và H.E. Yeshe Sangpo Rinpoche. Khenpo còn có pháp duyên với nhiều bậc thầy của trường phái cũ và mới trong Phật giáo Tây Tạng, đặc biệt là truyền thống Nyingthik của Đại Toàn Thiện từ H.H. Drubwang Pema Norbu Rinpoche. Sau nhiều năm phụng sự, H.E. Yeshe Sangpo Rinpoche đã trao cho Khenpo quyền công khai truyền dạy Phật pháp với tư cách người nắm giữ dòng Dudjom.',
-                'From 1994 to 2005, he studied outer and inner tantras and The Great Perfection. From 2005 to 2011, he completed a number of traditional retreats devoted to preliminary practices (ngöndro) and the main practices of the creation and completion stages of The Great Perfection. Khenpo\'s main teachers are His Holiness Dudjom Rinpoche, His Holiness Thinley Norbu Rinpoche, and His Eminence Yeshe Sangpo Rinpoche. Khenpo is also connected to many teachers within the pure lineages of old and new schools of Tibetan Buddhism, including the Nyingthik tradition of Great Perfection from H.H. Drubwang Pema Norbu Rinpoche. After years of service, H.E. Yeshe Sangpo Rinpoche has given Khenpo permission to teach Buddhadharma publicly as a Dudjom lineage holder.'
-              )}
-            </p>
-            <p style={{ color: 'var(--ink-700)', marginBottom: 16 }}>
-              {t(
-                'Hiện nay Khenpo đang mở rộng việc giảng dạy đến cư sĩ tại gia từ khắp châu Á, châu Âu và Hoa Kỳ — trực tuyến lẫn trực tiếp bằng tiếng Tạng và tiếng Anh. Khenpo đang hướng dẫn Tăng đoàn người Việt tích lũy một triệu thần chú Lục Độ Phật Mẫu Tara vì lợi ích chúng sinh. Khenpo cũng đã thiết lập mối quan hệ với làng Thulopatal, Nepal với vai trò vị lama chính, và theo yêu cầu của đệ tử Nepal, Ngài đang lên kế hoạch xây dựng một tu viện nhỏ tại Kathmandu.',
-                'These days Khenpo is expanding his teaching to include laypeople from across Asia, Europe, and the United States — teaching online and in person in both Tibetan and English. Khenpo is currently guiding his Vietnamese sangha in accumulating one million Green Tara mantras for the benefit of sentient beings. He has also begun a relationship with the village of Thulopatal, Nepal, where he serves as their primary lama, and at the request of his Nepali students, has begun preliminary plans to build a small monastery in Kathmandu.'
+                'Hiện nay Khenpo đang mở rộng việc giảng dạy đến cư sĩ tại gia từ khắp châu Á, châu Âu và Hoa Kỳ. Từ nơi trú xứ tại Kathmandu, Ngài giảng dạy trực tuyến lẫn trực tiếp bằng tiếng Tạng và tiếng Anh. Khenpo đang hướng dẫn Tăng đoàn người Việt tích lũy một triệu thần chú Lục Độ Phật Mẫu Tara vì lợi ích chúng sinh trong thời điểm khó khăn này. Gần đây, Khenpo đã thiết lập mối quan hệ với làng Thulopatal, Nepal, nơi Ngài sẽ dẫn dắt với tư cách vị lama chính. Hơn nữa, theo yêu cầu của đệ tử Nepal, Khenpo đã lên kế hoạch ban đầu để xây dựng một tu viện nhỏ tại Kathmandu.',
+                'These days Khenpo is expanding his teaching to include laypeople from across Asia, Europe, and the United States. From his home in Kathmandu, he teaches online and in person in both Tibetan and English. Khenpo is currently guiding his Vietnamese sangha in accumulating one million Green Tara mantras for the benefit of sentient beings during these trying times. Khenpo has recently begun a relationship with the village of Thulopatal, Nepal, where he will offer guidance as their primary lama. Furthermore, at the request of his Nepali students, Khenpo has begun preliminary plans to build a small monastery in Kathmandu.'
               )}
             </p>
             <p style={{ color: 'var(--ink-700)', marginBottom: 32 }}>
@@ -519,6 +537,23 @@ function TeacherPage() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Lineage History */}
+      <section className="section">
+        <Eyebrow>{t('Lịch sử Dòng truyền thừa', 'Lineage History')}</Eyebrow>
+        <h2>{t('Dudjom Tersar — Dòng Kho tàng Mới', 'Dudjom Tersar — The New Treasure Lineage')}</h2>
+        <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, maxWidth: 780, marginBottom: 40 }}>
+          {t(
+            'Dudjom Tersar là một Dòng Kho tàng Mới (New Treasure Lineage) — một dòng truyền thừa mật thừa Phật giáo tương đối mới hơn, rất thích hợp trong thời điểm khó khăn của lịch sử, đúng như lời tiên tri của Đạo sư Padmasambhava. Dudjom Tersar đặc biệt ở chỗ đây là con đường mật thừa hoàn chỉnh dẫn đến giác ngộ dành cho cả hành giả cư sĩ. Chữ "Dudjom" nghĩa là "người hàng phục ma" và "Tersar" nghĩa là "kho tàng mới". Từ bi và trí tuệ là nền tảng của dòng truyền thừa sâu xa này. Tất nhiên, những "ma" thực sự chính là những quan niệm sai lầm trong tâm chúng ta.',
+            'Dudjom Tersar is a New Treasure Lineage, meaning that it is a newer Buddhist tantric lineage. It is a very appropriate spiritual path during this difficult time in history, as foretold by Guru Padmasambhava. Dudjom Tersar is unique in that it is a complete tantric path to enlightenment available to householder practitioners. The word Dudjom itself means "demon defeater" and Tersar means "new treasure". Compassion and wisdom are the basis of this profound lineage. Of course, the real demons are the demons of our own mistaken views.'
+          )}
+        </p>
+        <div style={{ borderBottom: '1px solid var(--cream-300)' }}>
+          {LINEAGE_MASTERS(lang).map((m, i) => (
+            <LineageAccordion key={i} name={m.name} dates={m.dates} role={m.role} content={m.content} />
+          ))}
         </div>
       </section>
 
@@ -1373,6 +1408,58 @@ const MANTRAS = (lang) => lang === 'vi' ? [
   { sanskrit: 'Oṃ Maṇi Padme Hūṃ', translit: 'The Six-Syllable Mantra', purpose: 'The mantra of Avalokiteśvara — boundless compassion.' },
   { sanskrit: 'Oṃ Āḥ Hūṃ Vajra Guru Padma Siddhi Hūṃ', translit: 'The Vajra Guru Mantra', purpose: 'The mantra of Padmasambhava — founder of Tibetan Vajrayāna.' },
   { sanskrit: 'Oṃ Vajrasattva Hūṃ', translit: 'Vajrasattva Heart Mantra', purpose: 'Purifying negative karma and obscurations.' },
+];
+
+const LINEAGE_MASTERS = (lang) => lang === 'vi' ? [
+  {
+    name: 'Dudjom Lingpa (1835 – 1904)',
+    dates: '1835 – 1904',
+    role: 'NGƯỜI SÁNG LẬP',
+    content: 'Vị đại thần thông Tây Tạng Dudjom Lingpa (1835–1904) được xem là người sáng lập dòng Dudjom Tersar. Điểm đặc biệt của Dudjom Lingpa là ông là một vị thầy và tertön (người khám phá kho tàng) được tôn kính cao độ, mặc dù không qua đào tạo tu viện chính thức. Dudjom Lingpa có một gia đình đông đảo và sống trong nghèo khó, thế nhưng qua lòng sùng mộ và tu tập không ngừng nghỉ, ông đã có những cuộc gặp gỡ trực tiếp với các thiên thần trí tuệ. Lịch sử truyền thừa Dudjom Tersar khởi nguồn từ Đức Phật Phổ Hiền (Samantabhadra) và được truyền từ Kim Cương Tát Đoả (Vajrasattva) đến Garab Dorje, Manjusrimitra, Sri Singha, Padmasambhava và Yeshe Tsogyal. Dudjom Lingpa đã khám phá những giáo lý ẩn mật từ Padmasambhava và Yeshe Tsogyal, tổng cộng 21 tập với hơn 20.000 trang kinh điển, tạo nên nền tảng của Dudjom Tersar. Thông qua pháp tu Dzogchen nổi tiếng, nhiều đệ tử của Dudjom Lingpa đã đạt thân cầu vồng và giác ngộ. Hiện nay, pháp tu Dzogchen được xem là khía cạnh cốt lõi và thiết yếu của dòng Dudjom — con đường nội tâm thâm sâu nhất và cao nhất của truyền thống Kim Cương Thừa. Những pháp giảng thiết yếu gồm Sangtri Kagyama, Neluk Rangjung, Magom Sangye, Nang Jang và Sherik Dorje Nonpo Gyu — các văn bản kho tàng Dzogchen được Dudjom Lingpa trực tiếp khám phá qua thị kiến về Kuntuzangpo (Phổ Hiền). Nhiều đại thành tựu giả thuộc nhiều truyền thống Kim Cương Thừa đã xác nhận các văn bản này, đặc biệt là Jamgon Mipham Rinpoche, bậc thầy lỗi lạc được xem là Văn Thù Sư Lợi trong thân người.',
+  },
+  {
+    name: 'Dudjom Rinpoche · Jigdral Yeshe Dorje (1904 – 1987)',
+    dates: '1904 – 1987',
+    role: 'HÓA THÂN ĐỜI THỨ HAI',
+    content: 'Dudjom Rinpoche Jigdral Yeshe Dorje (1904–1987), sinh tại đông nam Tây Tạng, là hóa thân của Dudjom Lingpa. Ngài nhận pháp Dudjom Tersar từ Gyurme Ngedon Wangpo, vị thừa kế tâm ấn gần gũi nhất của Dudjom Lingpa. Dudjom Rinpoche nổi tiếng truyền bá Dudjom Tersar khắp thế giới khi trải qua cuộc lưu vong của người Tây Tạng. Những ai có duyên gặp Ngài đều mô tả Ngài có thần nhãn thấu suốt, phong thái uyển chuyển và uy nghi. Dudjom Rinpoche được đào tạo chăm chỉ trong các giáo lý và thực hành Phật giáo từ thuở nhỏ. Tương tự Dudjom Lingpa, Dudjom Rinpoche có giao cảm trực tiếp với các thiên thần trí tuệ. Ngài soạn 25 tập trước tác, khám phá các giáo lý kho tàng và cũng biên tập lại toàn bộ kinh điển Nyingma kama (kinh điển truyền khẩu). Dudjom Rinpoche giảng dạy khắp thế giới, nhưng những năm cuối đời Ngài ở cùng gia đình tại Dordogne, Pháp.',
+  },
+  {
+    name: 'H.H. Dudjom Rinpoche III · Sangye Pema Shepa (1990 – Nay)',
+    dates: '1990 – Nay',
+    role: 'HÓA THÂN ĐỜI THỨ BA',
+    content: 'Đức H.H. Dudjom Rinpoche III Sangye Pema Shepa (1990 – Nay), thường được gọi là Dudjom Yangsi Rinpoche, là hóa thân thứ ba và gần đây nhất của Dudjom Lingpa. Ngài sinh tại đông bắc Tây Tạng và được nhiều bậc thầy thành tựu công nhận, trong đó có H.H. Chatral Rinpoche và H.H. Thinley Norbu Rinpoche. Khi còn nhỏ, Rinpoche nổi tiếng với sự điềm tĩnh cao thượng và bất động khi ngồi trên pháp tòa hàng giờ đồng hồ. Dudjom Yangsi Rinpoche hiện trú xứ và giảng dạy tại Tây Tạng. Trước đại dịch Covid-19, Ngài dành thời gian ban các giáo lý và quán đỉnh khắp thế giới. Ngài nhận pháp và cộng tác chặt chẽ cùng H.H. Chatral Rinpoche suốt thời niên thiếu, cho đến khi Chatral Rinpoche viên tịch năm 2015. Khenpo Ogen lần đầu được thấy Dudjom Yangsi Rinpoche khi Ngài được suy tôn lên pháp tòa lúc lên bốn tuổi tại thiền viện của Chatral Rinpoche. Khenpo Ogen là người nhận quán đỉnh Dudjom đầu tiên của Dudjom Yangsi Rinpoche tại Pharping, Nepal, sau khi Ngài hoàn tất khóa nhập thất ba năm tại Gangri Thakar, Tây Tạng. H.H. Dudjom Rinpoche III cũng đã phong danh hiệu Khenpo trong dòng Dudjom cho Khenpo Ogen vào năm 2014. Vì vậy, Khenpo Ogen tu tập dưới sự hướng dẫn của Dudjom Rinpoche với tư cách người nắm giữ dòng Dudjom.',
+  },
+  {
+    name: 'H.H. Thinley Norbu Rinpoche (1931 – 2011)',
+    dates: '1931 – 2011',
+    role: 'VỊ THẦY GỐC RỄ',
+    content: 'Đức H.H. Thinley Norbu Rinpoche (1931–2011) sinh tại Lhasa, Tây Tạng, là con trai cả của H.H. Dudjom Rinpoche. Ngài là hóa thân của Tulku Drime Oser, một người con trai của Dudjom Lingpa, và cũng là hóa hiện của Longchenpa — bậc thầy học giả và hành giả huyền thoại trong Phật giáo Nyingma. Trước cuộc xâm lược Tây Tạng, H.H. Thinley Norbu Rinpoche tu học tại tu viện Mindrolling danh tiếng. Tương tự H.H. Dudjom Rinpoche, Ngài có gia đình và đi khắp thế giới hoằng dương Phật pháp, cuối cùng định cư tại Hoa Kỳ. Nhiều hành giả bị thu hút bởi H.H. Thinley Norbu Rinpoche, vì sự hiện diện của Ngài toát ra bình an và thành tựu sâu xa, khơi dậy lòng sùng mộ trong tâm đệ tử. Khenpo Ogen lần đầu gặp Thinley Norbu Rinpoche năm 1992 khi Ngài thường xuyên viếng thăm tư gia Japarti tại Nepal. Khenpo Ogen còn rất nhỏ tuổi, nhưng nhớ rõ buổi giảng pháp đầu tiên này vì tác động sâu sắc của nó. Kể từ những chuyến viếng thăm thời niên thiếu đó, Khenpo đã nhận được nhiều giáo lý quan trọng về Dzogchen và truyền thống Nyingthik, các quán đỉnh và truyền thừa Dudjom Tersar, cho đến khi Thinley Norbu Rinpoche viên tịch năm 2011. Khenpo Ogen xem mình gắn kết với Thinley Norbu Rinpoche bằng một mối liên hệ sùng mộ đặc biệt trong trọn cuộc đời. Khenpo nói: "Trong sự hiện diện của Ngài, tôi cảm thấy như một đứa con chưa biết đi được người cha yêu thương chăm sóc. Tôi rất may mắn có H.H. Thinley Norbu Rinpoche là vị thầy gốc rễ của mình trong cuộc đời này. Tôi cảm nhận phúc lành của Ngài tận sâu trong cốt lõi bản thể và tu tập của mình — sâu sắc đến mức tôi không cần thêm bất kỳ hướng dẫn nào nữa trên con đường này. Lời nói của Ngài có phẩm chất thâm nhập thẳng vào tâm người nghe, tức thì, với bất kỳ ai. Và giáo lý thiết yếu của Ngài không khác gì lời của Garab Dorje — Kuntuzangpo trong thân người."',
+  },
+] : [
+  {
+    name: 'Dudjom Lingpa (1835 – 1904)',
+    dates: '1835 – 1904',
+    role: 'FOUNDER',
+    content: 'The powerful Tibetan mystic Dudjom Lingpa (1835–1904) is considered the founder of Dudjom Tersar. Dudjom Lingpa is unique in that he is a highly regarded teacher and tertön (treasure revealer) with no formal monastic training. Dudjom Lingpa had a large family and lived in poverty, yet through devotion and unwavering practice, he experienced direct encounters with wisdom deities. The history of transmission of the Dudjom Tersar originates with Samantabhadra Buddha and was transmitted from Vajrasattva to Garab Dorje to Manjusrimitra to Sri Singha to Padmasambhava and Yeshe Tsogyal. Dudjom Lingpa revealed hidden teachings from Padmasambhava and Yeshe Tsogyal that total 21 volumes and over 20,000 pages of scripture, which form the foundation of the Dudjom Tersar. Through the famous practice of Dzogchen, multiple students of Dudjom Lingpa attained rainbow body and enlightenment. Presently, Dzogchen practice is considered the core, essential aspect of the Dudjom lineage — the innermost and highest path of the Vajrayāna tradition. Pith instructions include Sangtri Kagyama, Neluk Rangjung, Magom Sangye, and the Nang Jang and Sherik Dorje Nonpo Gyu — Dzogchen tantra treasure texts revealed by Dudjom Lingpa himself as he experienced Kuntuzangpo directly in a vision. Many great masters across multiple Vajrayāna traditions have validated these texts, particularly Jamgon Mipham Rinpoche, a renowned master considered Mañjuśrī in human form.',
+  },
+  {
+    name: 'Dudjom Rinpoche · Jigdral Yeshe Dorje (1904 – 1987)',
+    dates: '1904 – 1987',
+    role: 'SECOND INCARNATION',
+    content: 'Dudjom Rinpoche Jigdral Yeshe Dorje (1904–1987), born in southeast Tibet, is the incarnation of Dudjom Lingpa. He received the Dudjom Tersar transmission from Gyurme Ngedon Wangpo, Dudjom Lingpa\'s heart son (closest student). Dudjom Rinpoche famously spread the Dudjom Tersar across the world as he lived through the Tibetan Diaspora. Those who crossed his path described him as penetratingly clairvoyant, graceful, and dignified. Dudjom Rinpoche was diligently trained in the teachings and practices of Buddhism from a young age. Similar to Dudjom Lingpa, Dudjom Rinpoche had direct communication with wisdom deities. He comprised 25 volumes of writings, revealed treasure teachings, and also revised the entire Nyingma canon (kama). Dudjom Rinpoche taught around the world but spent much of his later years with his family in Dordogne, France.',
+  },
+  {
+    name: 'H.H. Dudjom Rinpoche III · Sangye Pema Shepa (1990 – Present)',
+    dates: '1990 – Present',
+    role: 'THIRD INCARNATION',
+    content: 'His Holiness Dudjom Rinpoche III Sangye Pema Shepa (1990–Present), often referred to as Dudjom Yangsi Rinpoche, is the third and most recent incarnation of Dudjom Lingpa. He was born in northeastern Tibet and recognized by many accomplished masters, including HH Chatral Rinpoche and HH Thinley Norbu Rinpoche. As a child, Rinpoche was famous for his noble and unwavering composure while sitting for hours on the throne. Dudjom Yangsi Rinpoche currently resides and teaches in Tibet. Before Covid-19, he spent time giving teachings and empowerments across the world. He received transmission and worked closely alongside HH Chatral Rinpoche throughout his youth, until Chatral Rinpoche\'s parinirvana in 2015. Khenpo Ogen first saw Dudjom Yangsi Rinpoche while he was being enthroned at the young age of four at Chatral Rinpoche\'s retreat center. Khenpo Ogen was a recipient of Dudjom Yangsi Rinpoche\'s first ever Dudjom lineage empowerment in Pharping, Nepal, after the completion of his three-year retreat in Gangri Thakar, Tibet. His Holiness Dudjom Rinpoche III also bestowed Khenpo Ogen his Khenpo title in the Dudjom lineage in 2014. Khenpo Ogen is therefore under Dudjom Rinpoche\'s guidance as a Dudjom lineage holder.',
+  },
+  {
+    name: 'H.H. Thinley Norbu Rinpoche (1931 – 2011)',
+    dates: '1931 – 2011',
+    role: 'ROOT TEACHER',
+    content: 'His Holiness Thinley Norbu Rinpoche (1931–2011) was born in Lhasa, Tibet, and is the eldest son of HH Dudjom Rinpoche. He was the incarnation of Tulku Drime Oser, who was a son of Dudjom Lingpa, and also an emanation of Longchenpa, a legendary scholar and practitioner within Nyingma Buddhism. Before the invasion of Tibet, HH Thinley Norbu Rinpoche studied at the famous Mindrolling Monastery. Similar to HH Dudjom Rinpoche, he had a family and travelled the world spreading Dharma, eventually settling in the United States. Many Dharma practitioners were drawn to him, as his presence emanated profound peace and realization, giving rise to devotion within his students. Khenpo Ogen first encountered Thinley Norbu Rinpoche in 1992 when he was frequently visiting his residence, Japarti, in Nepal. Khenpo Ogen was very young but clearly remembers this first teaching, as it had a profound impact on him. Since these visits in Khenpo\'s youth, he received many important teachings on Dzogchen and the Nyingthik tradition, Dudjom Tersar empowerments and transmissions, until Thinley Norbu Rinpoche\'s parinirvana in 2011. Khenpo Ogen considers himself bound with a unique and special lifetime devotional connection towards Thinley Norbu Rinpoche. Khenpo states: "In his presence, I felt like a son who can\'t walk being cared for by a loving father. I felt blessed by his warm presence and heart teachings. I\'m very fortunate to have His Holiness Thinley Norbu Rinpoche as my root teacher in this life. I feel his blessings in the core of my being and in my practice, so deeply that I don\'t need anymore guidance on this path. His speech had a quality that entered right into your heart, immediately, to whoever heard. And his teaching for pith instructions are no other than Garab Dorje\'s speech, the Kuntuzangpo in human flesh."',
+  },
 ];
 
 const STATS = (lang) => lang === 'vi' ? [
