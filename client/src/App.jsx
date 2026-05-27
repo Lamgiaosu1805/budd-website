@@ -17,6 +17,7 @@ const PAGES = (t) => [
   { key: 'project', label: t('Dự án', 'Project') },
   { key: 'blog', label: t('Blog', 'Blog') },
   { key: 'donate', label: t('Cúng dường', 'Donate') },
+  { key: 'forum', label: t('Diễn đàn', 'Forum') },
 ];
 
 const PAGE_COMPONENTS = {
