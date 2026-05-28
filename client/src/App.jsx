@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useT, LanguageToggle } from './contexts/LanguageContext.jsx';
 import { useAuth } from './contexts/AuthContext.jsx';
 import {
-  HomePage, LineagePage, KhenpoPage, TeachingPage,
+  HomePage, LineagePage, KhenpoPage, TeachingPage, EventsPage,
   ProjectPage, BlogPage, DonatePage, ForumPage,
 } from './pages.jsx';
 import AdminPage from './pages/AdminPage.jsx';
@@ -42,6 +42,7 @@ const PAGE_COMPONENTS = {
   lineage: LineagePage,
   khenpo: KhenpoPage,
   teaching: TeachingPage,
+  events: EventsPage,
   project: ProjectPage,
   blog: BlogPage,
   donate: DonatePage,

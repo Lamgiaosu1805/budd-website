@@ -142,7 +142,7 @@ function HomePage({ goto }) {
               )}
             </p>
             <div className="hero-actions">
-              <button className="btn btn-gold" onClick={() => goto('project')}>
+              <button className="btn btn-gold" onClick={() => goto('events')}>
                 {t('Tham dự khóa tu', 'Join a retreat')} →
               </button>
               <button className="btn btn-ghost" style={{ color: 'var(--gold-300)', borderColor: 'var(--gold-500)' }} onClick={() => goto('khenpo')}>
@@ -2014,4 +2014,4 @@ function DonatePage() {
 }
 
 // Expose to other scripts
-export { HomePage, LineagePage, KhenpoPage, TeachingPage, ProjectPage, BlogPage, DonatePage, ForumPage };
+export { HomePage, LineagePage, KhenpoPage, TeachingPage, EventsPage, ProjectPage, BlogPage, DonatePage, ForumPage };
