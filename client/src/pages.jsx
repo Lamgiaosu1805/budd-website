@@ -2,9 +2,10 @@
 // PAGES - All 7 modules · Bilingual (VI / EN)
 // Khenpo Shedup Ogen Kalsang Rinpoche · Personal Website
 // ============================================================
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useT } from './contexts/LanguageContext.jsx';
 import { useCMS } from './contexts/CMSContext.jsx';
+import { api } from './lib/api.js';
 
 // ------------ Shared helpers ------------
 const Eyebrow = ({ children, style }) => <div className="eyebrow" style={style}>{children}</div>;
@@ -1144,22 +1145,49 @@ function ForumPage() {
   const [askForm, setAskForm] = useState({ name: '', topic: '', question: '' });
   const [askDone, setAskDone] = useState(false);
   const [threads, setThreads] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => { setFilter(filters[0]); }, [lang]);
 
-  const handleAskSubmit = () => {
-    if (!askForm.question.trim()) return;
-    const newThread = {
-      avatar: askForm.name ? askForm.name[0].toUpperCase() : '❓',
-      title: askForm.question.slice(0, 80) + (askForm.question.length > 80 ? '…' : ''),
-      preview: askForm.question,
-      author: askForm.name ? `@${askForm.name.toLowerCase().replace(/\s/g, '')}` : '@anonymous',
-      time: t('vừa xong', 'just now'),
-      replies: 0, views: 1, answered: false,
-    };
-    setThreads(prev => [newThread, ...prev]);
-    setAskDone(true);
-    setTimeout(() => { setShowAskModal(false); setAskDone(false); setAskForm({ name: '', topic: '', question: '' }); }, 2200);
+  // Load threads from backend
+  useEffect(() => {
+    api.listForum()
+      .then(data => setThreads(Array.isArray(data) ? data : []))
+      .catch(() => setThreads([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleAskSubmit = async () => {
+    if (!askForm.question.trim() || submitting) return;
+    setSubmitting(true);
+    try {
+      const title = askForm.question.slice(0, 80) + (askForm.question.length > 80 ? '…' : '');
+      const newThread = await api.createThread({
+        avatar: askForm.name ? askForm.name[0].toUpperCase() : '❓',
+        title,
+        preview: askForm.question,
+        author: askForm.name ? `@${askForm.name.toLowerCase().replace(/\s/g, '')}` : '@anonymous',
+        topic: askForm.topic,
+      });
+      setThreads(prev => [newThread, ...prev]);
+      setAskDone(true);
+      setTimeout(() => { setShowAskModal(false); setAskDone(false); setAskForm({ name: '', topic: '', question: '' }); }, 2200);
+    } catch {
+      // fallback: show locally even if save failed
+      setThreads(prev => [{
+        avatar: askForm.name ? askForm.name[0].toUpperCase() : '❓',
+        title: askForm.question.slice(0, 80),
+        preview: askForm.question,
+        author: askForm.name ? `@${askForm.name.toLowerCase().replace(/\s/g, '')}` : '@anonymous',
+        createdAt: new Date().toISOString(),
+        replies: 0, views: 1,
+      }, ...prev]);
+      setAskDone(true);
+      setTimeout(() => { setShowAskModal(false); setAskDone(false); setAskForm({ name: '', topic: '', question: '' }); }, 2200);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const topics = lang === 'vi'
@@ -1215,40 +1243,43 @@ function ForumPage() {
 
         {/* Forum threads */}
         <div>
-          {threads.length === 0 ? (
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12 }}>
+              {t('Đang tải…', 'Loading…')}
+            </div>
+          ) : threads.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--ink-400)' }}>
               <div style={{ fontSize: 40, marginBottom: 16 }}>🙏</div>
               <p style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic' }}>
                 {t('Chưa có câu hỏi nào. Hãy là người đầu tiên đặt câu hỏi!', 'No questions yet. Be the first to ask!')}
               </p>
             </div>
-          ) : threads.map((tr, i) => (
-            <div key={i} className="forum-row">
-              <div className="avatar">{tr.avatar}</div>
-              <div className="body">
-                <h4>{tr.title}</h4>
-                <div className="preview">{tr.preview}</div>
-                <div className="stats">
-                  <span>{tr.author}</span>
-                  <span>{tr.time}</span>
-                  <span>{tr.replies} {t('trả lời', 'replies')}</span>
-                  <span>{tr.views} {t('lượt xem', 'views')}</span>
-                  {tr.answered && (
-                    <span className={tr.byTeacher ? 'teacher' : 'answered'}>
-                      ● {tr.byTeacher ? t('RINPOCHE ĐÃ TRẢ LỜI', 'ANSWERED BY RINPOCHE') : t('ĐÃ GIẢI ĐÁP', 'ANSWERED')}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div style={{ alignSelf: 'center', textAlign: 'right' }}>
-                {tr.merit && (
-                  <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', letterSpacing: '0.1em' }}>
-                    ✦ +{tr.merit} {t('CÔNG ĐỨC', 'MERIT')}
+          ) : threads.map((tr, i) => {
+            const timeAgo = tr.createdAt
+              ? new Date(tr.createdAt).toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+              : '';
+            return (
+              <div key={tr._id || i} className="forum-row">
+                <div className="avatar">{tr.avatar || '❓'}</div>
+                <div className="body">
+                  <h4>{tr.title}</h4>
+                  <div className="preview">{tr.preview}</div>
+                  <div className="stats">
+                    <span>{tr.author}</span>
+                    {timeAgo && <span>{timeAgo}</span>}
+                    <span>{tr.replies || 0} {t('trả lời', 'replies')}</span>
+                    <span>{tr.views || 1} {t('lượt xem', 'views')}</span>
+                    {tr.replied && (
+                      <span className={tr.byTeacher ? 'teacher' : 'answered'}>
+                        ● {tr.byTeacher ? t('RINPOCHE ĐÃ TRẢ LỜI', 'ANSWERED BY RINPOCHE') : t('ĐÃ GIẢI ĐÁP', 'ANSWERED')}
+                      </span>
+                    )}
                   </div>
-                )}
+                </div>
+                <div style={{ alignSelf: 'center' }} />
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Ask question modal */}
@@ -1288,10 +1319,10 @@ function ForumPage() {
                     <button
                       className="btn btn-primary"
                       onClick={handleAskSubmit}
-                      disabled={!askForm.question.trim()}
-                      style={{ marginTop: 4, opacity: !askForm.question.trim() ? 0.5 : 1 }}
+                      disabled={!askForm.question.trim() || submitting}
+                      style={{ marginTop: 4, opacity: (!askForm.question.trim() || submitting) ? 0.5 : 1 }}
                     >
-                      {t('Đăng câu hỏi', 'Post question')} →
+                      {submitting ? t('Đang gửi…', 'Sending…') : `${t('Đăng câu hỏi', 'Post question')} →`}
                     </button>
                   </div>
                 </>

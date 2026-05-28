@@ -69,4 +69,10 @@ export const api = {
   createBlog: (data) => request('/blog', { method: 'POST', body: data, auth: true }),
   updateBlog: (id, data) => request(`/blog/${id}`, { method: 'PUT', body: data, auth: true }),
   deleteBlog: (id) => request(`/blog/${id}`, { method: 'DELETE', auth: true }),
+
+  // forum
+  listForum: () => request('/forum'),
+  createThread: (data) => request('/forum', { method: 'POST', body: data }),
+  patchThread: (id, data) => request(`/forum/${id}`, { method: 'PATCH', body: data, auth: true }),
+  deleteThread: (id) => request(`/forum/${id}`, { method: 'DELETE', auth: true }),
 };

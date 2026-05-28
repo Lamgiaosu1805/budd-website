@@ -11,6 +11,7 @@ import lectureRoutes from './routes/lectures.js';
 import teacherEventRoutes from './routes/teacher-events.js';
 import blogRoutes from './routes/blog.js';
 import uploadRoutes from './routes/upload.js';
+import forumRoutes from './routes/forum.js';
 import { ensureSeedAdmin } from './seed-admin.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -42,6 +43,7 @@ app.use('/api/lectures', lectureRoutes);
 app.use('/api/teacher-events', teacherEventRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/forum', forumRoutes);
 
 // Serve React build trong production
 const clientDist = join(__dirname, '../../client/dist');
