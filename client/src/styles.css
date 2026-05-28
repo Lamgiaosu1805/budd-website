@@ -197,30 +197,39 @@ h1,h2,h3,h4 {
 .dropdown-caret { font-size: 11px; margin-left: 2px; opacity: 0.55; display: inline-block; transition: transform 0.2s; }
 .nav-links li.has-dropdown:hover .dropdown-caret { transform: rotate(90deg); }
 .nav-dropdown {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s, visibility 0.15s;
+  transition-delay: 0.12s;
   position: absolute;
-  top: calc(100% + 6px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   background: var(--maroon-900);
   border: 1px solid var(--gold-700);
   min-width: 178px;
   z-index: 300;
-  padding: 6px 0;
+  padding: 10px 0 6px;
   border-radius: 3px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
 .nav-dropdown::before {
   content: '';
   position: absolute;
-  top: -6px;
+  top: 4px;
   left: 50%;
   transform: translateX(-50%);
   border: 6px solid transparent;
   border-top: none;
   border-bottom-color: var(--gold-700);
 }
-.nav-links li.has-dropdown:hover .nav-dropdown { display: block; }
+.nav-links li.has-dropdown:hover .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
 .nav-dropdown a {
   display: block;
   padding: 9px 18px;
@@ -347,7 +356,10 @@ h1,h2,h3,h4 {
   /* Mobile dropdown */
   .nav-links li.has-dropdown { position: static; }
   .nav-dropdown {
-    display: none;
+    opacity: 1;
+    visibility: hidden;
+    pointer-events: none;
+    display: block;
     position: static;
     transform: none;
     background: rgba(0,0,0,0.25);
@@ -357,12 +369,19 @@ h1,h2,h3,h4 {
     padding: 4px 0;
     margin: 0 0 4px 16px;
     box-shadow: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s, visibility 0.25s;
   }
   .nav-dropdown::before { display: none; }
-  .nav-dropdown.mobile-open { display: block; }
+  .nav-dropdown.mobile-open {
+    visibility: visible;
+    pointer-events: auto;
+    max-height: 400px;
+  }
   .nav-dropdown a { padding: 8px 14px; font-size: 10px; }
-  .nav-links li.has-dropdown:hover .nav-dropdown { display: none; }
-  .nav-links li.has-dropdown:hover .nav-dropdown.mobile-open { display: block; }
+  .nav-links li.has-dropdown:hover .nav-dropdown { opacity: 1; visibility: hidden; pointer-events: none; }
+  .nav-links li.has-dropdown:hover .nav-dropdown.mobile-open { visibility: visible; pointer-events: auto; }
 }
 
 /* Login trong dropdown: chỉ hiện khi hamburger mở (≤980px) */

@@ -763,20 +763,62 @@ function LecturesPage() {
 // ===================================================================
 // 5. EVENTS & RETREAT
 // ===================================================================
+const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function parseEventDate(rawEvent) {
+  try {
+    const parts = (rawEvent.month_en || '').split('·').map(s => s.trim());
+    const monthIdx = MONTHS_EN.indexOf(parts[0]);
+    const year = parseInt(parts[1], 10);
+    const day = parseInt(rawEvent.day, 10) || 1;
+    if (monthIdx === -1 || isNaN(year)) return null;
+    return new Date(year, monthIdx, day);
+  } catch { return null; }
+}
+
+function getViewDateRange(view) {
+  // view is always 'year' | 'month' | 'week'
+  const now = new Date();
+  if (view === 'month') {
+    return {
+      start: new Date(now.getFullYear(), now.getMonth(), 1),
+      end: new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59),
+    };
+  }
+  if (view === 'week') {
+    const dow = now.getDay();
+    const start = new Date(now); start.setDate(now.getDate() - dow); start.setHours(0,0,0,0);
+    const end = new Date(start); end.setDate(start.getDate() + 6); end.setHours(23,59,59,999);
+    return { start, end };
+  }
+  return null; // year — show all
+}
+
 function EventsPage() {
   const { t, lang } = useT();
   const cms = useCMS();
-  const [view, setView] = useState(t('Năm', 'Year'));
+  const [view, setView] = useState('year'); // 'year' | 'month' | 'week'
   const [registerEvent, setRegisterEvent] = useState(null);
   const [regForm, setRegForm] = useState({ name: '', email: '', phone: '', note: '' });
   const [regDone, setRegDone] = useState(false);
 
-  const events = (cms?.events || []).map(e => cmsEventToDisplay(e, lang));
+  const allEvents = (cms?.events || []).map(e => cmsEventToDisplay(e, lang));
+
+  const filtered = useMemo(() => {
+    const range = getViewDateRange(view);
+    if (!range) return allEvents;
+    return allEvents.filter(e => {
+      const raw = (cms?.events || []).find(r => r.id === e.id) || e;
+      const d = parseEventDate(raw);
+      return d && d >= range.start && d <= range.end;
+    });
+  }, [view, lang, cms?.events]);
+
   const grouped = useMemo(() => {
     const g = {};
-    events.forEach(e => { (g[e.month] = g[e.month] || []).push(e); });
+    filtered.forEach(e => { (g[e.month] = g[e.month] || []).push(e); });
     return g;
-  }, [lang, cms?.events]);
+  }, [filtered]);
 
   const handleRegister = () => {
     if (!regForm.name || !regForm.email) return;
@@ -797,16 +839,16 @@ function EventsPage() {
         </p>
 
         {/* Live now — hiển thị khi có event live */}
-        {events.some(e => e.live) && (
+        {allEvents.some(e => e.live) && (
           <div style={{ background: 'var(--maroon-900)', padding: 28, borderRadius: 4, border: '1px solid var(--gold-700)', marginBottom: 50, color: 'var(--cream-100)', display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 24, alignItems: 'center' }} className="live-now">
             <Silk label={t('TRỰC TIẾP', 'LIVE')} style={{ aspectRatio: 1 }} />
             <div>
               <span className="live-badge" style={{ marginBottom: 10, display: 'inline-block' }}>{t('Đang phát trực tuyến', 'Livestreaming now')}</span>
               <h3 style={{ fontSize: 24, color: 'var(--gold-300)', marginBottom: 4 }}>
-                {events.find(e => e.live)?.title}
+                {allEvents.find(e => e.live)?.title}
               </h3>
               <p style={{ color: 'var(--cream-200)', margin: 0, fontSize: 14 }}>
-                {events.find(e => e.live)?.location}
+                {allEvents.find(e => e.live)?.location}
               </p>
             </div>
             <button className="btn btn-gold">{t('Tham gia ngay', 'Join now')} →</button>
@@ -814,15 +856,21 @@ function EventsPage() {
         )}
 
         <div className="calendar-tabs">
-          {(lang === 'vi' ? ['Năm', 'Tháng', 'Tuần'] : ['Year', 'Month', 'Week']).map(v => (
-            <button key={v} className={view === v ? 'active' : ''} onClick={() => setView(v)}>{v}</button>
+          {[
+            { key: 'year',  label: t('Năm', 'Year') },
+            { key: 'month', label: t('Tháng', 'Month') },
+            { key: 'week',  label: t('Tuần', 'Week') },
+          ].map(({ key, label }) => (
+            <button key={key} className={view === key ? 'active' : ''} onClick={() => setView(key)}>{label}</button>
           ))}
         </div>
 
         <div className="timeline-events">
-          {events.length === 0 && (
+          {filtered.length === 0 && (
             <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, padding: '32px 0' }}>
-              {t('Chưa có sự kiện nào được lên lịch.', 'No upcoming events scheduled yet.')}
+              {allEvents.length === 0
+                ? t('Chưa có sự kiện nào được lên lịch.', 'No upcoming events scheduled yet.')
+                : t('Không có sự kiện nào trong khoảng thời gian này.', 'No events in this period.')}
             </p>
           )}
           {Object.entries(grouped).map(([month, items]) => (
