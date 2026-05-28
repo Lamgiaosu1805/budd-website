@@ -89,7 +89,7 @@ function Nav({ current, goto, chanting, toggleChant }) {
     <nav className="nav" data-screen-label="Navigation">
       <div className="nav-inner">
         <button className="brand" onClick={() => { goto('home'); setOpen(false); setOpenSub(null); }} style={{ background: 'none', border: 'none', color: 'inherit' }}>
-          <span className="brand-mark"><span></span></span>
+          <span className="brand-mark brand-mark-circle"><span></span></span>
           <span className="brand-name">
             {t('Khenpo Ogen Kalsang', 'Khenpo Ogen Kalsang')}
             <small>{t('DUDJOM TERSAR · MẬT TÔNG', 'DUDJOM TERSAR · VAJRAYĀNA')}</small>
@@ -108,7 +108,7 @@ function Nav({ current, goto, chanting, toggleChant }) {
                   }
                 }}
               >
-                {p.label}{p.sub && <span className="dropdown-caret">›</span>}
+                {p.label}
               </button>
               {p.sub && (
                 <div className={`nav-dropdown${open && openSub === p.key ? ' mobile-open' : ''}`}>
@@ -167,7 +167,7 @@ function Footer({ goto }) {
         <div className="footer-grid">
           <div>
             <div className="brand" style={{ marginBottom: 18 }}>
-              <span className="brand-mark"><span></span></span>
+              <span className="brand-mark brand-mark-circle"><span></span></span>
               <span className="brand-name">
                 Khenpo Ogen Kalsang
                 <small>{t('DUDJOM TERSAR · MẬT TÔNG', 'DUDJOM TERSAR · VAJRAYĀNA')}</small>

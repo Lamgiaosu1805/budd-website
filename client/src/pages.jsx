@@ -579,7 +579,7 @@ function KhenpoPage() {
       </section>
 
       {/* Activities & events */}
-      <section className="section">
+      <section id="activity" className="section">
         <Eyebrow>{t('Hoạt động đáng nhớ', 'Notable activities')}</Eyebrow>
         <h2>{t('Hoằng pháp toàn cầu', 'Worldwide dharma activities')}</h2>
         <div style={{ marginTop: 40 }}>
@@ -603,6 +603,17 @@ function KhenpoPage() {
               <button className="btn btn-ghost">{t('Xem lại', 'View')} →</button>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Khenpo Personal Project */}
+      <section id="khenpo-project" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Eyebrow>{t('Dự án cá nhân', 'Personal Project')}</Eyebrow>
+          <h2>{t('Dự án của Khenpo', "Khenpo's Projects")}</h2>
+          <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 16 }}>
+            {t('Nội dung đang được cập nhật — sắp ra mắt.', 'Content in preparation — coming soon.')}
+          </p>
         </div>
       </section>
     </div>
@@ -1638,8 +1649,61 @@ function LineagePage() {
 // ===================================================================
 // TEACHING PAGE — Ngondro · Empowerment · DDL Shedra
 // ===================================================================
-function TeachingPage() {
-  return <LecturesPage />;
+function TeachingPage({ goto }) {
+  const { t } = useT();
+  return (
+    <div className="page">
+      {/* Ngondro */}
+      <section id="ngondro" className="section">
+        <Eyebrow>Ngondro</Eyebrow>
+        <h2>{t('Ngondro — Thực hành Nền tảng', 'Ngondro — Foundation Practices')}</h2>
+        <p style={{ color: 'var(--ink-700)', maxWidth: 680, marginTop: 20, lineHeight: 1.8 }}>
+          {t(
+            'Ngondro là các thực hành nền tảng trong Mật tông Tây Tạng, bao gồm 100.000 lần lễ lạy, trì chú Kim Cương Tát Đỏa, cúng Mandala và Guru Yoga. Khenpo Ogen Kalsang đang hướng dẫn đệ tử thực hành theo truyền thừa Dudjom Tersar.',
+            'Ngondro comprises the foundational practices of Tibetan Vajrayana Buddhism, including 100,000 prostrations, Vajrasattva recitation, Mandala offering, and Guru Yoga. Khenpo Ogen Kalsang guides students through these practices in the Dudjom Tersar tradition.'
+          )}
+        </p>
+        <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 24 }}>
+          {t('Tài liệu chi tiết đang được cập nhật.', 'Detailed materials in preparation.')}
+        </p>
+      </section>
+
+      {/* Empowerment */}
+      <section id="empowerment" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Eyebrow>Empowerment</Eyebrow>
+          <h2>{t('Quán đỉnh & Truyền pháp', 'Empowerments & Transmissions')}</h2>
+          <p style={{ color: 'var(--ink-700)', maxWidth: 680, marginTop: 20, lineHeight: 1.8 }}>
+            {t(
+              'Quán đỉnh (Wang) là nghi lễ trao truyền năng lực tu tập Mật pháp từ đạo sư sang học trò. Khenpo thường xuyên ban quán đỉnh cho đệ tử trong và ngoài nước theo lịch pháp sự.',
+              'Empowerment (Wang) is the ritual transmission that authorises students to practise a particular Vajrayana teaching. Khenpo regularly confers empowerments to students worldwide according to the dharma calendar.'
+            )}
+          </p>
+          <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 24 }}>
+            {t('Lịch quán đỉnh sắp tới đang được cập nhật.', 'Upcoming empowerment schedule in preparation.')}
+          </p>
+        </div>
+      </section>
+
+      {/* DDL Shedra */}
+      <section id="ddl-shedra" className="section">
+        <Eyebrow>DDL Shedra</Eyebrow>
+        <h2>{t('DDL Shedra — Học viện Phật học', 'DDL Shedra — Buddhist Studies')}</h2>
+        <p style={{ color: 'var(--ink-700)', maxWidth: 680, marginTop: 20, lineHeight: 1.8 }}>
+          {t(
+            'Shedra là trường Phật học truyền thống Tây Tạng nơi học giả nghiên cứu kinh điển, luận thư và triết học Phật giáo trong nhiều năm. Khenpo Ogen Kalsang đang phát triển chương trình DDL Shedra để phổ biến kiến thức Phật pháp đến học trò quốc tế.',
+            'A Shedra is a traditional Tibetan Buddhist college where scholars study scriptures, philosophical treatises, and Buddhist philosophy over many years. Khenpo Ogen Kalsang is developing the DDL Shedra curriculum to bring this classical education to international students.'
+          )}
+        </p>
+        <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 24 }}>
+          {t('Chương trình học đang được xây dựng.', 'Curriculum under development.')}
+        </p>
+      </section>
+
+      {/* Full lecture library */}
+      <LecturesPage goto={goto} />
+    </div>
+  );
 }
 
 // ===================================================================
@@ -1670,11 +1734,11 @@ function ProjectPage({ goto }) {
 
   return (
     <div className="page">
-      {/* Monastery / Centers */}
+      {/* Monastery */}
       <section id="monastery" className="section">
         <Eyebrow>{t('Dự án', 'Project')}</Eyebrow>
-        <h2>{t('Tu viện & Trung tâm', 'Monastery & Centers')}</h2>
-        <div className="grid-2" style={{ marginTop: 40, gap: 32 }}>
+        <h2>{t('Tu viện', 'Monastery')}</h2>
+        <div style={{ marginTop: 40, maxWidth: 640 }}>
           <div className="card" style={{ padding: 40 }}>
             <div style={{ fontFamily: 'var(--f-serif)', fontSize: 40, color: 'var(--gold-500)', marginBottom: 16 }}>🏯</div>
             <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{t('Tu viện Kathmandu', 'Kathmandu Monastery')}</h3>
@@ -1688,18 +1752,28 @@ function ProjectPage({ goto }) {
               )}
             </p>
           </div>
-          <div className="card" style={{ padding: 40 }}>
-            <div style={{ fontFamily: 'var(--f-serif)', fontSize: 40, color: 'var(--gold-500)', marginBottom: 16 }}>🌏</div>
-            <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{t('Trung tâm Pháp', 'Dharma Centers')}</h3>
-            <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-700)', marginBottom: 12 }}>
-              {t('SẮP RA MẮT', 'COMING SOON')}
+        </div>
+      </section>
+
+      {/* Centers */}
+      <section id="centers" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Eyebrow>{t('Trung tâm Pháp', 'Dharma Centers')}</Eyebrow>
+          <h2>{t('Trung tâm Pháp toàn cầu', 'Global Dharma Centers')}</h2>
+          <div style={{ marginTop: 40, maxWidth: 640 }}>
+            <div className="card" style={{ padding: 40 }}>
+              <div style={{ fontFamily: 'var(--f-serif)', fontSize: 40, color: 'var(--gold-500)', marginBottom: 16 }}>🌏</div>
+              <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{t('Trung tâm Pháp', 'Dharma Centers')}</h3>
+              <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-700)', marginBottom: 12 }}>
+                {t('SẮP RA MẮT', 'COMING SOON')}
+              </div>
+              <p style={{ color: 'var(--ink-700)', fontSize: 14, lineHeight: 1.7 }}>
+                {t(
+                  'Các trung tâm Pháp sẽ được thiết lập tại Việt Nam, châu Á, châu Âu và Hoa Kỳ để hỗ trợ học trò tu tập.',
+                  'Dharma centers will be established in Vietnam, Asia, Europe and the United States to support students in their practice.'
+                )}
+              </p>
             </div>
-            <p style={{ color: 'var(--ink-700)', fontSize: 14, lineHeight: 1.7 }}>
-              {t(
-                'Các trung tâm Pháp sẽ được thiết lập tại Việt Nam, châu Á, châu Âu và Hoa Kỳ để hỗ trợ học trò tu tập.',
-                'Dharma centers will be established in Vietnam, Asia, Europe and the United States to support students in their practice.'
-              )}
-            </p>
           </div>
         </div>
       </section>
