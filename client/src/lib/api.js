@@ -31,6 +31,21 @@ export const api = {
   register: (email, password, name) => request('/auth/register', { method: 'POST', body: { email, password, name } }),
   me: () => request('/auth/me', { auth: true }),
 
+  // image upload — returns { url }
+  uploadImage: async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    const t = getToken();
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: t ? { Authorization: `Bearer ${t}` } : {},
+      body: formData,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    return data;
+  },
+
   // events
   listEvents: () => request('/events'),
   createEvent: (data) => request('/events', { method: 'POST', body: data, auth: true }),
@@ -48,4 +63,10 @@ export const api = {
   createTeacherEvent: (data) => request('/teacher-events', { method: 'POST', body: data, auth: true }),
   updateTeacherEvent: (id, data) => request(`/teacher-events/${id}`, { method: 'PUT', body: data, auth: true }),
   deleteTeacherEvent: (id) => request(`/teacher-events/${id}`, { method: 'DELETE', auth: true }),
+
+  // blog
+  listBlog: () => request('/blog'),
+  createBlog: (data) => request('/blog', { method: 'POST', body: data, auth: true }),
+  updateBlog: (id, data) => request(`/blog/${id}`, { method: 'PUT', body: data, auth: true }),
+  deleteBlog: (id) => request(`/blog/${id}`, { method: 'DELETE', auth: true }),
 };

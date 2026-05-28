@@ -13,7 +13,16 @@ const Silk = ({ label, variant = "", style }) => (
 );
 const Tag = ({ children, variant = "" }) => <span className={`tag ${variant}`}>{children}</span>;
 
-// Image slot wrapper with fallback to silk placeholder
+// Server-hosted image with placeholder fallback
+const CmsImage = ({ src, alt, style }) => (
+  src
+    ? <img src={src} alt={alt || ''} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', ...(style || {}) }} />
+    : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--maroon-800), var(--maroon-900))', display: 'grid', placeItems: 'center', ...(style || {}) }}>
+        <span style={{ fontFamily: 'var(--f-serif)', color: 'var(--gold-600)', fontSize: 22, opacity: 0.5 }}>❧</span>
+      </div>
+);
+
+// Image slot wrapper with fallback to silk placeholder (kept for non-CMS sections)
 const PhotoSlot = ({ id, placeholder, shape = "rounded", style, className = "", variant = "" }) => (
   <image-slot
     id={id}
@@ -240,30 +249,34 @@ function HomePage({ goto }) {
           <button className="btn btn-ghost" onClick={() => goto('events')}>{t('Xem tất cả', 'See all')} →</button>
         </div>
         <div className="grid-3">
-          {(cms ? cms.events.map(e => cmsEventToDisplay(e, lang)) : UPCOMING_EVENTS(lang)).slice(0, 3).map((e, i) => (
-            <article key={e.id || i} className="card event-card">
-              <div style={{ aspectRatio: '16/10', overflow: 'hidden' }}>
-                <PhotoSlot
-                  id={e.imageSlotId || `home-event-${i}`}
-                  placeholder={t('Kéo ảnh sự kiện vào đây', 'Drop event photo here')}
-                  variant={i === 1 ? 'gold' : ''}
-                />
-              </div>
-              <div className="event-card-body">
-                <div className="date">{e.date}</div>
-                <h3>{e.title}</h3>
-                <p>{e.desc}</p>
-                <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
-                  {e.live && <Tag variant="live">{t('Trực tuyến', 'Livestream')}</Tag>}
-                  <Tag>{e.type}</Tag>
+          {(cms?.events || []).slice(0, 3).map((e, i) => {
+            const d = cmsEventToDisplay(e, lang);
+            return (
+              <article key={e.id || i} className="card event-card">
+                <div style={{ aspectRatio: '16/10', overflow: 'hidden' }}>
+                  <CmsImage src={e.imageUrl} alt={d.title} />
                 </div>
-                <div className="meta">
-                  <span>{e.duration}</span>
-                  <span>{e.location}</span>
+                <div className="event-card-body">
+                  <div className="date">{d.date}</div>
+                  <h3>{d.title}</h3>
+                  <p>{d.desc}</p>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
+                    {d.live && <Tag variant="live">{t('Trực tuyến', 'Livestream')}</Tag>}
+                    <Tag>{d.type}</Tag>
+                  </div>
+                  <div className="meta">
+                    <span>{d.duration}</span>
+                    <span>{d.location}</span>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
+          {(!cms || cms.events.length === 0) && (
+            <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, gridColumn: '1/-1', padding: '24px 0' }}>
+              {t('Chưa có sự kiện nào — admin vui lòng thêm qua trang quản trị.', 'No events yet — add them via the admin panel.')}
+            </p>
+          )}
         </div>
       </section>
 
@@ -278,24 +291,28 @@ function HomePage({ goto }) {
             <button className="btn btn-ghost" onClick={() => goto('lectures')}>{t('Thư viện đầy đủ', 'Full library')} →</button>
           </div>
           <div>
-            {(cms ? cms.lectures.map(l => cmsLectureToDisplay(l, lang)) : LECTURES(lang)).slice(0, 4).map((l, i) => (
-              <div key={l.id || i} className="lecture-row">
-                <div style={{ aspectRatio: 1 }}>
-                  <PhotoSlot
-                    id={l.imageSlotId || `home-lec-${i}`}
-                    placeholder={t('Ảnh', 'Image')}
-                    variant={i % 2 ? 'gold' : ''}
-                  />
+            {(cms?.lectures || []).slice(0, 4).map((l, i) => {
+              const d = cmsLectureToDisplay(l, lang);
+              return (
+                <div key={l.id || i} className="lecture-row">
+                  <div style={{ aspectRatio: 1 }}>
+                    <CmsImage src={l.imageUrl} alt={d.title} />
+                  </div>
+                  <div className="info">
+                    <h4>{d.title}</h4>
+                    <div className="meta">{l.teacher} · {l.duration} · {l.format}</div>
+                  </div>
+                  <div className="actions">
+                    <button className="play-btn" aria-label="Play">▶</button>
+                  </div>
                 </div>
-                <div className="info">
-                  <h4>{l.title}</h4>
-                  <div className="meta">{l.teacher} · {l.duration} · {l.format}</div>
-                </div>
-                <div className="actions">
-                  <button className="play-btn" aria-label="Play">▶</button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
+            {(!cms || cms.lectures.length === 0) && (
+              <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, padding: '24px 0' }}>
+                {t('Chưa có bài giảng nào.', 'No teachings yet.')}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -583,26 +600,30 @@ function KhenpoPage() {
         <Eyebrow>{t('Hoạt động đáng nhớ', 'Notable activities')}</Eyebrow>
         <h2>{t('Hoằng pháp toàn cầu', 'Worldwide dharma activities')}</h2>
         <div style={{ marginTop: 40 }}>
-          {(cms ? cms.teacherEvents.map(e => cmsTeacherEventToDisplay(e, lang)) : TEACHER_EVENTS(lang)).map((e, i) => (
-            <div key={e.id || i} className="event-row" style={{ gridTemplateColumns: '100px 80px 1fr auto' }}>
-              <div className="date-block">
-                <div className="day">{e.year}</div>
-                <div className="month">{e.season}</div>
+          {(cms?.teacherEvents || []).map((e, i) => {
+            const d = cmsTeacherEventToDisplay(e, lang);
+            return (
+              <div key={e.id || i} className="event-row" style={{ gridTemplateColumns: '100px 80px 1fr auto' }}>
+                <div className="date-block">
+                  <div className="day">{e.year}</div>
+                  <div className="month">{d.season}</div>
+                </div>
+                <div className="event-row-img" style={{ aspectRatio: 1, overflow: 'hidden', borderRadius: 2 }}>
+                  <CmsImage src={e.imageUrl} alt={d.title} />
+                </div>
+                <div>
+                  <h3>{d.title}</h3>
+                  <div className="meta">{d.attendees} · {e.location}</div>
+                </div>
+                <button className="btn btn-ghost">{t('Xem lại', 'View')} →</button>
               </div>
-              <div className="event-row-img" style={{ aspectRatio: 1, overflow: 'hidden', borderRadius: 2 }}>
-                <PhotoSlot
-                  id={e.imageSlotId || `te-img-${i}`}
-                  placeholder={t('Ảnh', 'Photo')}
-                  variant={i % 2 ? 'gold' : ''}
-                />
-              </div>
-              <div>
-                <h3>{e.title}</h3>
-                <div className="meta">{e.attendees} · {e.location}</div>
-              </div>
-              <button className="btn btn-ghost">{t('Xem lại', 'View')} →</button>
-            </div>
-          ))}
+            );
+          })}
+          {(!cms || cms.teacherEvents.length === 0) && (
+            <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, padding: '24px 0' }}>
+              {t('Chưa có hoạt động nào.', 'No activities yet.')}
+            </p>
+          )}
         </div>
       </section>
 
@@ -642,7 +663,7 @@ function LecturesPage() {
     setLevelFilter('');
   }, [lang]);
 
-  const allLectures = cms ? cms.lectures.map(l => cmsLectureToDisplay(l, lang)) : LECTURES(lang);
+  const allLectures = (cms?.lectures || []).map(l => cmsLectureToDisplay(l, lang));
   const filterAll = t('Tất cả', 'All');
   const filtered = useMemo(() => {
     let list = filter === filterAll ? allLectures : allLectures.filter(l => l.tags.includes(filter));
@@ -710,20 +731,21 @@ function LecturesPage() {
         </div>
 
         <div style={{ background: reading ? 'transparent' : 'var(--paper)', border: reading ? 'none' : '1px solid var(--cream-300)', borderRadius: 4 }}>
+          {filtered.length === 0 && (
+            <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, padding: '32px 24px' }}>
+              {t('Chưa có bài giảng nào.', 'No teachings yet.')}
+            </p>
+          )}
           {filtered.map((l, i) => (
             <div key={l.id || i} className="lecture-row">
               <div style={{ aspectRatio: 1 }}>
-                <PhotoSlot
-                  id={l.imageSlotId || `lec-img-${i}`}
-                  placeholder={t('Ảnh', 'Image')}
-                  variant={i % 3 === 0 ? '' : i % 3 === 1 ? 'gold' : ''}
-                />
+                <CmsImage src={l.imageUrl} alt={l.title} />
               </div>
               <div className="info">
                 <h4>{l.title}</h4>
                 <div className="meta">{l.teacher} · {l.duration} · {l.format} · {l.level}</div>
                 <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
-                  {l.tags.slice(0, 2).map(tg => <Tag key={tg}>{tg}</Tag>)}
+                  {(l.tags || []).slice(0, 2).map(tg => <Tag key={tg}>{tg}</Tag>)}
                 </div>
               </div>
               <div className="actions">
@@ -748,7 +770,7 @@ function EventsPage() {
   const [regForm, setRegForm] = useState({ name: '', email: '', phone: '', note: '' });
   const [regDone, setRegDone] = useState(false);
 
-  const events = cms ? cms.events.map(e => cmsEventToDisplay(e, lang)) : UPCOMING_EVENTS(lang);
+  const events = (cms?.events || []).map(e => cmsEventToDisplay(e, lang));
   const grouped = useMemo(() => {
     const g = {};
     events.forEach(e => { (g[e.month] = g[e.month] || []).push(e); });
@@ -773,25 +795,22 @@ function EventsPage() {
           )}
         </p>
 
-        {/* Live now */}
-        <div style={{ background: 'var(--maroon-900)', padding: 28, borderRadius: 4, border: '1px solid var(--gold-700)', marginBottom: 50, color: 'var(--cream-100)', display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 24, alignItems: 'center' }} className="live-now">
-          <Silk label={t('TRỰC TIẾP', 'LIVE')} style={{ aspectRatio: 1 }} />
-          <div>
-            <div style={{ display: 'flex', gap: 10, marginBottom: 10, alignItems: 'center' }}>
-              <span className="live-badge">{t('đang phát', 'on air')}</span>
-              <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-400)' }}>
-                {t('2,847 NGƯỜI ĐANG XEM', '2,847 WATCHING')}
-              </span>
+        {/* Live now — hiển thị khi có event live */}
+        {events.some(e => e.live) && (
+          <div style={{ background: 'var(--maroon-900)', padding: 28, borderRadius: 4, border: '1px solid var(--gold-700)', marginBottom: 50, color: 'var(--cream-100)', display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 24, alignItems: 'center' }} className="live-now">
+            <Silk label={t('TRỰC TIẾP', 'LIVE')} style={{ aspectRatio: 1 }} />
+            <div>
+              <span className="live-badge" style={{ marginBottom: 10, display: 'inline-block' }}>{t('Đang phát trực tuyến', 'Livestreaming now')}</span>
+              <h3 style={{ fontSize: 24, color: 'var(--gold-300)', marginBottom: 4 }}>
+                {events.find(e => e.live)?.title}
+              </h3>
+              <p style={{ color: 'var(--cream-200)', margin: 0, fontSize: 14 }}>
+                {events.find(e => e.live)?.location}
+              </p>
             </div>
-            <h3 style={{ fontSize: 24, color: 'var(--gold-300)', marginBottom: 4 }}>
-              {t('Pháp thoại tuần · Ngöndro — Pháp tu căn bản', 'Weekly teaching · Ngöndro — The Preliminary Practices')}
-            </h3>
-            <p style={{ color: 'var(--cream-200)', margin: 0, fontSize: 14 }}>
-              Khenpo Shedup Ogen Kalsang Rinpoche · {t('Còn ~ 42 phút', '~42 min remaining')}
-            </p>
+            <button className="btn btn-gold">{t('Tham gia ngay', 'Join now')} →</button>
           </div>
-          <button className="btn btn-gold">{t('Tham gia ngay', 'Join now')} →</button>
-        </div>
+        )}
 
         <div className="calendar-tabs">
           {(lang === 'vi' ? ['Năm', 'Tháng', 'Tuần'] : ['Year', 'Month', 'Week']).map(v => (
@@ -800,6 +819,11 @@ function EventsPage() {
         </div>
 
         <div className="timeline-events">
+          {events.length === 0 && (
+            <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, padding: '32px 0' }}>
+              {t('Chưa có sự kiện nào được lên lịch.', 'No upcoming events scheduled yet.')}
+            </p>
+          )}
           {Object.entries(grouped).map(([month, items]) => (
             <div key={month}>
               <div className="month-label">{month}</div>
@@ -810,11 +834,7 @@ function EventsPage() {
                     <div className="month">{e.monthShort}</div>
                   </div>
                   <div className="event-row-img" style={{ aspectRatio: 1, overflow: 'hidden', borderRadius: 2 }}>
-                    <PhotoSlot
-                      id={e.imageSlotId || `evt-img-${i}`}
-                      placeholder={t('Ảnh', 'Photo')}
-                      variant={i % 2 ? 'gold' : ''}
-                    />
+                    <CmsImage src={e.imageUrl} alt={e.title} />
                   </div>
                   <div>
                     <div style={{ display: 'flex', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
@@ -916,9 +936,7 @@ function PrayerPage() {
   const [selectedOffering, setSelectedOffering] = useState(null);
   const [dedication, setDedication] = useState('');
   const [completed, setCompleted] = useState(null);
-  const [candles, setCandles] = useState(SAMPLE_CANDLES(lang));
-
-  useEffect(() => { setCandles(SAMPLE_CANDLES(lang)); }, [lang]);
+  const [candles, setCandles] = useState([]);
 
   const lightCandle = () => {
     if (!forWhom || !prayerText) return;
@@ -1100,41 +1118,13 @@ function PrayerPage() {
           </div>
         )}
 
-        {/* Activities to support */}
-        <div style={{ marginBottom: 80 }}>
-          <Eyebrow>{t('Hoạt động cần hộ trì', 'Activities needing support')}</Eyebrow>
-          <h2 style={{ fontSize: 32 }}>{t('Cúng dường có địa chỉ', 'Where your support goes')}</h2>
-          <div className="grid-3" style={{ marginTop: 30 }}>
-            {SUPPORT_NEEDS(lang).map((s, i) => (
-              <div key={i} className="card" style={{ padding: 28 }}>
-                <Tag variant="gold">{s.tag}</Tag>
-                <h3 style={{ fontSize: 22, color: 'var(--maroon-800)', margin: '14px 0 8px' }}>{s.title}</h3>
-                <p style={{ fontSize: 14, color: 'var(--ink-700)', marginBottom: 16 }}>{s.desc}</p>
-                <div style={{ height: 6, background: 'var(--cream-200)', borderRadius: 2, marginBottom: 8, overflow: 'hidden' }}>
-                  <div style={{ width: s.progress + '%', height: '100%', background: 'linear-gradient(90deg, var(--maroon-700), var(--gold-500))' }}></div>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontFamily: 'var(--f-mono)', color: 'var(--ink-500)' }}>
-                  <span>{s.progress}% {t('hoàn thành', 'complete')}</span>
-                  <span>{s.donors} {t('người hộ trì', 'supporters')}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Prayer wall */}
         <Eyebrow>{t('Tường cầu nguyện', 'Prayer wall')}</Eyebrow>
         <h2 style={{ fontSize: 32 }}>{t('Lời nguyện cộng đồng', 'Community prayers')}</h2>
         <div className="prayer-wall">
-          {PRAYER_NOTES(lang).map((p, i) => (
-            <div key={i} className="prayer-note">
-              {p.text}
-              <div className="meta">
-                <span>— {p.author}</span>
-                <span className="blessing">✦ {p.blessings} {t('hồi hướng', 'dedications')}</span>
-              </div>
-            </div>
-          ))}
+          <div className="prayer-note" style={{ textAlign: 'center', color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12 }}>
+            {t('Lời nguyện của cộng đồng sẽ hiển thị tại đây.', 'Community prayers will appear here.')}
+          </div>
         </div>
       </section>
     </div>
@@ -1719,7 +1709,7 @@ function ProjectPage({ goto }) {
 
   useEffect(() => { setView(lang === 'vi' ? 'Tháng' : 'Month'); }, [lang]);
 
-  const allEvents = cms ? cms.events.map(e => cmsEventToDisplay(e, lang)) : EVENTS(lang);
+  const allEvents = (cms?.events || []).map(e => cmsEventToDisplay(e, lang));
   const grouped = useMemo(() => {
     const g = {};
     allEvents.forEach(e => { if (!g[e.month]) g[e.month] = []; g[e.month].push(e); });
@@ -1789,6 +1779,11 @@ function ProjectPage({ goto }) {
             ))}
           </div>
           <div className="timeline-events" style={{ marginTop: 32 }}>
+            {allEvents.length === 0 && (
+              <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, padding: '32px 0' }}>
+                {t('Chưa có sự kiện nào được lên lịch.', 'No upcoming events scheduled yet.')}
+              </p>
+            )}
             {Object.entries(grouped).map(([month, items]) => (
               <div key={month}>
                 <div className="month-label">{month}</div>
@@ -1799,7 +1794,7 @@ function ProjectPage({ goto }) {
                       <div className="month">{e.monthShort}</div>
                     </div>
                     <div className="event-row-img" style={{ aspectRatio: 1, overflow: 'hidden', borderRadius: 2 }}>
-                      <PhotoSlot id={e.imageSlotId || `proj-evt-${i}`} placeholder={t('Ảnh', 'Photo')} variant={i % 2 ? 'gold' : ''} />
+                      <CmsImage src={e.imageUrl} alt={e.title} />
                     </div>
                     <div>
                       <div style={{ display: 'flex', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
@@ -1855,24 +1850,83 @@ function ProjectPage({ goto }) {
 // BLOG PAGE — Coming soon
 // ===================================================================
 function BlogPage() {
-  const { t } = useT();
+  const { t, lang } = useT();
+  const cms = useCMS();
+  const [selected, setSelected] = useState(null);
+
+  const posts = cms?.blogs || [];
+
+  if (selected) {
+    return (
+      <div className="page">
+        <section className="section">
+          <button className="btn btn-ghost" onClick={() => setSelected(null)} style={{ marginBottom: 24 }}>← {t('Quay lại', 'Back')}</button>
+          {selected.imageUrl && (
+            <div style={{ width: '100%', maxHeight: 360, overflow: 'hidden', borderRadius: 4, marginBottom: 32 }}>
+              <img src={selected.imageUrl} alt="" style={{ width: '100%', objectFit: 'cover' }} />
+            </div>
+          )}
+          <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 12 }}>
+            {new Date(selected.createdAt).toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </div>
+          <h2 style={{ marginBottom: 24 }}>{lang === 'vi' ? selected.title_vi : selected.title_en}</h2>
+          <div style={{ color: 'var(--ink-700)', lineHeight: 1.85, maxWidth: 720, whiteSpace: 'pre-wrap' }}>
+            {lang === 'vi' ? selected.body_vi : selected.body_en}
+          </div>
+          {(lang === 'vi' ? selected.tags_vi : selected.tags_en || []).length > 0 && (
+            <div style={{ display: 'flex', gap: 8, marginTop: 32, flexWrap: 'wrap' }}>
+              {(lang === 'vi' ? selected.tags_vi : selected.tags_en || []).map(tg => <Tag key={tg}>{tg}</Tag>)}
+            </div>
+          )}
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="page">
       <section className="section">
         <Eyebrow>{t('Blog', 'Blog')}</Eyebrow>
-        <h2>{t('Chia sẻ từ Rinpoche', 'From Rinpoche\'s Desk')}</h2>
+        <h2>{t('Chia sẻ từ Rinpoche', "From Rinpoche's Desk")}</h2>
         <p className="lede">
           {t(
             'Những suy tư, pháp ngữ ngắn và thông điệp từ Khenpo Shedup Ogen Kalsang Rinpoche.',
             'Reflections, short dharma teachings, and messages from Khenpo Shedup Ogen Kalsang Rinpoche.'
           )}
         </p>
-        <div style={{ padding: '60px 0', textAlign: 'center', color: 'var(--ink-500)' }}>
-          <div style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic', fontSize: 28, color: 'var(--gold-600)', marginBottom: 16 }}>ॐ</div>
-          <div style={{ fontFamily: 'var(--f-mono)', fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-            {t('Nội dung sắp ra mắt', 'Content coming soon')}
+
+        {posts.length === 0 ? (
+          <div style={{ padding: '60px 0', textAlign: 'center', color: 'var(--ink-500)' }}>
+            <div style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic', fontSize: 28, color: 'var(--gold-600)', marginBottom: 16 }}>ॐ</div>
+            <div style={{ fontFamily: 'var(--f-mono)', fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+              {t('Chưa có bài viết nào', 'No posts yet')}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="grid-2" style={{ marginTop: 40, gap: 32 }}>
+            {posts.map((post) => (
+              <article key={post.id} className="card" style={{ cursor: 'pointer', overflow: 'hidden' }} onClick={() => setSelected(post)}>
+                {post.imageUrl && (
+                  <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+                    <img src={post.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  </div>
+                )}
+                <div style={{ padding: '24px 28px' }}>
+                  <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>
+                    {new Date(post.createdAt).toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </div>
+                  <h3 style={{ color: 'var(--maroon-800)', marginBottom: 10 }}>{lang === 'vi' ? post.title_vi : post.title_en}</h3>
+                  <p style={{ color: 'var(--ink-700)', fontSize: 14, lineHeight: 1.7, margin: '0 0 16px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+                    {lang === 'vi' ? post.body_vi : post.body_en}
+                  </p>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                    {(lang === 'vi' ? post.tags_vi : post.tags_en || []).slice(0, 3).map(tg => <Tag key={tg}>{tg}</Tag>)}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
@@ -1902,35 +1956,6 @@ function DonatePage() {
               <button className="btn btn-ghost" style={{ width: '100%' }}>{t('Cúng dường', 'Donate')} →</button>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Needs */}
-      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
-        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <Eyebrow>{t('Ưu tiên hiện tại', 'Current needs')}</Eyebrow>
-          <h2>{t('Hộ trì ngay hôm nay', 'Support today')}</h2>
-          <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column', gap: 28 }}>
-            {SUPPORT_NEEDS(lang).map((n, i) => (
-              <div key={i} style={{ padding: 28, background: 'var(--cream-100)', border: '1px solid var(--cream-300)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: 16, flexWrap: 'wrap', marginBottom: 12 }}>
-                  <div>
-                    <Tag>{n.tag}</Tag>
-                    <h3 style={{ marginTop: 8, marginBottom: 4 }}>{n.title}</h3>
-                    <p style={{ color: 'var(--ink-700)', fontSize: 14, margin: 0 }}>{n.desc}</p>
-                  </div>
-                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                    <div style={{ fontFamily: 'var(--f-mono)', fontSize: 22, color: 'var(--maroon-800)', lineHeight: 1 }}>{n.progress}%</div>
-                    <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', marginTop: 2 }}>{n.donors} {t('người hộ trì', 'donors')}</div>
-                  </div>
-                </div>
-                <div style={{ height: 4, background: 'var(--cream-300)', borderRadius: 2, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${n.progress}%`, background: 'var(--maroon-700)', borderRadius: 2 }}></div>
-                </div>
-                <button className="btn btn-primary" style={{ marginTop: 16 }}>{t('Hộ trì ngay', 'Support now')} →</button>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

@@ -9,6 +9,8 @@ import authRoutes from './routes/auth.js';
 import eventRoutes from './routes/events.js';
 import lectureRoutes from './routes/lectures.js';
 import teacherEventRoutes from './routes/teacher-events.js';
+import blogRoutes from './routes/blog.js';
+import uploadRoutes from './routes/upload.js';
 import { ensureSeedAdmin } from './seed-admin.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -26,6 +28,10 @@ if (!isProd) {
 
 app.use(express.json({ limit: '2mb' }));
 
+// Serve uploaded images publicly — cùng đường dẫn với UPLOADS_DIR trong upload.js
+const uploadsDir = process.env.UPLOADS_DIR || '/var/data/uploads';
+app.use('/uploads', express.static(uploadsDir));
+
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, mongo: mongoose.connection.readyState === 1 });
 });
@@ -34,6 +40,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/lectures', lectureRoutes);
 app.use('/api/teacher-events', teacherEventRoutes);
+app.use('/api/blog', blogRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Serve React build trong production
 const clientDist = join(__dirname, '../../client/dist');

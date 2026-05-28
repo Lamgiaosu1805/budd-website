@@ -7,6 +7,7 @@ export function CMSProvider({ children }) {
   const [events, setEvents] = useState([]);
   const [lectures, setLectures] = useState([]);
   const [teacherEvents, setTeacherEvents] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,14 +15,16 @@ export function CMSProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const [e, l, te] = await Promise.all([
+      const [e, l, te, b] = await Promise.all([
         api.listEvents(),
         api.listLectures(),
         api.listTeacherEvents(),
+        api.listBlog(),
       ]);
       setEvents(e);
       setLectures(l);
       setTeacherEvents(te);
+      setBlogs(b);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -32,19 +35,23 @@ export function CMSProvider({ children }) {
   useEffect(() => { refresh(); }, [refresh]);
 
   const value = {
-    events, lectures, teacherEvents, loading, error, refresh,
+    events, lectures, teacherEvents, blogs, loading, error, refresh,
 
-    addEvent: async (e) => { const created = await api.createEvent(e); setEvents((es) => [...es, created]); },
-    updateEvent: async (id, patch) => { const updated = await api.updateEvent(id, patch); setEvents((es) => es.map((x) => x.id === id ? updated : x)); },
+    addEvent: async (e) => { const c = await api.createEvent(e); setEvents((es) => [...es, c]); },
+    updateEvent: async (id, p) => { const u = await api.updateEvent(id, p); setEvents((es) => es.map((x) => x.id === id ? u : x)); },
     deleteEvent: async (id) => { await api.deleteEvent(id); setEvents((es) => es.filter((x) => x.id !== id)); },
 
-    addLecture: async (l) => { const created = await api.createLecture(l); setLectures((ls) => [...ls, created]); },
-    updateLecture: async (id, patch) => { const updated = await api.updateLecture(id, patch); setLectures((ls) => ls.map((x) => x.id === id ? updated : x)); },
+    addLecture: async (l) => { const c = await api.createLecture(l); setLectures((ls) => [...ls, c]); },
+    updateLecture: async (id, p) => { const u = await api.updateLecture(id, p); setLectures((ls) => ls.map((x) => x.id === id ? u : x)); },
     deleteLecture: async (id) => { await api.deleteLecture(id); setLectures((ls) => ls.filter((x) => x.id !== id)); },
 
-    addTeacherEvent: async (te) => { const created = await api.createTeacherEvent(te); setTeacherEvents((ts) => [...ts, created]); },
-    updateTeacherEvent: async (id, patch) => { const updated = await api.updateTeacherEvent(id, patch); setTeacherEvents((ts) => ts.map((x) => x.id === id ? updated : x)); },
+    addTeacherEvent: async (te) => { const c = await api.createTeacherEvent(te); setTeacherEvents((ts) => [...ts, c]); },
+    updateTeacherEvent: async (id, p) => { const u = await api.updateTeacherEvent(id, p); setTeacherEvents((ts) => ts.map((x) => x.id === id ? u : x)); },
     deleteTeacherEvent: async (id) => { await api.deleteTeacherEvent(id); setTeacherEvents((ts) => ts.filter((x) => x.id !== id)); },
+
+    addBlog: async (b) => { const c = await api.createBlog(b); setBlogs((bs) => [c, ...bs]); },
+    updateBlog: async (id, p) => { const u = await api.updateBlog(id, p); setBlogs((bs) => bs.map((x) => x.id === id ? u : x)); },
+    deleteBlog: async (id) => { await api.deleteBlog(id); setBlogs((bs) => bs.filter((x) => x.id !== id)); },
   };
 
   return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>;

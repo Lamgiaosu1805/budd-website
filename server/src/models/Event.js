@@ -21,7 +21,7 @@ const eventSchema = new mongoose.Schema(
     live: { type: Boolean, default: false },
     attendees_vi: String,
     attendees_en: String,
-    imageSlotId: String,
+    imageUrl: String,
   },
   { timestamps: true }
 );

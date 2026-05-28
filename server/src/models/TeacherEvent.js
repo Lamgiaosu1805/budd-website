@@ -10,7 +10,7 @@ const teacherEventSchema = new mongoose.Schema(
     attendees_vi: String,
     attendees_en: String,
     location: String,
-    imageSlotId: String,
+    imageUrl: String,
   },
   { timestamps: true }
 );
