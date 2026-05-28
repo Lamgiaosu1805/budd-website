@@ -171,6 +171,15 @@ function HomePage({ goto }) {
         <span className="quote">{todayTeaching}</span>
       </div>
 
+      {/* Lineage thangka */}
+      <div style={{ background: 'var(--maroon-900)', padding: '64px var(--gutter)', display: 'flex', justifyContent: 'center' }}>
+        <img
+          src="/home-cover.jpg"
+          alt="Dudjom Tersar Lineage"
+          style={{ maxWidth: 560, width: '100%', borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 16px 56px rgba(0,0,0,0.55)' }}
+        />
+      </div>
+
       {/* Search */}
       <section className="section section-narrow" style={{ paddingBottom: 40 }}>
         <Eyebrow>{t('Tra cứu kinh sách & bài giảng', 'Search teachings & scriptures')}</Eyebrow>
@@ -464,6 +473,69 @@ function TantraPage() {
   );
 }
 
+function ActivityList() {
+  const { t, lang } = useT();
+  const cms = useCMS();
+  const [detail, setDetail] = useState(null);
+  const desc = detail ? (lang === 'vi' ? detail.desc_vi : detail.desc_en) : null;
+
+  return (
+    <>
+      <div style={{ marginTop: 40 }}>
+        {(cms?.teacherEvents || []).map((e, i) => {
+          const d = cmsTeacherEventToDisplay(e, lang);
+          return (
+            <div key={e.id || i} className="event-row" style={{ gridTemplateColumns: '100px 80px 1fr auto' }}>
+              <div className="date-block">
+                <div className="day">{e.year}</div>
+                <div className="month">{d.season}</div>
+              </div>
+              <div className="event-row-img" style={{ aspectRatio: 1, overflow: 'hidden', borderRadius: 2 }}>
+                <CmsImage src={e.imageUrl} alt={d.title} />
+              </div>
+              <div>
+                <h3>{d.title}</h3>
+                <div className="meta">{d.attendees} · {e.location}</div>
+              </div>
+              <button className="btn btn-ghost" onClick={() => setDetail(e)}>{t('Xem lại', 'View')} →</button>
+            </div>
+          );
+        })}
+        {(!cms || cms.teacherEvents.length === 0) && (
+          <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, padding: '24px 0' }}>
+            {t('Chưa có hoạt động nào.', 'No activities yet.')}
+          </p>
+        )}
+      </div>
+
+      {detail && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}
+          onClick={() => setDetail(null)}>
+          <div style={{ background: 'var(--paper)', borderRadius: 4, maxWidth: 720, width: '100%', maxHeight: '88vh', overflowY: 'auto', border: '1px solid var(--gold-700)' }}
+            onClick={ev => ev.stopPropagation()}>
+            {detail.imageUrl && (
+              <img src={detail.imageUrl} alt={lang === 'vi' ? detail.title_vi : detail.title_en}
+                style={{ width: '100%', maxHeight: 360, objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
+            )}
+            <div style={{ padding: 36 }}>
+              <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', letterSpacing: '0.15em', marginBottom: 8 }}>
+                {detail.year} · {lang === 'vi' ? detail.season_vi : detail.season_en} · {detail.location}
+              </div>
+              <h2 style={{ fontSize: 24, color: 'var(--maroon-800)', marginBottom: 16 }}>
+                {lang === 'vi' ? detail.title_vi : detail.title_en}
+              </h2>
+              {desc && <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, fontSize: 15 }}>{desc}</p>}
+              <button className="btn btn-ghost" style={{ marginTop: 24 }} onClick={() => setDetail(null)}>
+                {t('Đóng', 'Close')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 // ===================================================================
 // 3. KHENPO - Biography · Puja · Pilgrimage · Activity
 // ===================================================================
@@ -578,54 +650,11 @@ function KhenpoPage() {
         </p>
       </section>
 
-      {/* Teaching subjects */}
-      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
-        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <Eyebrow>{t('Môn học truyền giảng', 'Subjects taught')}</Eyebrow>
-          <h2>{t('Các bộ môn Rinpoche giảng dạy', 'Core curriculum at Samye Memorial')}</h2>
-          <div className="grid-3" style={{ marginTop: 40 }}>
-            {SUBJECTS(lang).map((p, i) => (
-              <div key={i} className="card" style={{ padding: 32 }}>
-                <div style={{ fontFamily: 'var(--f-serif)', fontSize: 48, color: 'var(--gold-500)', lineHeight: 1, marginBottom: 16, fontStyle: 'italic' }}>{p.glyph}</div>
-                <h3 style={{ fontSize: 22, color: 'var(--maroon-800)', marginBottom: 4 }}>{p.title}</h3>
-                <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', letterSpacing: '0.15em', marginBottom: 12 }}>{p.sanskrit}</div>
-                <p style={{ color: 'var(--ink-700)', fontSize: 14, margin: 0 }}>{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Activities & events */}
       <section id="activity" className="section">
         <Eyebrow>{t('Hoạt động đáng nhớ', 'Notable activities')}</Eyebrow>
         <h2>{t('Hoằng pháp toàn cầu', 'Worldwide dharma activities')}</h2>
-        <div style={{ marginTop: 40 }}>
-          {(cms?.teacherEvents || []).map((e, i) => {
-            const d = cmsTeacherEventToDisplay(e, lang);
-            return (
-              <div key={e.id || i} className="event-row" style={{ gridTemplateColumns: '100px 80px 1fr auto' }}>
-                <div className="date-block">
-                  <div className="day">{e.year}</div>
-                  <div className="month">{d.season}</div>
-                </div>
-                <div className="event-row-img" style={{ aspectRatio: 1, overflow: 'hidden', borderRadius: 2 }}>
-                  <CmsImage src={e.imageUrl} alt={d.title} />
-                </div>
-                <div>
-                  <h3>{d.title}</h3>
-                  <div className="meta">{d.attendees} · {e.location}</div>
-                </div>
-                <button className="btn btn-ghost">{t('Xem lại', 'View')} →</button>
-              </div>
-            );
-          })}
-          {(!cms || cms.teacherEvents.length === 0) && (
-            <p style={{ color: 'var(--ink-400)', fontFamily: 'var(--f-mono)', fontSize: 12, padding: '24px 0' }}>
-              {t('Chưa có hoạt động nào.', 'No activities yet.')}
-            </p>
-          )}
-        </div>
+        <ActivityList />
       </section>
 
       {/* Khenpo Personal Project */}
@@ -1507,18 +1536,10 @@ const SUBJECTS = (lang) => lang === 'vi' ? [
 
 
 const OFFERINGS = (lang) => lang === 'vi' ? [
-  { title: 'Cúng dường Tam Bảo', desc: 'Hộ trì Phật-Pháp-Tăng, duy trì các hoạt động tự viện.' },
-  { title: 'In ấn kinh sách', desc: 'Phát hành miễn phí kinh sách Mật tông đến Phật tử.' },
-  { title: 'Hỗ trợ khóa nhập thất', desc: 'Lo chi phí ăn ở cho hành giả tại Samye Memorial.' },
   { title: 'Cúng dường Rinpoche', desc: 'Tịnh tài hộ trì các chuyến hoằng pháp của Rinpoche.' },
-  { title: 'Vật phẩm pháp khí', desc: 'Hương đèn, hoa quả, nến cho đàn tràng.' },
   { title: 'Tùy hỉ tùy duyên', desc: 'Tùy hỉ cúng dường vào quỹ chung Pháp hội.' },
 ] : [
-  { title: 'Three Jewels Offering', desc: 'Support the Buddha, Dharma, and Sangha — sustaining the monastery.' },
-  { title: 'Print sacred texts', desc: 'Sponsor free distribution of dharma books to students.' },
-  { title: 'Retreat support', desc: 'Cover accommodation and meals for practitioners at Samye Memorial.' },
   { title: 'Offering to Rinpoche', desc: "Support Rinpoche's dharma activities and teaching tours." },
-  { title: 'Altar offerings', desc: 'Incense, candles, flowers, and fruit for ceremonial altars.' },
   { title: 'General donation', desc: 'Contribute as you wish to the general dharma fund.' },
 ];
 
@@ -1556,6 +1577,25 @@ function LineagePage() {
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <Eyebrow>{t('Tiểu sử Bậc Thầy', 'Master Biography')}</Eyebrow>
           <h2>{t('Các bậc thầy dòng Dudjom', 'Masters of the Dudjom Lineage')}</h2>
+
+          {/* 4-master portrait grid */}
+          <div className="lineage-master-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, margin: '36px 0 48px' }}>
+            {[
+              { src: '/lineage-1.jpg', name: 'Dudjom Lingpa', sub: t('Sáng lập dòng Dudjom Tersar', 'Founder of Dudjom Tersar') },
+              { src: '/lineage-2.jpg', name: 'H.H. Dudjom Rinpoche II', sub: 'Jigdrel Yeshe Dorje' },
+              { src: '/lineage-3.jpg', name: 'H.H. Thinley Norbu', sub: t('Pháp tử trưởng của Dudjom Rinpoche II', 'Eldest son of Dudjom Rinpoche II') },
+              { src: '/lineage-4.jpg', name: 'H.H. Dudjom Rinpoche III', sub: 'Sangye Pema Shepa' },
+            ].map(({ src, name, sub }) => (
+              <div key={src} style={{ textAlign: 'center' }}>
+                <div style={{ aspectRatio: '3/4', overflow: 'hidden', borderRadius: 3, border: '1px solid var(--gold-700)', marginBottom: 12 }}>
+                  <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+                </div>
+                <div style={{ fontFamily: 'var(--f-serif)', fontSize: 15, color: 'var(--maroon-700)', lineHeight: 1.3, marginBottom: 4 }}>{name}</div>
+                <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10.5, color: 'var(--ink-500)', letterSpacing: '0.06em' }}>{sub}</div>
+              </div>
+            ))}
+          </div>
+
           <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, maxWidth: 720, marginBottom: 8 }}>
             {t(
               'Dưới đây là tiểu sử của các vị thầy chính trong dòng Dudjom Tersar — nhấn vào tên để đọc đầy đủ.',
@@ -1584,15 +1624,24 @@ function TeachingPage({ goto }) {
       <section id="ngondro" className="section">
         <Eyebrow>Ngondro</Eyebrow>
         <h2>{t('Ngondro — Thực hành Nền tảng', 'Ngondro — Foundation Practices')}</h2>
-        <p style={{ color: 'var(--ink-700)', maxWidth: 680, marginTop: 20, lineHeight: 1.8 }}>
-          {t(
-            'Ngondro là các thực hành nền tảng trong Mật tông Tây Tạng, bao gồm 100.000 lần lễ lạy, trì chú Kim Cương Tát Đỏa, cúng Mandala và Guru Yoga. Khenpo Ogen Kalsang đang hướng dẫn đệ tử thực hành theo truyền thừa Dudjom Tersar.',
-            'Ngondro comprises the foundational practices of Tibetan Vajrayana Buddhism, including 100,000 prostrations, Vajrasattva recitation, Mandala offering, and Guru Yoga. Khenpo Ogen Kalsang guides students through these practices in the Dudjom Tersar tradition.'
-          )}
-        </p>
-        <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 24 }}>
-          {t('Tài liệu chi tiết đang được cập nhật.', 'Detailed materials in preparation.')}
-        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 48, alignItems: 'start', marginTop: 24 }}>
+          <div>
+            <p style={{ color: 'var(--ink-700)', maxWidth: 680, lineHeight: 1.8 }}>
+              {t(
+                'Ngondro là các thực hành nền tảng trong Mật tông Tây Tạng, bao gồm 100.000 lần lễ lạy, trì chú Kim Cương Tát Đỏa, cúng Mandala và Guru Yoga. Khenpo Ogen Kalsang đang hướng dẫn đệ tử thực hành theo truyền thừa Dudjom Tersar.',
+                'Ngondro comprises the foundational practices of Tibetan Vajrayana Buddhism, including 100,000 prostrations, Vajrasattva recitation, Mandala offering, and Guru Yoga. Khenpo Ogen Kalsang guides students through these practices in the Dudjom Tersar tradition.'
+              )}
+            </p>
+            <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 24 }}>
+              {t('Tài liệu chi tiết đang được cập nhật.', 'Detailed materials in preparation.')}
+            </p>
+          </div>
+          <img
+            src="/ngondro-cover.jpg"
+            alt="Ngondro"
+            style={{ width: '100%', borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}
+          />
+        </div>
       </section>
 
       {/* Empowerment */}
@@ -1665,8 +1714,8 @@ function ProjectPage({ goto }) {
       <section id="monastery" className="section">
         <Eyebrow>{t('Dự án', 'Project')}</Eyebrow>
         <h2>{t('Tu viện', 'Monastery')}</h2>
-        <div style={{ marginTop: 40, maxWidth: 640 }}>
-          <div className="card" style={{ padding: 40 }}>
+        <div style={{ marginTop: 40 }}>
+          <div className="card" style={{ padding: 40, maxWidth: 640, marginBottom: 40 }}>
             <div style={{ fontFamily: 'var(--f-serif)', fontSize: 40, color: 'var(--gold-500)', marginBottom: 16 }}>🏯</div>
             <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{t('Tu viện Kathmandu', 'Kathmandu Monastery')}</h3>
             <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-700)', marginBottom: 12 }}>
@@ -1679,6 +1728,11 @@ function ProjectPage({ goto }) {
               )}
             </p>
           </div>
+          <img
+            src="/monastery-top-view.jpg"
+            alt={t('Phối cảnh tu viện — nhìn từ trên', 'Monastery rendering — top view')}
+            style={{ width: '100%', maxWidth: 860, borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 8px 32px rgba(0,0,0,0.15)', display: 'block' }}
+          />
         </div>
       </section>
 

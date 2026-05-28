@@ -1611,4 +1611,7 @@ image-slot[data-empty="true"] {
 
   /* Live badge cạnh tiêu đề Live Q&A */
   .live-badge { font-size: 9px; padding: 3px 7px; }
+
+  /* Lineage master grid: 2 cols on small screens */
+  .lineage-master-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }

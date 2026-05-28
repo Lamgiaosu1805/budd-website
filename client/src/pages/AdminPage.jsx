@@ -271,6 +271,7 @@ function TeacherEventEditor({ event, onSave, onCancel, onDelete }) {
     attendees_vi: '', attendees_en: '',
     location: '',
     imageUrl: '',
+    desc_vi: '', desc_en: '',
   });
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const SEASONS_VI = ['XUÂN', 'HẠ', 'THU', 'ĐÔNG'];
@@ -313,6 +314,12 @@ function TeacherEventEditor({ event, onSave, onCancel, onDelete }) {
           <input className="input" style={{ gridColumn: '1 / -1' }} value={form.location} onChange={e => set('location', e.target.value)} />
         </Field>
       </div>
+      <Field label={t('Mô tả chi tiết (VI)', 'Description (VI)')}>
+        <textarea className="input" rows={4} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={form.desc_vi} onChange={e => set('desc_vi', e.target.value)} />
+      </Field>
+      <Field label={t('Mô tả chi tiết (EN)', 'Description (EN)')}>
+        <textarea className="input" rows={4} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={form.desc_en} onChange={e => set('desc_en', e.target.value)} />
+      </Field>
       <Field label={t('Ảnh hoạt động', 'Activity image')}>
         <ImageUploader value={form.imageUrl} onChange={url => set('imageUrl', url)} />
       </Field>
