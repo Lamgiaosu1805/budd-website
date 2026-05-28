@@ -477,7 +477,25 @@ function ActivityList() {
   const { t, lang } = useT();
   const cms = useCMS();
   const [detail, setDetail] = useState(null);
+  const [lightbox, setLightbox] = useState(null); // index into detail.images
   const desc = detail ? (lang === 'vi' ? detail.desc_vi : detail.desc_en) : null;
+  const imgs = detail?.images?.filter(Boolean) || [];
+
+  const openLightbox = (i) => setLightbox(i);
+  const closeLightbox = () => setLightbox(null);
+  const prevImg = (e) => { e.stopPropagation(); setLightbox(i => (i - 1 + imgs.length) % imgs.length); };
+  const nextImg = (e) => { e.stopPropagation(); setLightbox(i => (i + 1) % imgs.length); };
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e) => {
+      if (e.key === 'ArrowLeft') setLightbox(i => (i - 1 + imgs.length) % imgs.length);
+      if (e.key === 'ArrowRight') setLightbox(i => (i + 1) % imgs.length);
+      if (e.key === 'Escape') closeLightbox();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox, imgs.length]);
 
   return (
     <>
@@ -521,10 +539,11 @@ function ActivityList() {
                 {lang === 'vi' ? detail.title_vi : detail.title_en}
               </h2>
               {desc && <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, fontSize: 15, marginBottom: 28 }}>{desc}</p>}
-              {(detail.images?.length > 0) && (
-                <div style={{ display: 'grid', gridTemplateColumns: detail.images.length === 1 ? '1fr' : 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12, marginBottom: 8 }}>
-                  {detail.images.filter(Boolean).map((src, i) => (
-                    <img key={i} src={src} alt="" style={{ width: '100%', borderRadius: 3, objectFit: 'cover', aspectRatio: detail.images.length === 1 ? '16/9' : '4/3', border: '1px solid var(--gold-700)' }} />
+              {imgs.length > 0 && (
+                <div style={{ display: 'grid', gridTemplateColumns: imgs.length === 1 ? '1fr' : 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12, marginBottom: 8 }}>
+                  {imgs.map((src, i) => (
+                    <img key={i} src={src} alt="" onClick={() => openLightbox(i)}
+                      style={{ width: '100%', borderRadius: 3, objectFit: 'cover', aspectRatio: imgs.length === 1 ? '16/9' : '4/3', border: '1px solid var(--gold-700)', cursor: 'zoom-in' }} />
                   ))}
                 </div>
               )}
@@ -533,6 +552,22 @@ function ActivityList() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {lightbox !== null && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.92)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={closeLightbox}>
+          <button onClick={prevImg} style={{ position: 'absolute', left: 20, background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', fontSize: 32, width: 52, height: 52, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>‹</button>
+          <img src={imgs[lightbox]} alt="" onClick={e => e.stopPropagation()}
+            style={{ maxHeight: '90vh', maxWidth: '90vw', objectFit: 'contain', borderRadius: 4, boxShadow: '0 8px 48px rgba(0,0,0,0.6)' }} />
+          <button onClick={nextImg} style={{ position: 'absolute', right: 20, background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', fontSize: 32, width: 52, height: 52, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>›</button>
+          <button onClick={closeLightbox} style={{ position: 'absolute', top: 20, right: 20, background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', fontSize: 20, width: 40, height: 40, borderRadius: '50%', cursor: 'pointer' }}>✕</button>
+          {imgs.length > 1 && (
+            <div style={{ position: 'absolute', bottom: 20, color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--f-mono)', fontSize: 12 }}>
+              {lightbox + 1} / {imgs.length}
+            </div>
+          )}
         </div>
       )}
     </>
