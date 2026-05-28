@@ -2,7 +2,7 @@
 // ADMIN - CMS Management Page
 // Protected: requires admin login
 // ============================================================
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useT } from '../contexts/LanguageContext.jsx';
 import { useCMS } from '../contexts/CMSContext.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
@@ -395,6 +395,124 @@ function BlogEditor({ post, onSave, onCancel, onDelete }) {
   );
 }
 
+// ── Settings panel ────────────────────────────────────────────
+function SettingsPanel({ settings = {}, onSave }) {
+  const { t } = useT();
+  const [form, setForm] = useState(settings);
+  const [saved, setSaved] = useState(false);
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  // sync if settings load after mount
+  React.useEffect(() => { setForm(settings); }, [JSON.stringify(settings)]);
+
+  const handleSave = async () => {
+    await onSave(form);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  return (
+    <div style={{ paddingTop: 28, maxWidth: 640 }}>
+      <h3 style={{ marginBottom: 24 }}>{t('Ảnh & cài đặt trang', 'Site images & settings')}</h3>
+
+      <Field label={t('Ảnh chân dung Rinpoche (trang Thầy)', "Rinpoche's portrait (Teacher page)")}>
+        <ImageUploader value={form.teacher_portrait || ''} onChange={url => set('teacher_portrait', url)} />
+      </Field>
+
+      <Field label={t('Ảnh bìa trang chủ', 'Homepage cover image')}>
+        <ImageUploader value={form.home_cover || ''} onChange={url => set('home_cover', url)} />
+      </Field>
+
+      <Field label={t('Ảnh banner Dòng truyền thừa', 'Lineage banner image')}>
+        <ImageUploader value={form.lineage_banner || ''} onChange={url => set('lineage_banner', url)} />
+      </Field>
+
+      <div style={{ marginTop: 24 }}>
+        <button className="btn btn-primary" onClick={handleSave}>
+          {saved ? '✓ ' + t('Đã lưu!', 'Saved!') : t('Lưu cài đặt', 'Save settings')}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Forum panel ───────────────────────────────────────────────
+function ForumPanel() {
+  const { t } = useT();
+  const [threads, setThreads] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const load = () => {
+    setLoading(true);
+    api.listForum()
+      .then(d => setThreads(Array.isArray(d) ? d : []))
+      .catch(() => setThreads([]))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const markAnswered = async (id, byTeacher) => {
+    await api.patchThread(id, { replied: true, byTeacher });
+    setThreads(prev => prev.map(tr => tr._id === id ? { ...tr, replied: true, byTeacher } : tr));
+  };
+
+  const del = async (id) => {
+    if (!confirm(t('Xóa câu hỏi này?', 'Delete this question?'))) return;
+    await api.deleteThread(id);
+    setThreads(prev => prev.filter(tr => tr._id !== id));
+  };
+
+  if (loading) return <EmptyState message={t('Đang tải…', 'Loading…')} />;
+  if (threads.length === 0) return <EmptyState message={t('Chưa có câu hỏi nào', 'No questions yet')} />;
+
+  return (
+    <div>
+      {threads.map(tr => (
+        <div key={tr._id} className="admin-row" style={{ alignItems: 'flex-start', gap: 16 }}>
+          <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,var(--gold-500),var(--maroon-700))', display: 'grid', placeItems: 'center', color: 'var(--cream-100)', fontFamily: 'var(--f-serif)', fontSize: 16, flexShrink: 0 }}>
+            {tr.avatar || '❓'}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4, flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--ink-500)' }}>{tr.author}</span>
+              {tr.topic && <span className="tag">{tr.topic}</span>}
+              <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--ink-400)' }}>
+                {new Date(tr.createdAt).toLocaleDateString('vi-VN')}
+              </span>
+              {tr.replied && (
+                <span className="tag" style={{ background: tr.byTeacher ? 'var(--gold-100)' : 'var(--cream-200)', color: tr.byTeacher ? 'var(--maroon-800)' : 'var(--ink-500)' }}>
+                  {tr.byTeacher ? '✦ Rinpoche đã trả lời' : '● Đã giải đáp'}
+                </span>
+              )}
+            </div>
+            <div style={{ fontFamily: 'var(--f-serif)', fontSize: 17, color: 'var(--maroon-800)', marginBottom: 4 }}>{tr.title}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-600)', lineHeight: 1.6 }}>{tr.preview}</div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 0 }}>
+            {!tr.byTeacher && (
+              <button className="btn btn-gold" style={{ fontSize: 11, padding: '6px 12px' }}
+                onClick={() => markAnswered(tr._id, true)}>
+                ✦ {t('Rinpoche trả lời', 'Mark Rinpoche answered')}
+              </button>
+            )}
+            {!tr.replied && (
+              <button className="btn btn-ghost" style={{ fontSize: 11, padding: '6px 12px' }}
+                onClick={() => markAnswered(tr._id, false)}>
+                ● {t('Đánh dấu đã giải đáp', 'Mark answered')}
+              </button>
+            )}
+            <button className="btn" style={{ fontSize: 11, padding: '6px 12px', color: 'var(--maroon-700)', border: '1px solid var(--maroon-700)' }}
+              onClick={() => del(tr._id)}>
+              {t('Xóa', 'Delete')}
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ── Main AdminPage ────────────────────────────────────────────
 function AdminPage({ goto }) {
   const { t, lang } = useT();
@@ -445,6 +563,8 @@ function AdminPage({ goto }) {
           <AdminTab label={`${t('Bài giảng', 'Teachings')} · ${cms.lectures.length}`} active={tab === 'lectures'} onClick={() => switchTab('lectures')} />
           <AdminTab label={`${t('Hoằng pháp', 'Activities')} · ${cms.teacherEvents.length}`} active={tab === 'teacherEvents'} onClick={() => switchTab('teacherEvents')} />
           <AdminTab label={`Blog · ${cms.blogs.length}`} active={tab === 'blog'} onClick={() => switchTab('blog')} />
+          <AdminTab label={t('Diễn đàn', 'Forum')} active={tab === 'forum'} onClick={() => switchTab('forum')} />
+          <AdminTab label={t('Cài đặt', 'Settings')} active={tab === 'settings'} onClick={() => switchTab('settings')} />
         </div>
 
         {/* EVENTS */}
@@ -595,6 +715,18 @@ function AdminPage({ goto }) {
             )}
           </div>
         )}
+        {/* FORUM */}
+        {tab === 'forum' && (
+          <div style={{ paddingTop: 28 }}>
+            <ForumPanel />
+          </div>
+        )}
+
+        {/* SETTINGS */}
+        {tab === 'settings' && (
+          <SettingsPanel settings={cms.settings} onSave={cms.saveSettings} />
+        )}
+
       </section>
     </div>
   );

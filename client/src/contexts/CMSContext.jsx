@@ -8,6 +8,7 @@ export function CMSProvider({ children }) {
   const [lectures, setLectures] = useState([]);
   const [teacherEvents, setTeacherEvents] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -15,16 +16,18 @@ export function CMSProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const [e, l, te, b] = await Promise.all([
+      const [e, l, te, b, s] = await Promise.all([
         api.listEvents(),
         api.listLectures(),
         api.listTeacherEvents(),
         api.listBlog(),
+        api.getSettings(),
       ]);
       setEvents(e);
       setLectures(l);
       setTeacherEvents(te);
       setBlogs(b);
+      setSettings(s || {});
     } catch (err) {
       setError(err.message);
     } finally {
@@ -35,7 +38,8 @@ export function CMSProvider({ children }) {
   useEffect(() => { refresh(); }, [refresh]);
 
   const value = {
-    events, lectures, teacherEvents, blogs, loading, error, refresh,
+    events, lectures, teacherEvents, blogs, settings, loading, error, refresh,
+    saveSettings: async (data) => { await api.saveSettings(data); setSettings(s => ({ ...s, ...data })); },
 
     addEvent: async (e) => { const c = await api.createEvent(e); setEvents((es) => [...es, c]); },
     updateEvent: async (id, p) => { const u = await api.updateEvent(id, p); setEvents((es) => es.map((x) => x.id === id ? u : x)); },

@@ -484,11 +484,10 @@ function KhenpoPage() {
               onClick={() => setPortraitLit(!portraitLit)}
               style={{ aspectRatio: '3/4', overflow: 'hidden', border: '1px solid var(--gold-600)', transition: 'all 0.6s', cursor: 'pointer', filter: portraitLit ? 'brightness(1.15) saturate(1.1)' : 'none', boxShadow: portraitLit ? '0 0 60px rgba(201,163,92,0.4)' : 'none' }}
             >
-              <PhotoSlot
-                id="teacher-portrait"
-                shape="rect"
-                placeholder={t('Kéo ảnh chân dung Rinpoche vào đây', 'Drop Rinpoche portrait here')}
-              />
+              {cms?.settings?.teacher_portrait
+                ? <img src={cms.settings.teacher_portrait} alt="Khenpo Rinpoche" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                : <PhotoSlot id="teacher-portrait" shape="rect" placeholder={t('Kéo ảnh chân dung Rinpoche vào đây', 'Drop Rinpoche portrait here')} />
+              }
             </div>
             <div style={{ marginTop: 12, fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.2em', color: 'var(--gold-700)', textTransform: 'uppercase', textAlign: 'center' }}>
               {t('Nhấn vào ảnh để thắp sáng', 'Tap photo to illuminate')}
