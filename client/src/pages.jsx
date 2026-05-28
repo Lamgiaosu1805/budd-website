@@ -1143,7 +1143,7 @@ function ForumPage() {
   const [showAskModal, setShowAskModal] = useState(false);
   const [askForm, setAskForm] = useState({ name: '', topic: '', question: '' });
   const [askDone, setAskDone] = useState(false);
-  const [threads, setThreads] = useState(null); // null = dùng dữ liệu FORUM_THREADS mặc định
+  const [threads, setThreads] = useState([]);
 
   useEffect(() => { setFilter(filters[0]); }, [lang]);
 
@@ -1157,7 +1157,7 @@ function ForumPage() {
       time: t('vừa xong', 'just now'),
       replies: 0, views: 1, answered: false,
     };
-    setThreads(prev => [newThread, ...(prev || FORUM_THREADS(lang))]);
+    setThreads(prev => [newThread, ...prev]);
     setAskDone(true);
     setTimeout(() => { setShowAskModal(false); setAskDone(false); setAskForm({ name: '', topic: '', question: '' }); }, 2200);
   };
@@ -1215,7 +1215,14 @@ function ForumPage() {
 
         {/* Forum threads */}
         <div>
-          {(threads || FORUM_THREADS(lang)).map((tr, i) => (
+          {threads.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--ink-400)' }}>
+              <div style={{ fontSize: 40, marginBottom: 16 }}>🙏</div>
+              <p style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic' }}>
+                {t('Chưa có câu hỏi nào. Hãy là người đầu tiên đặt câu hỏi!', 'No questions yet. Be the first to ask!')}
+              </p>
+            </div>
+          ) : threads.map((tr, i) => (
             <div key={i} className="forum-row">
               <div className="avatar">{tr.avatar}</div>
               <div className="body">
@@ -1293,29 +1300,6 @@ function ForumPage() {
           </div>
         )}
 
-        {/* Community experiences */}
-        <div style={{ marginTop: 80 }}>
-          <Eyebrow>{t('Chia sẻ hành trình', 'Practice journeys')}</Eyebrow>
-          <h2 style={{ fontSize: 32 }}>{t('Nhật ký tu hành', 'Practitioners share')}</h2>
-          <div className="grid-2" style={{ marginTop: 32 }}>
-            {EXPERIENCES(lang).map((e, i) => (
-              <div key={i} className="card" style={{ padding: 28 }}>
-                <div style={{ display: 'flex', gap: 14, marginBottom: 14, alignItems: 'center' }}>
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, var(--gold-500), var(--maroon-700))', display: 'grid', placeItems: 'center', color: 'var(--cream-100)', fontFamily: 'var(--f-serif)', fontSize: 18 }}>{e.avatar}</div>
-                  <div>
-                    <div style={{ fontWeight: 600, color: 'var(--maroon-800)' }}>{e.author}</div>
-                    <div style={{ fontSize: 12, color: 'var(--ink-500)' }}>{e.role} · {e.time}</div>
-                  </div>
-                </div>
-                <p style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic', fontSize: 17, color: 'var(--ink-700)', lineHeight: 1.6 }}>"{e.text}"</p>
-                <div style={{ display: 'flex', gap: 14, fontSize: 12, color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', paddingTop: 14, borderTop: '1px solid var(--cream-300)' }}>
-                  <span>✦ {e.likes} {t('đồng cảm', 'resonances')}</span>
-                  <span>● {e.comments} {t('bình luận', 'comments')}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
     </div>
   );
@@ -1325,50 +1309,23 @@ function ForumPage() {
 // SHARED DATA (bilingual)
 // ===================================================================
 const MODULES = (lang) => lang === 'vi' ? [
-  { key: 'home', title: 'Cánh cửa Trí tuệ', desc: 'Khám phá sự kiện, bài giảng, lễ khóa và lời dạy hôm nay.' },
-  { key: 'tantra', title: 'Mật tông & Dudjom Tersar', desc: 'Lịch sử, pháp khí, mantra và phương pháp hành trì.' },
-  { key: 'teacher', title: 'Khenpo Rinpoche', desc: 'Tiểu sử, dòng truyền thừa và pháp ngữ của Rinpoche.' },
-  { key: 'lectures', title: 'Thư viện Trí tuệ', desc: 'Video, audio, kinh sách PDF — phân loại theo căn cơ.' },
-  { key: 'events', title: 'Sự kiện & Khóa tu', desc: 'Pháp hội, nhập thất, livestream và đăng ký tham dự.' },
-  { key: 'prayer', title: 'Cầu nguyện trực tuyến', desc: 'Đàn tràng số, thắp đèn tâm, cúng dường và hồi hướng.' },
-  { key: 'forum', title: 'Diễn đàn · Tự viện số', desc: 'Hỏi đáp Phật pháp, chia sẻ trải nghiệm tu hành.' }
+  { key: 'lineage', title: 'Dòng truyền thừa', desc: 'Lịch sử Dudjom Tersar, pháp khí, mantra và tiểu sử bậc thầy.' },
+  { key: 'khenpo', title: 'Thầy — Khenpo Rinpoche', desc: 'Tiểu sử, pháp lễ, hành hương và hoạt động hoằng pháp.' },
+  { key: 'teaching', title: 'Giảng dạy', desc: 'Ngondro, Empowerment, DDL Shedra và thư viện bài giảng.' },
+  { key: 'project', title: 'Dự án & Sự kiện', desc: 'Tu viện, trung tâm Pháp và các sự kiện sắp tới.' },
+  { key: 'blog', title: 'Blog', desc: 'Chia sẻ và pháp ngữ từ Khenpo Rinpoche.' },
+  { key: 'donate', title: 'Cúng dường', desc: 'Hộ trì Pháp bảo, cúng dường và liên hệ.' },
+  { key: 'forum', title: 'Diễn đàn', desc: 'Hỏi đáp Phật pháp, chia sẻ trải nghiệm tu hành.' },
 ] : [
-  { key: 'home', title: 'Gateway to Wisdom', desc: 'Explore events, teachings, retreats, and the daily reflection.' },
-  { key: 'tantra', title: 'Vajrayāna & Dudjom Tersar', desc: 'History, ritual objects, mantras, and methods of practice.' },
-  { key: 'teacher', title: 'Khenpo Rinpoche', desc: "Biography, lineage, and Rinpoche's teachings." },
-  { key: 'lectures', title: 'Wisdom Library', desc: 'Video, audio, and PDF — organized by level and topic.' },
-  { key: 'events', title: 'Events & Retreats', desc: 'Dharma talks, retreats, livestreams, and registration.' },
-  { key: 'prayer', title: 'Online Prayer', desc: 'Digital altar, butter lamps, offerings, and dedication.' },
-  { key: 'forum', title: 'Forum · Digital Monastery', desc: 'Ask questions and share practice experience.' }
+  { key: 'lineage', title: 'Lineage', desc: 'Dudjom Tersar history, ritual objects, mantras, and master biographies.' },
+  { key: 'khenpo', title: 'Teacher — Khenpo Rinpoche', desc: 'Biography, puja, pilgrimage, and worldwide dharma activities.' },
+  { key: 'teaching', title: 'Teachings', desc: 'Ngondro, Empowerment, DDL Shedra, and the teaching library.' },
+  { key: 'project', title: 'Projects & Events', desc: 'Monastery, dharma centers, and upcoming events.' },
+  { key: 'blog', title: 'Blog', desc: "Reflections and dharma teachings from Khenpo Rinpoche." },
+  { key: 'donate', title: 'Donate', desc: 'Support the dharma, make offerings, and get in touch.' },
+  { key: 'forum', title: 'Forum', desc: 'Ask questions and share practice experience.' },
 ];
 
-const UPCOMING_EVENTS = (lang) => lang === 'vi' ? [
-  { day: '15', monthShort: 'TH06', month: 'Tháng 6 · 2026', date: '15.06 — 22.06', title: 'Khóa nhập thất Vajrasattva 7 ngày', desc: 'Thanh tịnh nghiệp chướng qua thực hành Vajrasattva 100 âm thần chú.', type: 'Nhập thất', duration: '7 ngày', location: 'Samye Memorial, Kathmandu', live: false, image: 'KHÓA NHẬP THẤT', attendees: '120/150 hành giả' },
-  { day: '21', monthShort: 'TH06', month: 'Tháng 6 · 2026', date: '21.06 · 19:00', title: 'Pháp thoại "Ngöndro — Pháp tu căn bản Dudjom Tersar"', desc: 'Rinpoche giảng giải 4 quán tưởng tiền hành và 5 pháp tu chánh hành.', type: 'Pháp thoại', duration: '2 giờ', location: 'Trực tuyến · Zoom', live: true, image: 'PHÁP THOẠI' },
-  { day: '03', monthShort: 'TH07', month: 'Tháng 7 · 2026', date: '03.07 · 20:00', title: 'Đêm tụng Lục Tự Đại Minh Chú', desc: 'Đồng tu mantra Quán Thế Âm, hồi hướng công đức cho toàn pháp giới.', type: 'Lễ hội', duration: '3 giờ', location: 'Online + Hà Nội', live: true, image: 'ĐÊM TỤNG MANTRA' },
-  { day: '12', monthShort: 'TH07', month: 'Tháng 7 · 2026', date: '12.07 — 14.07', title: 'Khóa Guḥyagarbha Tantra — Cao cấp', desc: 'Truyền giảng tantra cốt lõi của dòng Nyingma cho học trò có Empowerment.', type: 'Khóa cao cấp', duration: '3 ngày', location: 'TP.HCM', live: false, image: 'GUHYAGARBHA' },
-] : [
-  { day: '15', monthShort: 'JUN', month: 'June · 2026', date: 'Jun 15 — 22', title: '7-Day Vajrasattva Purification Retreat', desc: 'Purifying karmic obscurations through the 100-syllable mantra.', type: 'Retreat', duration: '7 days', location: 'Samye Memorial, Kathmandu', live: false, image: 'RETREAT', attendees: '120/150 practitioners' },
-  { day: '21', monthShort: 'JUN', month: 'June · 2026', date: 'Jun 21 · 7 PM', title: 'Teaching: "Ngöndro — Dudjom Tersar Preliminaries"', desc: 'Rinpoche explains the four contemplations and five main practices.', type: 'Teaching', duration: '2 hours', location: 'Online · Zoom', live: true, image: 'TEACHING' },
-  { day: '03', monthShort: 'JUL', month: 'July · 2026', date: 'Jul 3 · 8 PM', title: 'Avalokiteśvara Mantra Recitation Evening', desc: 'Group recitation of the six-syllable mantra and dedication of merit.', type: 'Ceremony', duration: '3 hours', location: 'Online + Hanoi', live: true, image: 'MANTRA EVENING' },
-  { day: '12', monthShort: 'JUL', month: 'July · 2026', date: 'Jul 12 — 14', title: 'Guḥyagarbha Tantra — Advanced Teachings', desc: 'Core tantra of the Nyingma lineage for empowered students.', type: 'Advanced', duration: '3 days', location: 'Ho Chi Minh City', live: false, image: 'GUHYAGARBHA' },
-];
-
-const LECTURES = (lang) => lang === 'vi' ? [
-  { title: 'Ngöndro Dudjom Tersar — Bốn quán tưởng tiền hành', teacher: 'Khenpo Rinpoche', duration: '1h 42m', format: 'VIDEO', level: 'Trung cấp', tags: ['Kinh điển', 'Quán tưởng'] },
-  { title: 'Lục Tự Đại Minh Chú — Ý nghĩa và hành trì', teacher: 'Khenpo Rinpoche', duration: '58m', format: 'AUDIO', level: 'Nhập môn', tags: ['Thần chú'] },
-  { title: 'Bardo Thodol — Sáu trạng thái trung ấm', teacher: 'Khenpo Rinpoche', duration: '2h 15m', format: 'VIDEO', level: 'Cao cấp', tags: ['Bardo'] },
-  { title: 'Bát-nhã Tâm Kinh — Bản dịch & chú giải', teacher: 'Khenpo Rinpoche', duration: '128 trang', format: 'PDF', level: 'Nhập môn', tags: ['Kinh điển', 'Sách PDF'] },
-  { title: 'Dzogchen — Tự tánh trống rỗng', teacher: 'Khenpo Rinpoche', duration: '3h 04m', format: 'VIDEO', level: 'Cao cấp', tags: ['Dzogchen'] },
-  { title: 'Nghi quỹ Vajrasattva 100 âm', teacher: 'Khenpo Rinpoche', duration: '46m', format: 'AUDIO', level: 'Trung cấp', tags: ['Thần chú', 'Lễ khóa'] },
-] : [
-  { title: 'Dudjom Tersar Ngöndro — The Four Contemplations', teacher: 'Khenpo Rinpoche', duration: '1h 42m', format: 'VIDEO', level: 'Intermediate', tags: ['Sūtra', 'Visualization'] },
-  { title: 'Oṃ Maṇi Padme Hūṃ — Meaning and Practice', teacher: 'Khenpo Rinpoche', duration: '58m', format: 'AUDIO', level: 'Beginner', tags: ['Mantra'] },
-  { title: 'Bardo Thödol — The Six Intermediate States', teacher: 'Khenpo Rinpoche', duration: '2h 15m', format: 'VIDEO', level: 'Advanced', tags: ['Bardo'] },
-  { title: 'Heart Sūtra — Translation & Commentary', teacher: 'Khenpo Rinpoche', duration: '128 pages', format: 'PDF', level: 'Beginner', tags: ['Sūtra', 'PDF Book'] },
-  { title: 'Dzogchen — The Empty Nature of Mind', teacher: 'Khenpo Rinpoche', duration: '3h 04m', format: 'VIDEO', level: 'Advanced', tags: ['Dzogchen'] },
-  { title: '100-Syllable Vajrasattva Sādhana', teacher: 'Khenpo Rinpoche', duration: '46m', format: 'AUDIO', level: 'Intermediate', tags: ['Mantra', 'Ritual'] },
-];
 
 const TANTRA_TIMELINE = (lang) => lang === 'vi' ? [
   { year: 'TK V — VIII', title: 'Khởi nguyên tại Ấn Độ', desc: 'Mật tông xuất hiện tại Nalanda và Vikramashila, hệ thống hóa qua kinh điển Tantra.' },
@@ -1492,17 +1449,6 @@ const SUBJECTS = (lang) => lang === 'vi' ? [
   { glyph: '空', title: "Longchenpa's Trilogy", sanskrit: 'RESTING IN THE NATURE OF MIND', desc: "The three treatises of Longchen Rabjam — the pinnacle of Dzogchen." },
 ];
 
-const TEACHER_EVENTS = (lang) => lang === 'vi' ? [
-  { year: '2024', season: 'XUÂN', title: 'Đại lễ Phật Đản lần thứ 2566 · Khách mời chính', attendees: 'Cộng đồng Phật tử Nepal', location: 'Ashoka Mangal Bodhi Mahayana Gumba, Patan, Nepal' },
-  { year: '2024', season: 'HẠ', title: 'Khóa nhập thất Vajrasattva 21 ngày', attendees: '180 hành giả', location: 'Samye Memorial Buddhist Vihara, Kathmandu' },
-  { year: '2023', season: 'THU', title: 'Chuyến hoằng pháp Việt Nam (một tháng)', attendees: 'Cộng đồng học trò Việt Nam', location: 'Hà Nội · TP.HCM · Đà Nẵng' },
-  { year: '2023', season: 'ĐÔNG', title: 'Pháp hội Ngöndro Dudjom Tersar — 7 đêm', attendees: '2,100 hành giả', location: 'Trực tuyến · 12 quốc gia' },
-] : [
-  { year: '2024', season: 'SPRING', title: 'Chief guest at the 2566th Buddha Jayanti', attendees: 'Nepali Buddhist community', location: 'Ashoka Mangal Bodhi Mahayana Gumba, Patan, Nepal' },
-  { year: '2024', season: 'SUMMER', title: '21-Day Vajrasattva Retreat', attendees: '180 practitioners', location: 'Samye Memorial Buddhist Vihara, Kathmandu' },
-  { year: '2023', season: 'AUTUMN', title: 'Month-long teaching tour in Vietnam', attendees: 'Vietnamese student community', location: 'Hanoi · Ho Chi Minh City · Da Nang' },
-  { year: '2023', season: 'WINTER', title: 'Dudjom Tersar Ngöndro teachings — 7 nights', attendees: '2,100 practitioners', location: 'Online · 12 countries' },
-];
 
 const OFFERINGS = (lang) => lang === 'vi' ? [
   { title: 'Cúng dường Tam Bảo', desc: 'Hộ trì Phật-Pháp-Tăng, duy trì các hoạt động tự viện.' },
@@ -1520,71 +1466,6 @@ const OFFERINGS = (lang) => lang === 'vi' ? [
   { title: 'General donation', desc: 'Contribute as you wish to the general dharma fund.' },
 ];
 
-const SUPPORT_NEEDS = (lang) => lang === 'vi' ? [
-  { tag: 'IN KINH', title: 'In 2,000 cuốn Bát Nhã Tâm Kinh', desc: 'Bản dịch song ngữ Việt-Phạn, phát hành miễn phí trong Pháp hội Phật Đản 2026.', progress: 72, donors: 248 },
-  { tag: 'KHÓA TU', title: 'Khóa nhập thất Vajrasattva 7 ngày', desc: 'Hộ trì chi phí ăn ở cho 150 hành giả tại Samye Memorial Vihara.', progress: 54, donors: 89 },
-  { tag: 'LIVESTREAM', title: 'Hệ thống livestream cho Pháp hội', desc: 'Nâng cấp thiết bị thu phát để 12 quốc gia có thể đồng dự.', progress: 38, donors: 156 },
-] : [
-  { tag: 'PRINTING', title: 'Print 2,000 copies of the Heart Sūtra', desc: 'Bilingual Vietnamese-Sanskrit edition, distributed free at Buddha Jayanti 2026.', progress: 72, donors: 248 },
-  { tag: 'RETREAT', title: '7-Day Vajrasattva Retreat support', desc: 'Cover accommodation for 150 practitioners at Samye Memorial Vihara.', progress: 54, donors: 89 },
-  { tag: 'LIVESTREAM', title: 'Livestream upgrade for global teachings', desc: 'Upgrade broadcast equipment so students in 12 countries can join live.', progress: 38, donors: 156 },
-];
-
-const SAMPLE_CANDLES = (lang) => lang === 'vi' ? [
-  { name: 'Cho cha mẹ', time: '2 phút trước' },
-  { name: 'Cho chúng sinh', time: '5 phút trước' },
-  { name: 'Cho người đã khuất', time: '8 phút trước' },
-  { name: 'Cho Rinpoche & Tăng đoàn', time: '12 phút trước' },
-  { name: 'Cho gia đình', time: '15 phút trước' },
-  { name: 'Nguyện thế giới an lành', time: '18 phút trước' },
-] : [
-  { name: 'For my parents', time: '2 min ago' },
-  { name: 'For all beings', time: '5 min ago' },
-  { name: 'For the departed', time: '8 min ago' },
-  { name: 'For Rinpoche & Sangha', time: '12 min ago' },
-  { name: 'For my family', time: '15 min ago' },
-  { name: 'For world peace', time: '18 min ago' },
-];
-
-const PRAYER_NOTES = (lang) => lang === 'vi' ? [
-  { text: 'Nguyện cho mẹ con sớm khỏi bệnh, thân tâm an lạc, trí tuệ sáng tỏ trên con đường Phật pháp.', author: 'Phật tử Diệu Hương', blessings: 42 },
-  { text: 'Cầu nguyện cho ông nội sớm vãng sanh Tịnh độ, nương theo bản nguyện Đức Phật A Di Đà.', author: 'Phật tử Minh Tâm', blessings: 87 },
-  { text: 'Nguyện đem công đức tu tập tuần này hồi hướng cho tất cả chúng sinh đang chịu khổ đau.', author: 'Đệ tử Quảng Thiện', blessings: 156 },
-  { text: 'Cầu cho con đường tu học của bản thân tinh tấn không thối chuyển, sớm phát Bồ Đề tâm chân thật.', author: 'Phật tử An Lạc', blessings: 38 },
-  { text: 'Nguyện hồi hướng công đức cho chư hương linh cô hồn vô chủ, sớm được siêu thoát.', author: 'Phật tử Diệu Pháp', blessings: 124 },
-  { text: 'Tri ân Rinpoche đã đến Việt Nam truyền pháp. Nguyện Ngài trường thọ, sự nghiệp hoằng pháp viên mãn.', author: 'Phật tử Tịnh Tâm', blessings: 309 },
-] : [
-  { text: 'May my mother recover from illness and find peace of body and mind, with bright wisdom on the dharma path.', author: 'Dieu Huong', blessings: 42 },
-  { text: 'Praying that my grandfather attains rebirth in the Pure Land through the compassion of Amitābha Buddha.', author: 'Minh Tam', blessings: 87 },
-  { text: 'May the merit of this week\'s practice be dedicated to all beings suffering anywhere in the world.', author: 'Quang Thien', blessings: 156 },
-  { text: 'May my own dharma path continue without obstacles, may I generate genuine bodhicitta swiftly.', author: 'An Lac', blessings: 38 },
-  { text: 'Dedicating merit to all wandering spirits without anchor — may they find liberation.', author: 'Dieu Phap', blessings: 124 },
-  { text: 'Deep gratitude to Rinpoche for coming to Vietnam to teach the dharma. May Rinpoche have long life and complete activities.', author: 'Tinh Tam', blessings: 309 },
-];
-
-const FORUM_THREADS = (lang) => lang === 'vi' ? [
-  { avatar: '智', title: 'Mới bắt đầu Ngöndro — nên bắt đầu từ đâu?', preview: 'Con là Phật tử mới, vừa nhận quy y với Rinpoche. Xin hướng dẫn cách bắt đầu hành trì Ngöndro Dudjom Tersar đúng pháp.', author: '@quangthien', time: '2 giờ trước', replies: 12, views: 384, answered: true, byTeacher: true, merit: 8 },
-  { avatar: '心', title: 'Sự khác nhau giữa quán tưởng và tưởng tượng?', preview: 'Khi quán tưởng Bổn Tôn, cảm giác như đang tưởng tượng. Vậy có khác biệt gì giữa hai trạng thái này không?', author: '@dieutam', time: '6 giờ trước', replies: 18, views: 612, answered: true, byTeacher: false, merit: 12 },
-  { avatar: '法', title: 'Khi nhập thất bị tán loạn, làm thế nào để định trở lại?', preview: 'Sau ngày thứ 3 nhập thất, tâm con bắt đầu tán loạn, vọng tưởng kéo đến liên tục. Xin chia sẻ kinh nghiệm các thầy ạ.', author: '@minhtam', time: '12 giờ trước', replies: 34, views: 1820, answered: true, byTeacher: true, merit: 24 },
-  { avatar: '蓮', title: 'Có nên kết hợp Mật tông với Tịnh độ tông không?', preview: 'Con vốn tu Tịnh độ niệm Phật A Di Đà, gần đây thấy Mật tông cũng rất hợp duyên. Hai pháp môn có xung đột không?', author: '@lienhoa', time: '1 ngày trước', replies: 22, views: 945, answered: false },
-  { avatar: '空', title: 'Hỏi về 6 thân trung ấm (Bardo) trong Tử Thư Tây Tạng', preview: 'Đang đọc Bardo Thodol qua bài giảng của Rinpoche, có nhiều chỗ khó hiểu về 6 trạng thái trung ấm. Mong được thảo luận.', author: '@khongtinh', time: '2 ngày trước', replies: 41, views: 2340, answered: true, byTeacher: true, merit: 36 },
-  { avatar: '慧', title: 'Cách bảo quản kim cương chử và chuông đúng pháp?', preview: 'Con mới được tặng một bộ pháp khí, xin hỏi cách lễ khóa và bảo quản đúng truyền thống Dudjom Tersar.', author: '@tuelinh', time: '3 ngày trước', replies: 9, views: 421, answered: true, byTeacher: false, merit: 5 },
-] : [
-  { avatar: '智', title: 'Just starting Ngöndro — where to begin?', preview: "I'm a new student, just received refuge from Rinpoche. Please guide me on how to begin Dudjom Tersar Ngöndro practice correctly.", author: '@quangthien', time: '2h ago', replies: 12, views: 384, answered: true, byTeacher: true, merit: 8 },
-  { avatar: '心', title: 'Difference between visualization and imagination?', preview: 'When visualizing the deity, it feels like imagination. Is there a real difference between these two states?', author: '@dieutam', time: '6h ago', replies: 18, views: 612, answered: true, byTeacher: false, merit: 12 },
-  { avatar: '法', title: 'Distracted in retreat — how to return to concentration?', preview: 'After day 3 of retreat, my mind started wandering, with constant thoughts arising. Please share your experience.', author: '@minhtam', time: '12h ago', replies: 34, views: 1820, answered: true, byTeacher: true, merit: 24 },
-  { avatar: '蓮', title: 'Can I combine Vajrayāna with Pure Land practice?', preview: 'I have been practicing Pure Land with Amitābha recitation. Recently I have strong karmic connection with Vajrayāna. Do they conflict?', author: '@lienhoa', time: '1 day ago', replies: 22, views: 945, answered: false },
-  { avatar: '空', title: 'Questions about the Six Bardos in the Bardo Thödol', preview: "I'm studying Bardo Thödol through Rinpoche's teachings, but have difficulty with the six intermediate states. Hoping to discuss.", author: '@khongtinh', time: '2 days ago', replies: 41, views: 2340, answered: true, byTeacher: true, merit: 36 },
-  { avatar: '慧', title: 'How to properly care for vajra and bell?', preview: 'I just received a set of ritual implements. Please explain the proper ceremonial care according to Dudjom Tersar tradition.', author: '@tuelinh', time: '3 days ago', replies: 9, views: 421, answered: true, byTeacher: false, merit: 5 },
-];
-
-const EXPERIENCES = (lang) => lang === 'vi' ? [
-  { avatar: '蓮', author: 'Diệu Liên', role: 'Phật tử · 3 năm hành trì', time: '5 ngày trước', text: 'Sau 21 ngày nhập thất Vajrasattva dưới sự hướng dẫn của Rinpoche, lần đầu trong đời con thực sự nếm trải vị an lạc khi tâm thanh tịnh không vọng tưởng.', likes: 248, comments: 32 },
-  { avatar: '智', author: 'Quảng Trí', role: 'Hành giả · 8 năm', time: '1 tuần trước', text: 'Chuyến hoằng pháp của Rinpoche tại Việt Nam năm ngoái đã làm tan biến nhiều nghi vấn con ôm nhiều năm. Xin tri ân Rinpoche và toàn thể Tăng đoàn Samye Memorial.', likes: 412, comments: 58 },
-] : [
-  { avatar: '蓮', author: 'Dieu Lien', role: 'Student · 3 years', time: '5 days ago', text: "After 21 days of Vajrasattva retreat under Rinpoche's guidance, for the first time in my life I truly tasted the peace of a mind clear of conceptual thought.", likes: 248, comments: 32 },
-  { avatar: '智', author: 'Quang Tri', role: 'Practitioner · 8 years', time: '1 week ago', text: "Rinpoche's teaching tour in Vietnam last year dissolved many doubts I had carried for years. Deep gratitude to Rinpoche and the entire Samye Memorial sangha.", likes: 412, comments: 58 },
-];
 
 // ===================================================================
 // LINEAGE PAGE — History + Master Biography
