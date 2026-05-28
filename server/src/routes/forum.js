@@ -12,8 +12,8 @@ router.get('/', async (_req, res, next) => {
   } catch (e) { next(e); }
 });
 
-// POST /api/forum — anyone can submit (no auth required)
-router.post('/', async (req, res, next) => {
+// POST /api/forum — requires login
+router.post('/', authenticate, async (req, res, next) => {
   try {
     const { avatar, title, preview, author, topic } = req.body;
     if (!title?.trim() || !preview?.trim()) {

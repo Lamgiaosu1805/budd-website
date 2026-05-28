@@ -72,7 +72,7 @@ export const api = {
 
   // forum
   listForum: () => request('/forum'),
-  createThread: (data) => request('/forum', { method: 'POST', body: data }),
+  createThread: (data) => request('/forum', { method: 'POST', body: data, auth: true }),
   patchThread: (id, data) => request(`/forum/${id}`, { method: 'PATCH', body: data, auth: true }),
   deleteThread: (id) => request(`/forum/${id}`, { method: 'DELETE', auth: true }),
 };

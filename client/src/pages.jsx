@@ -5,6 +5,7 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useT } from './contexts/LanguageContext.jsx';
 import { useCMS } from './contexts/CMSContext.jsx';
+import { useAuth } from './contexts/AuthContext.jsx';
 import { api } from './lib/api.js';
 
 // ------------ Shared helpers ------------
@@ -1135,8 +1136,9 @@ function PrayerPage() {
 // ===================================================================
 // 7. FORUM & Q&A
 // ===================================================================
-function ForumPage() {
+function ForumPage({ goto }) {
   const { t, lang } = useT();
+  const { user } = useAuth();
   const filters = lang === 'vi'
     ? ['Mới nhất', 'Chưa trả lời', 'Rinpoche đã trả lời', 'Phổ biến nhất']
     : ['Latest', 'Unanswered', 'Answered by Rinpoche', 'Most popular'];
@@ -1158,33 +1160,28 @@ function ForumPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  const openAsk = () => {
+    if (!user) { goto?.('login'); return; }
+    setShowAskModal(true);
+  };
+
   const handleAskSubmit = async () => {
     if (!askForm.question.trim() || submitting) return;
     setSubmitting(true);
     try {
       const title = askForm.question.slice(0, 80) + (askForm.question.length > 80 ? '…' : '');
       const newThread = await api.createThread({
-        avatar: askForm.name ? askForm.name[0].toUpperCase() : '❓',
+        avatar: user?.name ? user.name[0].toUpperCase() : '❓',
         title,
         preview: askForm.question,
-        author: askForm.name ? `@${askForm.name.toLowerCase().replace(/\s/g, '')}` : '@anonymous',
+        author: user?.name ? `@${user.name.toLowerCase().replace(/\s/g, '')}` : `@${user?.email?.split('@')[0] || 'user'}`,
         topic: askForm.topic,
       });
       setThreads(prev => [newThread, ...prev]);
       setAskDone(true);
-      setTimeout(() => { setShowAskModal(false); setAskDone(false); setAskForm({ name: '', topic: '', question: '' }); }, 2200);
-    } catch {
-      // fallback: show locally even if save failed
-      setThreads(prev => [{
-        avatar: askForm.name ? askForm.name[0].toUpperCase() : '❓',
-        title: askForm.question.slice(0, 80),
-        preview: askForm.question,
-        author: askForm.name ? `@${askForm.name.toLowerCase().replace(/\s/g, '')}` : '@anonymous',
-        createdAt: new Date().toISOString(),
-        replies: 0, views: 1,
-      }, ...prev]);
-      setAskDone(true);
-      setTimeout(() => { setShowAskModal(false); setAskDone(false); setAskForm({ name: '', topic: '', question: '' }); }, 2200);
+      setTimeout(() => { setShowAskModal(false); setAskDone(false); setAskForm({ topic: '', question: '' }); }, 2200);
+    } catch (err) {
+      alert(t('Gửi thất bại: ', 'Failed: ') + (err?.message || ''));
     } finally {
       setSubmitting(false);
     }
@@ -1206,24 +1203,6 @@ function ForumPage() {
           )}
         </p>
 
-        {/* Live Q&A */}
-        <div style={{ background: 'var(--maroon-900)', padding: 28, borderRadius: 4, border: '1px solid var(--gold-700)', marginBottom: 50, color: 'var(--cream-100)', display: 'grid', gridTemplateColumns: '1fr auto', gap: 24, alignItems: 'center', flexWrap: 'wrap' }}>
-          <div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
-              <span className="live-badge">{t('live Q&A', 'live Q&A')}</span>
-              <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-400)' }}>
-                {t('SẮP DIỄN RA · 19:00 THỨ 5', 'UPCOMING · 7:00 PM THURSDAY')}
-              </span>
-            </div>
-            <h3 style={{ fontSize: 24, color: 'var(--gold-300)' }}>
-              {t('Vấn đáp tuần · Rinpoche trực tiếp giải đáp', 'Weekly Q&A · Direct answers from Rinpoche')}
-            </h3>
-            <p style={{ color: 'var(--cream-200)', margin: '4px 0 0', fontSize: 14 }}>
-              {t('Gửi câu hỏi trước · 247 câu đã gửi', 'Submit questions in advance · 247 received')}
-            </p>
-          </div>
-          <button className="btn btn-gold" onClick={() => setShowAskModal(true)}>{t('Đặt câu hỏi', 'Ask a question')} →</button>
-        </div>
 
         {/* Filters */}
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
@@ -1232,7 +1211,7 @@ function ForumPage() {
               <button key={f} className={`filter-chip ${filter === f ? 'active' : ''}`} onClick={() => setFilter(f)}>{f}</button>
             ))}
           </div>
-          <button className="btn btn-primary" onClick={() => setShowAskModal(true)}>+ {t('Đặt câu hỏi mới', 'New question')}</button>
+          <button className="btn btn-primary" onClick={openAsk}>+ {t('Đặt câu hỏi mới', 'New question')}</button>
         </div>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
@@ -1299,12 +1278,11 @@ function ForumPage() {
               ) : (
                 <>
                   <Eyebrow>{t('Đặt câu hỏi mới', 'Post a new question')}</Eyebrow>
-                  <h3 style={{ marginBottom: 20 }}>{t('Hỏi về Phật pháp & Mật tông', 'Ask about the dharma & Vajrayāna')}</h3>
+                  <h3 style={{ marginBottom: 4 }}>{t('Hỏi về Phật pháp & Mật tông', 'Ask about the dharma & Vajrayāna')}</h3>
+                  <p style={{ fontSize: 13, color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', marginBottom: 20 }}>
+                    {t('Đăng với tư cách', 'Posting as')} <strong>{user?.name || user?.email}</strong>
+                  </p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    <div>
-                      <label>{t('Tên của bạn', 'Your name')}</label>
-                      <input className="input" value={askForm.name} onChange={e => setAskForm(f => ({ ...f, name: e.target.value }))} placeholder={t('Pháp danh hoặc họ tên…', 'Dharma name or full name…')} />
-                    </div>
                     <div>
                       <label>{t('Chủ đề', 'Topic')}</label>
                       <select className="input" value={askForm.topic} onChange={e => setAskForm(f => ({ ...f, topic: e.target.value }))}>
