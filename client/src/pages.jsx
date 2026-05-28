@@ -511,12 +511,8 @@ function ActivityList() {
       {detail && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}
           onClick={() => setDetail(null)}>
-          <div style={{ background: 'var(--paper)', borderRadius: 4, maxWidth: 720, width: '100%', maxHeight: '88vh', overflowY: 'auto', border: '1px solid var(--gold-700)' }}
+          <div style={{ background: 'var(--paper)', borderRadius: 4, maxWidth: 760, width: '100%', maxHeight: '88vh', overflowY: 'auto', border: '1px solid var(--gold-700)' }}
             onClick={ev => ev.stopPropagation()}>
-            {detail.imageUrl && (
-              <img src={detail.imageUrl} alt={lang === 'vi' ? detail.title_vi : detail.title_en}
-                style={{ width: '100%', maxHeight: 360, objectFit: 'cover', borderRadius: '4px 4px 0 0' }} />
-            )}
             <div style={{ padding: 36 }}>
               <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', letterSpacing: '0.15em', marginBottom: 8 }}>
                 {detail.year} · {lang === 'vi' ? detail.season_vi : detail.season_en} · {detail.location}
@@ -524,8 +520,15 @@ function ActivityList() {
               <h2 style={{ fontSize: 24, color: 'var(--maroon-800)', marginBottom: 16 }}>
                 {lang === 'vi' ? detail.title_vi : detail.title_en}
               </h2>
-              {desc && <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, fontSize: 15 }}>{desc}</p>}
-              <button className="btn btn-ghost" style={{ marginTop: 24 }} onClick={() => setDetail(null)}>
+              {desc && <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, fontSize: 15, marginBottom: 28 }}>{desc}</p>}
+              {(detail.images?.length > 0) && (
+                <div style={{ display: 'grid', gridTemplateColumns: detail.images.length === 1 ? '1fr' : 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12, marginBottom: 8 }}>
+                  {detail.images.filter(Boolean).map((src, i) => (
+                    <img key={i} src={src} alt="" style={{ width: '100%', borderRadius: 3, objectFit: 'cover', aspectRatio: detail.images.length === 1 ? '16/9' : '4/3', border: '1px solid var(--gold-700)' }} />
+                  ))}
+                </div>
+              )}
+              <button className="btn btn-ghost" style={{ marginTop: 20 }} onClick={() => setDetail(null)}>
                 {t('Đóng', 'Close')}
               </button>
             </div>

@@ -11,6 +11,7 @@ const teacherEventSchema = new mongoose.Schema(
     attendees_en: String,
     location: String,
     imageUrl: String,
+    images: [String],
     desc_vi: String,
     desc_en: String,
   },

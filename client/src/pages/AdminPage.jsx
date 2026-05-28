@@ -271,6 +271,7 @@ function TeacherEventEditor({ event, onSave, onCancel, onDelete }) {
     attendees_vi: '', attendees_en: '',
     location: '',
     imageUrl: '',
+    images: [],
     desc_vi: '', desc_en: '',
   });
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
@@ -320,8 +321,31 @@ function TeacherEventEditor({ event, onSave, onCancel, onDelete }) {
       <Field label={t('Mô tả chi tiết (EN)', 'Description (EN)')}>
         <textarea className="input" rows={4} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={form.desc_en} onChange={e => set('desc_en', e.target.value)} />
       </Field>
-      <Field label={t('Ảnh hoạt động', 'Activity image')}>
+      <Field label={t('Ảnh đại diện (thumbnail)', 'Thumbnail image')}>
         <ImageUploader value={form.imageUrl} onChange={url => set('imageUrl', url)} />
+      </Field>
+      <Field label={t('Bộ ảnh chi tiết', 'Detail photo gallery')}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {(form.images || []).map((url, idx) => (
+            <div key={idx} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              <div style={{ flex: 1 }}>
+                <ImageUploader value={url} onChange={u => {
+                  const imgs = [...(form.images || [])];
+                  imgs[idx] = u;
+                  set('images', imgs);
+                }} />
+              </div>
+              <button className="btn" style={{ color: 'var(--maroon-700)', border: '1px solid var(--maroon-700)', padding: '4px 10px', flexShrink: 0 }}
+                onClick={() => set('images', (form.images || []).filter((_, i) => i !== idx))}>
+                {t('Xóa', 'Remove')}
+              </button>
+            </div>
+          ))}
+          <button className="btn btn-ghost" style={{ alignSelf: 'flex-start', marginTop: 4 }}
+            onClick={() => set('images', [...(form.images || []), ''])}>
+            + {t('Thêm ảnh', 'Add image')}
+          </button>
+        </div>
       </Field>
       <div style={{ display: 'flex', gap: 10, paddingTop: 16, borderTop: '1px solid var(--cream-300)', marginTop: 8 }}>
         <button className="btn btn-primary" onClick={() => onSave(form)}>
