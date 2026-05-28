@@ -184,6 +184,51 @@ h1,h2,h3,h4 {
 .nav-links button:hover { color: var(--gold-400); background: rgba(201,163,92,0.06); }
 .nav-links button.active { color: var(--gold-400); background: rgba(201,163,92,0.10); }
 
+/* Dropdown subcategory */
+.nav-links li.has-dropdown { position: relative; }
+.dropdown-caret { font-size: 11px; margin-left: 2px; opacity: 0.55; display: inline-block; transition: transform 0.2s; }
+.nav-links li.has-dropdown:hover .dropdown-caret { transform: rotate(90deg); }
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--maroon-900);
+  border: 1px solid var(--gold-700);
+  min-width: 178px;
+  z-index: 300;
+  padding: 6px 0;
+  border-radius: 3px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.nav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top: none;
+  border-bottom-color: var(--gold-700);
+}
+.nav-links li.has-dropdown:hover .nav-dropdown { display: block; }
+.nav-dropdown a {
+  display: block;
+  padding: 9px 18px;
+  color: var(--cream-300);
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+  border: none;
+  background: none;
+}
+.nav-dropdown a:hover { color: var(--gold-400); background: rgba(201,163,92,0.08); }
+
 .nav-actions {
   display: flex;
   gap: 8px;
@@ -291,6 +336,25 @@ h1,h2,h3,h4 {
   .nav-links button { width: 100%; text-align: left; padding: 14px; font-size: 15px; }
   .hamburger { display: inline-flex; }
   .chant-toggle span:not(.pulse) { display: none; }
+  /* Mobile dropdown */
+  .nav-links li.has-dropdown { position: static; }
+  .nav-dropdown {
+    display: none;
+    position: static;
+    transform: none;
+    background: rgba(0,0,0,0.25);
+    border: none;
+    border-left: 2px solid var(--gold-700);
+    border-radius: 0;
+    padding: 4px 0;
+    margin: 0 0 4px 16px;
+    box-shadow: none;
+  }
+  .nav-dropdown::before { display: none; }
+  .nav-dropdown.mobile-open { display: block; }
+  .nav-dropdown a { padding: 8px 14px; font-size: 10px; }
+  .nav-links li.has-dropdown:hover .nav-dropdown { display: none; }
+  .nav-links li.has-dropdown:hover .nav-dropdown.mobile-open { display: block; }
 }
 
 /* Login trong dropdown: chỉ hiện khi hamburger mở (≤980px) */

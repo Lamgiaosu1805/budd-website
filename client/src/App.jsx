@@ -11,10 +11,27 @@ import RegisterPage from './pages/RegisterPage.jsx';
 
 const PAGES = (t) => [
   { key: 'home', label: t('Trang chủ', 'Home') },
-  { key: 'lineage', label: t('Dòng truyền thừa', 'Lineage') },
-  { key: 'khenpo', label: t('Khenpo', 'Khenpo') },
-  { key: 'teaching', label: t('Giảng dạy', 'Teaching') },
-  { key: 'project', label: t('Dự án', 'Project') },
+  { key: 'lineage', label: t('Dòng truyền thừa', 'Lineage'), sub: [
+    { label: t('Lịch sử', 'History'), anchor: 'history' },
+    { label: t('Tiểu sử bậc thầy', 'Master Biography'), anchor: 'master-biography' },
+  ]},
+  { key: 'khenpo', label: t('Khenpo', 'Khenpo'), sub: [
+    { label: t('Tiểu sử', 'Biography'), anchor: 'biography' },
+    { label: t('Pháp lễ', 'Puja'), anchor: 'puja' },
+    { label: t('Hành hương', 'Pilgrimage'), anchor: 'pilgrimage' },
+    { label: t('Hoạt động', 'Activity'), anchor: 'activity' },
+    { label: t('Dự án cá nhân', 'Project'), anchor: 'khenpo-project' },
+  ]},
+  { key: 'teaching', label: t('Giảng dạy', 'Teaching'), sub: [
+    { label: 'Ngondro', anchor: 'ngondro' },
+    { label: 'Empowerment', anchor: 'empowerment' },
+    { label: 'DDL Shedra', anchor: 'ddl-shedra' },
+  ]},
+  { key: 'project', label: t('Dự án', 'Project'), sub: [
+    { label: t('Tu viện', 'Monastery'), anchor: 'monastery' },
+    { label: t('Trung tâm Pháp', 'Centers'), anchor: 'centers' },
+    { label: t('Sự kiện sắp tới', 'Upcoming Event'), anchor: 'upcoming-event' },
+  ]},
   { key: 'blog', label: t('Blog', 'Blog') },
   { key: 'donate', label: t('Cúng dường', 'Donate') },
   { key: 'forum', label: t('Diễn đàn', 'Forum') },
@@ -53,11 +70,25 @@ function Nav({ current, goto, chanting, toggleChant }) {
   const { t } = useT();
   const { user, isAdmin, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  const [openSub, setOpenSub] = useState(null);
   const pages = PAGES(t);
+
+  const gotoAnchor = (key, anchor) => {
+    goto(key);
+    setOpen(false);
+    setOpenSub(null);
+    if (anchor) {
+      setTimeout(() => {
+        const el = document.getElementById(anchor);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  };
+
   return (
     <nav className="nav" data-screen-label="Navigation">
       <div className="nav-inner">
-        <button className="brand" onClick={() => { goto('home'); setOpen(false); }} style={{ background: 'none', border: 'none', color: 'inherit' }}>
+        <button className="brand" onClick={() => { goto('home'); setOpen(false); setOpenSub(null); }} style={{ background: 'none', border: 'none', color: 'inherit' }}>
           <span className="brand-mark"><span></span></span>
           <span className="brand-name">
             {t('Khenpo Ogen Kalsang', 'Khenpo Ogen Kalsang')}
@@ -66,20 +97,35 @@ function Nav({ current, goto, chanting, toggleChant }) {
         </button>
         <ul className={`nav-links ${open ? 'open' : ''}`}>
           {pages.map((p) => (
-            <li key={p.key}>
-              <button className={current === p.key ? 'active' : ''} onClick={() => { goto(p.key); setOpen(false); }}>
-                {p.label}
+            <li key={p.key} className={p.sub ? 'has-dropdown' : ''}>
+              <button
+                className={current === p.key ? 'active' : ''}
+                onClick={() => {
+                  if (p.sub && open) {
+                    setOpenSub(openSub === p.key ? null : p.key);
+                  } else {
+                    goto(p.key); setOpen(false); setOpenSub(null);
+                  }
+                }}
+              >
+                {p.label}{p.sub && <span className="dropdown-caret">›</span>}
               </button>
+              {p.sub && (
+                <div className={`nav-dropdown${open && openSub === p.key ? ' mobile-open' : ''}`}>
+                  {p.sub.map((s, i) => (
+                    <a key={i} onClick={() => gotoAnchor(p.key, s.anchor)}>{s.label}</a>
+                  ))}
+                </div>
+              )}
             </li>
           ))}
           {isAdmin && (
             <li>
-              <button className={current === 'admin' ? 'active' : ''} onClick={() => { goto('admin'); setOpen(false); }}>
+              <button className={current === 'admin' ? 'active' : ''} onClick={() => { goto('admin'); setOpen(false); setOpenSub(null); }}>
                 {t('Quản trị', 'Admin')}
               </button>
             </li>
           )}
-          {/* Login/logout hiện trong dropdown trên mobile */}
           <li className="nav-links-auth">
             {user ? (
               <button onClick={() => { logout(); setOpen(false); }}>
@@ -95,22 +141,16 @@ function Nav({ current, goto, chanting, toggleChant }) {
         <div className="nav-actions">
           <LanguageToggle />
           <ChantToggle playing={chanting} onToggle={toggleChant} />
-          {/* Ẩn trên mobile — đã có trong dropdown */}
           {user ? (
-            <button
-              className="nav-auth-btn"
-              onClick={logout}
+            <button className="nav-auth-btn" onClick={logout}
               style={{ background: 'none', border: '1px solid var(--gold-700)', color: 'var(--gold-400)', padding: '4px 10px', fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', borderRadius: 999, cursor: 'pointer', whiteSpace: 'nowrap' }}
-              title={user.email}
-            >{t('Đăng xuất', 'Logout')}</button>
+              title={user.email}>{t('Đăng xuất', 'Logout')}</button>
           ) : (
-            <button
-              className="nav-auth-btn"
-              onClick={() => goto('login')}
+            <button className="nav-auth-btn" onClick={() => goto('login')}
               style={{ background: 'none', border: '1px solid var(--gold-700)', color: 'var(--gold-400)', padding: '4px 10px', fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', borderRadius: 999, cursor: 'pointer', whiteSpace: 'nowrap' }}
             >{t('Đăng nhập', 'Sign in')}</button>
           )}
-          <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
+          <button className="hamburger" onClick={() => { setOpen(!open); setOpenSub(null); }} aria-label="Menu">
             <span></span>
           </button>
         </div>

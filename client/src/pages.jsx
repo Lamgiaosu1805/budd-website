@@ -456,7 +456,7 @@ function KhenpoPage() {
 
   return (
     <div className="page">
-      <section className="section">
+      <section id="biography" className="section">
         <Eyebrow>{t('Phần 03 · Bậc Thầy soi đường', 'Section 03 · The Teacher')}</Eyebrow>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60, alignItems: 'start' }} className="teacher-grid">
           <div style={{ position: 'relative' }}>
@@ -541,7 +541,7 @@ function KhenpoPage() {
       </section>
 
       {/* Puja placeholder */}
-      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+      <section id="puja" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <Eyebrow>{t('Pháp lễ', 'Puja')}</Eyebrow>
           <h2>{t('Lễ khóa & Cúng dường', 'Ceremonies & Offerings')}</h2>
@@ -552,7 +552,7 @@ function KhenpoPage() {
       </section>
 
       {/* Pilgrimage placeholder */}
-      <section className="section">
+      <section id="pilgrimage" className="section">
         <Eyebrow>{t('Hành hương', 'Pilgrimage')}</Eyebrow>
         <h2>{t('Hành hương thánh địa', 'Sacred Site Pilgrimage')}</h2>
         <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 16 }}>
@@ -1593,7 +1593,7 @@ function LineagePage() {
   return (
     <div className="page">
       {/* History */}
-      <section className="section">
+      <section id="history" className="section">
         <Eyebrow>{t('Dòng truyền thừa · Lịch sử', 'Lineage · History')}</Eyebrow>
         <h2>{t('Dudjom Tersar — Dòng Kho tàng Mới', 'Dudjom Tersar — The New Treasure Lineage')}</h2>
         <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, maxWidth: 780, marginBottom: 48 }}>
@@ -1616,7 +1616,7 @@ function LineagePage() {
       {/* Master Biography */}
       <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <Eyebrow>{t('Tiểu sử Bậc Thầy', 'Master Biography')}</Eyebrow>
+          <Eyebrow id="master-biography">{t('Tiểu sử Bậc Thầy', 'Master Biography')}</Eyebrow>
           <h2>{t('Các bậc thầy dòng Dudjom', 'Masters of the Dudjom Lineage')}</h2>
           <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, maxWidth: 720, marginBottom: 8 }}>
             {t(
@@ -1670,8 +1670,8 @@ function ProjectPage({ goto }) {
 
   return (
     <div className="page">
-      {/* Monastery placeholder */}
-      <section className="section">
+      {/* Monastery / Centers */}
+      <section id="monastery" className="section">
         <Eyebrow>{t('Dự án', 'Project')}</Eyebrow>
         <h2>{t('Tu viện & Trung tâm', 'Monastery & Centers')}</h2>
         <div className="grid-2" style={{ marginTop: 40, gap: 32 }}>
@@ -1705,7 +1705,7 @@ function ProjectPage({ goto }) {
       </section>
 
       {/* Upcoming Events */}
-      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+      <section id="upcoming-event" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <Eyebrow>{t('Sự kiện sắp tới', 'Upcoming Events')}</Eyebrow>
           <h2>{t('Khóa tu & Pháp hội', 'Retreats & Teachings')}</h2>
