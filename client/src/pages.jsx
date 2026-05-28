@@ -142,10 +142,10 @@ function HomePage({ goto }) {
               )}
             </p>
             <div className="hero-actions">
-              <button className="btn btn-gold" onClick={() => goto('events')}>
+              <button className="btn btn-gold" onClick={() => goto('project')}>
                 {t('Tham dự khóa tu', 'Join a retreat')} →
               </button>
-              <button className="btn btn-ghost" style={{ color: 'var(--gold-300)', borderColor: 'var(--gold-500)' }} onClick={() => goto('teacher')}>
+              <button className="btn btn-ghost" style={{ color: 'var(--gold-300)', borderColor: 'var(--gold-500)' }} onClick={() => goto('khenpo')}>
                 {t('Về Rinpoche', 'About Rinpoche')}
               </button>
             </div>
@@ -220,7 +220,7 @@ function HomePage({ goto }) {
                   {t('Sự kiện', 'Events')}
                 </div>
                 {searchResults.events.map((e, i) => (
-                  <button key={e.id || i} className="admin-row" onClick={() => goto('events')} style={{ width: '100%', textAlign: 'left', cursor: 'pointer', background: 'none', border: 'none' }}>
+                  <button key={e.id || i} className="admin-row" onClick={() => goto('project')} style={{ width: '100%', textAlign: 'left', cursor: 'pointer', background: 'none', border: 'none' }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontFamily: 'var(--f-serif)', fontSize: 16, color: 'var(--maroon-800)' }}>{e.title}</div>
                       <div style={{ fontSize: 12, color: 'var(--ink-500)' }}>{e.date} · {e.location}</div>
@@ -257,7 +257,7 @@ function HomePage({ goto }) {
             <Eyebrow>{t('Sự kiện sắp tới', 'Upcoming events')}</Eyebrow>
             <h2>{t('Khóa tu & Pháp thoại', 'Retreats & Teachings')}</h2>
           </div>
-          <button className="btn btn-ghost" onClick={() => goto('events')}>{t('Xem tất cả', 'See all')} →</button>
+          <button className="btn btn-ghost" onClick={() => goto('project')}>{t('Xem tất cả', 'See all')} →</button>
         </div>
         <div className="grid-3">
           {(cms?.events || []).slice(0, 3).map((e, i) => {
