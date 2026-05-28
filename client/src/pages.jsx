@@ -1625,9 +1625,9 @@ function LineagePage() {
       </section>
 
       {/* Master Biography */}
-      <section className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+      <section id="master-biography" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <Eyebrow id="master-biography">{t('Tiểu sử Bậc Thầy', 'Master Biography')}</Eyebrow>
+          <Eyebrow>{t('Tiểu sử Bậc Thầy', 'Master Biography')}</Eyebrow>
           <h2>{t('Các bậc thầy dòng Dudjom', 'Masters of the Dudjom Lineage')}</h2>
           <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, maxWidth: 720, marginBottom: 8 }}>
             {t(
