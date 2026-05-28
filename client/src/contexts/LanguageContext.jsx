@@ -4,7 +4,7 @@ const LanguageContext = createContext({ lang: 'vi', setLang: () => {} });
 
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState(() => {
-    try { return localStorage.getItem('kct_lang') || 'vi'; } catch { return 'vi'; }
+    try { return localStorage.getItem('kct_lang') || 'en'; } catch { return 'en'; }
   });
 
   useEffect(() => {
