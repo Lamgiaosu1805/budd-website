@@ -15,7 +15,7 @@ const PAGES = (t) => [
     { label: t('Lịch sử', 'History'), anchor: 'history' },
     { label: t('Tiểu sử bậc thầy', 'Master Biography'), anchor: 'master-biography' },
   ]},
-  { key: 'khenpo', label: t('Khenpo', 'Khenpo'), sub: [
+  { key: 'khenpo', label: t('Thầy', 'Teacher'), sub: [
     { label: t('Tiểu sử', 'Biography'), anchor: 'biography' },
     { label: t('Pháp lễ', 'Puja'), anchor: 'puja' },
     { label: t('Hành hương', 'Pilgrimage'), anchor: 'pilgrimage' },
