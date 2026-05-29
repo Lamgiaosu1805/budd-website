@@ -530,7 +530,6 @@ function ActivityList() {
             <div key={e.id || i} className="event-row" style={{ gridTemplateColumns: '100px 80px 1fr auto' }}>
               <div className="date-block">
                 <div className="day">{e.year}</div>
-                <div className="month">{d.season}</div>
               </div>
               <div className="event-row-img" style={{ aspectRatio: 1, overflow: 'hidden', borderRadius: 2 }}>
                 <CmsImage src={e.imageUrl} alt={d.title} />
