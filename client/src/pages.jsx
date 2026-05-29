@@ -864,7 +864,8 @@ function getViewDateRange(view) {
 function EventsPage() {
   const { t, lang } = useT();
   const cms = useCMS();
-  const [view, setView] = useState('year'); // 'year' | 'month' | 'week'
+  const [view, setView] = useState('year');
+  const [detailEvent, setDetailEvent] = useState(null);
   const [registerEvent, setRegisterEvent] = useState(null);
   const [regForm, setRegForm] = useState({ name: '', email: '', phone: '', note: '' });
   const [regDone, setRegDone] = useState(false);
@@ -944,7 +945,8 @@ function EventsPage() {
             <div key={month}>
               <div className="month-label">{month}</div>
               {items.map((e, i) => (
-                <div key={e.id || i} className="event-row" style={{ gridTemplateColumns: '100px 110px 1fr auto' }}>
+                <div key={e.id || i} className="event-row" style={{ gridTemplateColumns: '100px 110px 1fr auto', cursor: 'pointer' }}
+                  onClick={() => setDetailEvent(e)}>
                   <div className="date-block">
                     <div className="day">{e.day}</div>
                     <div className="month">{e.monthShort}</div>
@@ -960,7 +962,7 @@ function EventsPage() {
                     <h3>{e.title}</h3>
                     <div className="meta">{e.duration} · {e.location} · {e.attendees || t('Mở đăng ký', 'Open registration')}</div>
                   </div>
-                  <button className="btn btn-primary" onClick={() => setRegisterEvent(e)}>{t('Đăng ký', 'Register')} →</button>
+                  <button className="btn btn-primary" onClick={ev => { ev.stopPropagation(); setRegisterEvent(e); }}>{t('Đăng ký', 'Register')} →</button>
                 </div>
               ))}
             </div>
@@ -982,6 +984,36 @@ function EventsPage() {
             <button className="btn btn-ghost">{t('Xem hoạt động đang cần', 'See current needs')} →</button>
           </div>
         </div>
+
+        {/* Detail modal */}
+        {detailEvent && (
+          <div className="modal-overlay" onClick={() => setDetailEvent(null)}>
+            <div className="modal" style={{ maxWidth: 680 }} onClick={ev => ev.stopPropagation()}>
+              <button className="modal-close" onClick={() => setDetailEvent(null)}>✕</button>
+              {detailEvent.imageUrl && (
+                <img src={detailEvent.imageUrl} alt={detailEvent.title}
+                  style={{ width: '100%', maxHeight: 360, objectFit: 'cover', borderRadius: '4px 4px 0 0', marginBottom: 24, display: 'block' }} />
+              )}
+              <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-700)', letterSpacing: '0.15em', marginBottom: 8 }}>
+                {detailEvent.date} · {detailEvent.location}
+              </div>
+              <h2 style={{ fontSize: 22, color: 'var(--maroon-800)', marginBottom: 12 }}>{detailEvent.title}</h2>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+                <Tag>{detailEvent.type}</Tag>
+                {detailEvent.live && <Tag variant="live">{t('Trực tuyến', 'Livestream')}</Tag>}
+              </div>
+              {detailEvent.desc && <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, marginBottom: 20 }}>{detailEvent.desc}</p>}
+              <div style={{ color: 'var(--ink-500)', fontSize: 14, marginBottom: 24 }}>
+                {detailEvent.duration && <div>⏱ {detailEvent.duration}</div>}
+                <div>📍 {detailEvent.location}</div>
+                {detailEvent.attendees && <div>👥 {detailEvent.attendees}</div>}
+              </div>
+              <button className="btn btn-primary" onClick={() => { setDetailEvent(null); setRegisterEvent(detailEvent); }}>
+                {t('Đăng ký tham dự', 'Register')} →
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Register modal */}
         {registerEvent && (
