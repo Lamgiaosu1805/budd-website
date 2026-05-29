@@ -1708,10 +1708,10 @@ function LineagePage() {
         <h2>{t('Dòng Dudjom Tersar hiện tại', 'Dudjom Tersar — Present Masters')}</h2>
         <div className="lineage-master-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginTop: 36 }}>
           {[
-            { src: '/teacher-chatral.jpg',        name: 'H.H. Chatral Sangye Dorje',       sub: t('Thượng thủ dòng Dudjom Tersar', 'Supreme head of Dudjom Tersar lineage') },
+            { src: '/teacher-chatral.jpg',        name: 'H.H. Chatral Sangye Dorje',         sub: t('Thượng thủ dòng Dudjom Tersar', 'Supreme head of Dudjom Tersar lineage') },
+            { src: '/teacher-yeshe-sangpo.jpg',   name: 'H.H. Dungse Thrinley Norbu',        sub: t('Pháp tử của Dudjom Rinpoche II', 'Son of H.H. Dudjom Rinpoche II') },
             { src: '/teacher-thrinley-norbu.jpg', name: 'H.H. Kyabje Yeshe Sangpo Rinpoche', sub: t('Người nắm giữ dòng Dudjom Tersar hiện tại', 'Dudjom Tersar lineage holder at present') },
-            { src: '/teacher-yeshe-sangpo.jpg',   name: 'H.H. Dungse Thrinley Norbu',      sub: t('Pháp tử của Dudjom Rinpoche II', 'Son of H.H. Dudjom Rinpoche II') },
-            { src: '/teacher-khandro-pema.jpg',   name: 'H.E. Khandro Pema Choedron',      sub: t('Phối ngẫu tâm linh của Yeshe Sangpo Rinpoche', 'Spiritual consort of Yeshe Sangpo Rinpoche') },
+            { src: '/teacher-khandro-pema.jpg',   name: 'H.E. Khandro Pema Choedron',        sub: t('Phối ngẫu tâm linh của Yeshe Sangpo Rinpoche', 'Spiritual consort of Yeshe Sangpo Rinpoche') },
           ].map(({ src, name, sub }) => (
             <div key={src} style={{ textAlign: 'center' }}>
               <div style={{ aspectRatio: '3/4', overflow: 'hidden', borderRadius: 3, border: '1px solid var(--gold-700)', marginBottom: 12 }}>
