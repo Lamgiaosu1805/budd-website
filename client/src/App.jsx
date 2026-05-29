@@ -15,7 +15,7 @@ const PAGES = (t) => [
     { label: t('Lịch sử', 'History'), anchor: 'history' },
     { label: t('Tiểu sử bậc thầy', 'Master Biography'), anchor: 'master-biography' },
   ]},
-  { key: 'khenpo', label: t('Thầy', 'Teacher'), sub: [
+  { key: 'khenpo', label: t('Khenpo', 'Khenpo'), sub: [
     { label: t('Tiểu sử', 'Biography'), anchor: 'biography' },
     { label: t('Pháp lễ', 'Puja'), anchor: 'puja' },
     { label: t('Hành hương', 'Pilgrimage'), anchor: 'pilgrimage' },
@@ -216,7 +216,7 @@ function Footer({ goto }) {
             'By this merit may all attain omniscience — may all beings be free from suffering and the causes of suffering.'
           )}</div>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <span>{t('Phát triển vì cộng đồng đệ tử Rinpoche', "For Rinpoche's global student community")}</span>
+            <span>{t('Phát hành bởi', 'Published by')} <strong style={{ color: 'var(--gold-400)' }}>VNFITE</strong></span>
             <button onClick={() => goto('login')} style={{ background: 'none', border: '1px solid var(--gold-700)', color: 'var(--gold-400)', padding: '4px 10px', fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', borderRadius: 999, cursor: 'pointer' }}>Admin</button>
           </div>
         </div>
@@ -294,6 +294,13 @@ export default function App() {
   const [page, setPage] = useState(readPageFromHash);
   const [chanting, toggleChant] = useChant();
   const { user, isAdmin, loading } = useAuth();
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -340,6 +347,13 @@ export default function App() {
         <Page goto={goto} />
       </main>
       <Footer goto={goto} />
+      {showScrollTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          style={{ position: 'fixed', bottom: 32, right: 32, zIndex: 500, width: 44, height: 44, borderRadius: '50%', background: 'var(--maroon-800)', border: '1px solid var(--gold-600)', color: 'var(--gold-300)', fontSize: 20, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.3)', transition: 'opacity 0.2s' }}
+          title="Scroll to top"
+        >↑</button>
+      )}
     </div>
   );
 }
