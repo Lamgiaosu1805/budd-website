@@ -1676,7 +1676,7 @@ function LineagePage() {
             {[
               { src: '/lineage-1.jpg', name: 'Dudjom Lingpa', sub: t('Sáng lập dòng Dudjom Tersar', 'Founder of Dudjom Tersar') },
               { src: '/lineage-2.jpg', name: 'H.H. Dudjom Rinpoche II', sub: 'Jigdrel Yeshe Dorje' },
-              { src: '/lineage-3.jpg', name: 'H.H. Yeshe Sangpo Rinpoche', sub: t('Người nắm giữ dòng Dudjom Tersar hiện tại', 'Dudjom Tersar lineage holder at present') },
+              { src: '/lineage-3.jpg', name: 'H.H. Thinley Norbu Rinpoche', sub: t('Pháp tử trưởng của Dudjom Rinpoche II', 'Eldest son of H.H. Dudjom Rinpoche II') },
               { src: '/lineage-4.jpg', name: 'H.H. Dudjom Rinpoche III', sub: 'Sangye Pema Shepa' },
             ].map(({ src, name, sub }) => (
               <div key={src} style={{ textAlign: 'center' }}>
@@ -1709,10 +1709,10 @@ function LineagePage() {
         <h2>{t('Dòng Dudjom Tersar hiện tại', 'Dudjom Tersar — Present Masters')}</h2>
         <div className="lineage-master-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginTop: 36 }}>
           {[
-            { src: '/teacher-yeshe-sangpo.jpg',   name: 'H.H. Yeshe Sangpo Rinpoche',      sub: t('Người nắm giữ dòng Dudjom Tersar hiện tại', 'Dudjom Tersar lineage holder at present') },
-            { src: '/teacher-thrinley-norbu.jpg', name: 'H.H. Dungse Thrinley Norbu',      sub: t('Pháp tử của Dudjom Rinpoche II', 'Son of H.H. Dudjom Rinpoche II') },
+            { src: '/teacher-chatral.jpg',        name: 'H.H. Chatral Sangye Dorje',       sub: t('Thượng thủ dòng Dudjom Tersar', 'Supreme head of Dudjom Tersar lineage') },
+            { src: '/teacher-thrinley-norbu.jpg', name: 'H.H. Kyabje Yeshe Sangpo Rinpoche', sub: t('Người nắm giữ dòng Dudjom Tersar hiện tại', 'Dudjom Tersar lineage holder at present') },
+            { src: '/teacher-yeshe-sangpo.jpg',   name: 'H.H. Dungse Thrinley Norbu',      sub: t('Pháp tử của Dudjom Rinpoche II', 'Son of H.H. Dudjom Rinpoche II') },
             { src: '/teacher-khandro-pema.jpg',   name: 'H.E. Khandro Pema Choedron',      sub: t('Phối ngẫu tâm linh của Yeshe Sangpo Rinpoche', 'Spiritual consort of Yeshe Sangpo Rinpoche') },
-            { src: '/teacher-chatral.jpg',        name: 'H.H. Chatral Sangye Dorje',       sub: t('Pháp tử tâm ấn của Dudjom Rinpoche II', 'Heart son of H.H. Dudjom Rinpoche II') },
           ].map(({ src, name, sub }) => (
             <div key={src} style={{ textAlign: 'center' }}>
               <div style={{ aspectRatio: '3/4', overflow: 'hidden', borderRadius: 3, border: '1px solid var(--gold-700)', marginBottom: 12 }}>
