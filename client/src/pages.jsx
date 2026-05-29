@@ -9,6 +9,30 @@ import { useAuth } from './contexts/AuthContext.jsx';
 import { api } from './lib/api.js';
 
 // ------------ Shared helpers ------------
+function ZoomImg({ src, alt, style, imgStyle, ...props }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+  return (
+    <>
+      <img src={src} alt={alt} style={{ ...style, cursor: 'zoom-in' }} onClick={() => setOpen(true)} {...props} />
+      {open && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.92)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={() => setOpen(false)}>
+          <img src={src} alt={alt} onClick={e => e.stopPropagation()}
+            style={{ maxHeight: '92vh', maxWidth: '92vw', objectFit: 'contain', borderRadius: 4, boxShadow: '0 8px 48px rgba(0,0,0,0.6)', ...imgStyle }} />
+          <button onClick={() => setOpen(false)}
+            style={{ position: 'absolute', top: 20, right: 20, background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', fontSize: 20, width: 40, height: 40, borderRadius: '50%', cursor: 'pointer' }}>✕</button>
+        </div>
+      )}
+    </>
+  );
+}
+
 const Eyebrow = ({ children, style }) => <div className="eyebrow" style={style}>{children}</div>;
 const Silk = ({ label, variant = "", style }) => (
   <div className={`silk ${variant}`} style={style}>{label}</div>
@@ -173,7 +197,7 @@ function HomePage({ goto }) {
 
       {/* Lineage thangka */}
       <div style={{ background: 'var(--maroon-900)', padding: '64px var(--gutter)', display: 'flex', justifyContent: 'center' }}>
-        <img
+        <ZoomImg
           src="/home-cover.jpg"
           alt="Dudjom Tersar Lineage"
           style={{ maxWidth: 560, width: '100%', borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 16px 56px rgba(0,0,0,0.55)' }}
@@ -1653,12 +1677,12 @@ function LineagePage() {
             {[
               { src: '/lineage-1.jpg', name: 'Dudjom Lingpa', sub: t('Sáng lập dòng Dudjom Tersar', 'Founder of Dudjom Tersar') },
               { src: '/lineage-2.jpg', name: 'H.H. Dudjom Rinpoche II', sub: 'Jigdrel Yeshe Dorje' },
-              { src: '/lineage-3.jpg', name: 'H.H. Thinley Norbu', sub: t('Pháp tử trưởng của Dudjom Rinpoche II', 'Eldest son of Dudjom Rinpoche II') },
+              { src: '/lineage-3.jpg', name: 'H.H. Yeshe Sangpo Rinpoche', sub: t('Người nắm giữ dòng Dudjom Tersar hiện tại', 'Dudjom Tersar lineage holder at present') },
               { src: '/lineage-4.jpg', name: 'H.H. Dudjom Rinpoche III', sub: 'Sangye Pema Shepa' },
             ].map(({ src, name, sub }) => (
               <div key={src} style={{ textAlign: 'center' }}>
                 <div style={{ aspectRatio: '3/4', overflow: 'hidden', borderRadius: 3, border: '1px solid var(--gold-700)', marginBottom: 12 }}>
-                  <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+                  <ZoomImg src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
                 </div>
                 <div style={{ fontFamily: 'var(--f-serif)', fontSize: 15, color: 'var(--maroon-700)', lineHeight: 1.3, marginBottom: 4 }}>{name}</div>
                 <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10.5, color: 'var(--ink-500)', letterSpacing: '0.06em' }}>{sub}</div>
@@ -1677,6 +1701,28 @@ function LineagePage() {
               <LineageAccordion key={i} name={m.name} dates={m.dates} role={m.role} content={m.content} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Current lineage holders */}
+      <section className="section">
+        <Eyebrow>{t('Các bậc thầy đương đại', 'Current Lineage Holders')}</Eyebrow>
+        <h2>{t('Dòng Dudjom Tersar hiện tại', 'Dudjom Tersar — Present Masters')}</h2>
+        <div className="lineage-master-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, marginTop: 36 }}>
+          {[
+            { src: '/teacher-yeshe-sangpo.jpg',   name: 'H.H. Yeshe Sangpo Rinpoche',      sub: t('Người nắm giữ dòng Dudjom Tersar hiện tại', 'Dudjom Tersar lineage holder at present') },
+            { src: '/teacher-thrinley-norbu.jpg', name: 'H.H. Dungse Thrinley Norbu',      sub: t('Pháp tử của Dudjom Rinpoche II', 'Son of H.H. Dudjom Rinpoche II') },
+            { src: '/teacher-khandro-pema.jpg',   name: 'H.E. Khandro Pema Choedron',      sub: t('Phối ngẫu tâm linh của Yeshe Sangpo Rinpoche', 'Spiritual consort of Yeshe Sangpo Rinpoche') },
+            { src: '/teacher-chatral.jpg',        name: 'H.H. Chatral Sangye Dorje',       sub: t('Pháp tử tâm ấn của Dudjom Rinpoche II', 'Heart son of H.H. Dudjom Rinpoche II') },
+          ].map(({ src, name, sub }) => (
+            <div key={src} style={{ textAlign: 'center' }}>
+              <div style={{ aspectRatio: '3/4', overflow: 'hidden', borderRadius: 3, border: '1px solid var(--gold-700)', marginBottom: 12 }}>
+                <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+              </div>
+              <div style={{ fontFamily: 'var(--f-serif)', fontSize: 15, color: 'var(--maroon-700)', lineHeight: 1.3, marginBottom: 4 }}>{name}</div>
+              <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10.5, color: 'var(--ink-500)', letterSpacing: '0.06em' }}>{sub}</div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
@@ -1706,7 +1752,7 @@ function TeachingPage({ goto }) {
               {t('Tài liệu chi tiết đang được cập nhật.', 'Detailed materials in preparation.')}
             </p>
           </div>
-          <img
+          <ZoomImg
             src="/ngondro-cover.jpg"
             alt="Ngondro"
             style={{ width: '100%', borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}
@@ -1734,16 +1780,25 @@ function TeachingPage({ goto }) {
       {/* DDL Shedra */}
       <section id="ddl-shedra" className="section">
         <Eyebrow>DDL Shedra</Eyebrow>
-        <h2>{t('DDL Shedra — Học viện Phật học', 'DDL Shedra — Buddhist Studies')}</h2>
-        <p style={{ color: 'var(--ink-700)', maxWidth: 680, marginTop: 20, lineHeight: 1.8 }}>
+        <h2>{t('DDL Shedra — Hành trình 4 năm "Chạm đến Giác ngộ"', 'DDL Shedra — A 4-Year Journey of "Touching Enlightenment"')}</h2>
+        <p style={{ color: 'var(--ink-700)', maxWidth: 780, marginTop: 20, lineHeight: 1.8 }}>
           {t(
-            'Shedra là trường Phật học truyền thống Tây Tạng nơi học giả nghiên cứu kinh điển, luận thư và triết học Phật giáo trong nhiều năm. Khenpo Ogen Kalsang đang phát triển chương trình DDL Shedra để phổ biến kiến thức Phật pháp đến học trò quốc tế.',
-            'A Shedra is a traditional Tibetan Buddhist college where scholars study scriptures, philosophical treatises, and Buddhist philosophy over many years. Khenpo Ogen Kalsang is developing the DDL Shedra curriculum to bring this classical education to international students.'
+            'Trong truyền thống Phật giáo Tây Tạng, Shedra là một học viện tu viện chuyên sâu nơi tu sĩ và cư sĩ nghiên cứu hệ thống triết học Phật giáo, kinh điển và các luận giải nền tảng. Khởi xướng năm 2024 dưới sự hướng dẫn trực tiếp và từ bi của Khenpo Ogen Kalsang, DDL Shedra với chủ đề "Chạm đến Giác ngộ" là chương trình học 4 năm nghiêm túc, được thiết kế để xây dựng nền tảng kiến thức tâm linh sâu sắc qua các giai đoạn Văn — Tư — Tu.',
+            'In the Tibetan Buddhist tradition, a Shedra is an intensive monastic college or theological institute where monastics and lay practitioners systematically study Buddhist philosophy, scriptures, and foundational commentaries. Initiated in 2024 under the direct guidance and compassionate teaching of Khenpo Ogen Kalsang, the DDL Shedra — themed "Touching Enlightenment" — is a rigorous 4-year curriculum designed to build a profound framework of spiritual knowledge through the stages of Hearing, Contemplating, and Meditating.'
           )}
         </p>
-        <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 24 }}>
-          {t('Chương trình học đang được xây dựng.', 'Curriculum under development.')}
+        <p style={{ color: 'var(--ink-700)', maxWidth: 780, marginTop: 16, lineHeight: 1.8 }}>
+          {t(
+            'Tính đến năm 2026, các học viên đã vượt qua nửa chặng đường, hoàn thành năm học thứ hai. Trong hai năm qua, các hành giả đã đắm mình trong ba bộ kinh điển vĩ đại.',
+            'As of 2026, the students have successfully crossed the halfway mark, completing their second year of study. Over these past two years, practitioners have immersed themselves in three monumental texts.'
+          )}
         </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginTop: 36 }}>
+          {['/ddl-shedra-1.jpg', '/ddl-shedra-2.jpg', '/ddl-shedra-3.jpg'].map((src, i) => (
+            <ZoomImg key={i} src={src} alt={`DDL Shedra ${i + 1}`}
+              style={{ width: '100%', borderRadius: 4, border: '1px solid var(--gold-700)', objectFit: 'cover', aspectRatio: '4/3' }} />
+          ))}
+        </div>
       </section>
 
       {/* Full lecture library */}
@@ -1798,7 +1853,7 @@ function ProjectPage({ goto }) {
               )}
             </p>
           </div>
-          <img
+          <ZoomImg
             src="/monastery-top-view.jpg"
             alt={t('Phối cảnh tu viện — nhìn từ trên', 'Monastery rendering — top view')}
             style={{ width: '100%', maxWidth: 860, borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 8px 32px rgba(0,0,0,0.15)', display: 'block' }}
@@ -1809,22 +1864,38 @@ function ProjectPage({ goto }) {
       {/* Centers */}
       <section id="centers" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <Eyebrow>{t('Trung tâm Pháp', 'Dharma Centers')}</Eyebrow>
-          <h2>{t('Trung tâm Pháp toàn cầu', 'Global Dharma Centers')}</h2>
-          <div style={{ marginTop: 40, maxWidth: 640 }}>
-            <div className="card" style={{ padding: 40 }}>
-              <div style={{ fontFamily: 'var(--f-serif)', fontSize: 40, color: 'var(--gold-500)', marginBottom: 16 }}>🌏</div>
-              <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{t('Trung tâm Pháp', 'Dharma Centers')}</h3>
-              <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-700)', marginBottom: 12 }}>
-                {t('SẮP RA MẮT', 'COMING SOON')}
+          <Eyebrow>{t('Trung tâm Pháp · Châu Á', 'Centers in Asia')}</Eyebrow>
+          <h2>{t('Địa chỉ Tăng đoàn', 'Our Sangha Address')}</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24, marginTop: 40 }}>
+            {[
+              {
+                region: 'Vietnam',
+                address: '4B Vuong Thua Vu, Ha Noi',
+                phone: '+84 912345678',
+                email: 'Info.dudjomdls@Gmail.com',
+              },
+              {
+                region: 'Nepal',
+                address: 'Dudjom Tersar Ogmin Khachod Ling (Dudjom Wisdom Center), Tinchuli Boudhanath, Kathmandu',
+                phone: '+9779851168535',
+                email: 'Info.dudjomdls@Gmail.com',
+              },
+              {
+                region: 'Vietnam',
+                address: 'Do Son, Hai Phong',
+                phone: '+84 912345678',
+                email: 'Info.dudjomdls@Gmail.com',
+              },
+            ].map((c, i) => (
+              <div key={i} className="card" style={{ padding: 32 }}>
+                <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.2em', color: 'var(--gold-700)', marginBottom: 16, textTransform: 'uppercase' }}>{c.region}</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <div style={{ display: 'flex', gap: 10, color: 'var(--ink-700)', fontSize: 14 }}><span>🏠</span><span>{c.address}</span></div>
+                  <div style={{ display: 'flex', gap: 10, fontSize: 14 }}><span>📞</span><a href={`tel:${c.phone}`} style={{ color: 'var(--maroon-700)' }}>{c.phone}</a></div>
+                  <div style={{ display: 'flex', gap: 10, fontSize: 14 }}><span>✉️</span><a href={`mailto:${c.email}`} style={{ color: 'var(--maroon-700)' }}>{c.email}</a></div>
+                </div>
               </div>
-              <p style={{ color: 'var(--ink-700)', fontSize: 14, lineHeight: 1.7 }}>
-                {t(
-                  'Các trung tâm Pháp sẽ được thiết lập tại Việt Nam, châu Á, châu Âu và Hoa Kỳ để hỗ trợ học trò tu tập.',
-                  'Dharma centers will be established in Vietnam, Asia, Europe and the United States to support students in their practice.'
-                )}
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
