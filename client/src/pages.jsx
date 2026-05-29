@@ -1672,10 +1672,11 @@ function LineagePage() {
           <h2>{t('Các bậc thầy dòng Dudjom', 'Masters of the Dudjom Lineage')}</h2>
 
           {/* 4-master portrait grid */}
-          <div className="lineage-master-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, margin: '36px 0 48px' }}>
+          <div className="lineage-master-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, margin: '36px 0 48px' }}>
             {[
               { src: '/lineage-1.jpg', name: 'Dudjom Lingpa', sub: t('Sáng lập dòng Dudjom Tersar', 'Founder of Dudjom Tersar') },
               { src: '/lineage-2.jpg', name: 'H.H. Dudjom Rinpoche II', sub: 'Jigdrel Yeshe Dorje' },
+              { src: '/lineage-3.jpg', name: 'H.H. Thinley Norbu Rinpoche', sub: t('Pháp tử trưởng của Dudjom Rinpoche II', 'Eldest son of H.H. Dudjom Rinpoche II') },
               { src: '/lineage-4.jpg', name: 'H.H. Dudjom Rinpoche III', sub: 'Sangye Pema Shepa' },
             ].map(({ src, name, sub }) => (
               <div key={src} style={{ textAlign: 'center' }}>
