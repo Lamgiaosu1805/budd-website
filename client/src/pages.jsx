@@ -697,6 +697,25 @@ function KhenpoPage() {
           <Eyebrow>{t('Pháp lễ · 4 tháng 3, 2022', 'Puja · March 4, 2022')}</Eyebrow>
           <h2>{t('Lễ Cúng Dường vì Sự Niết Bàn của Các Vị Thầy Gốc Rễ', 'Puja Offering for the Parinirvana of Our Root Masters')}</h2>
           <div style={{ maxWidth: 740, marginTop: 24 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, marginBottom: 28 }}>
+              {[
+                '/puja-parinirvana-2022.jpg',
+                '/puja-WhatsApp-Image-2022-03-06-at-9.33.53-AM-1.jpg',
+                '/puja-WhatsApp-Image-2022-03-06-at-9.33.51-AM.jpg',
+                '/puja-WhatsApp-Image-2022-03-06-at-9.33.50-AM.jpg',
+                '/puja-WhatsApp-Image-2022-03-06-at-7.58.51-AM.jpg',
+                '/puja-WhatsApp-Image-2022-03-06-at-7.58.54-AM.jpg',
+                '/puja-WhatsApp-Image-2022-03-06-at-9.33.55-AM.jpg',
+                '/puja-WhatsApp-Image-2022-03-06-at-9.55.50-AM.jpg',
+              ].map((src) => (
+                <ZoomImg
+                  key={src}
+                  src={src}
+                  alt={t('Lễ Mahaparinirvana Dechö Puja · 4 tháng 3, 2022', 'Mahaparinirvana Dechö Puja · March 4, 2022')}
+                  style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', borderRadius: 4, border: '1px solid var(--gold-600)' }}
+                />
+              ))}
+            </div>
             <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
               {t(
                 'Vào ngày 4 tháng 3 năm 2022, Khenpo Ogen Kelsang Rinpoche đã tổ chức và chủ trì một lễ Mahaparinirvana Dechö Puja để tưởng nhớ các vị thầy gốc rễ đáng kính: Đức Kyabje Dodrupchen Rinpoche và Đức Kyabje Dudjom Rinpoche III, Sangye Pema Shepa.',
@@ -757,9 +776,12 @@ function KhenpoPage() {
           {/* Vietnam 2022 photo gallery */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 36 }}>
             {[
-              { src: '/vietnam-phu-do-hanoi-2022.jpg', vi: 'Phú Đô, Hà Nội — 2022', en: 'Phu Do, Hanoi — 2022' },
-              { src: '/vietnam-ha-nam-2022.jpg',       vi: 'Hà Nam — 2022',           en: 'Ha Nam — 2022' },
-              { src: '/vietnam-hcm-2022.jpg',          vi: 'TP. Hồ Chí Minh — 2022', en: 'Ho Chi Minh City — 2022' },
+              { src: '/vietnam-phu-do-hanoi-2022.jpg',                                   vi: 'Phú Đô, Hà Nội — 2022',   en: 'Phu Do, Hanoi — 2022' },
+              { src: '/vietnam-ha-nam-2022.jpg',                                         vi: 'Hà Nam — 2022',             en: 'Ha Nam — 2022' },
+              { src: '/vietnam-hcm-2022.jpg',                                            vi: 'TP. Hồ Chí Minh — 2022',   en: 'Ho Chi Minh City — 2022' },
+              { src: '/vietnam-extra-WhatsApp-Image-2022-06-26-at-10.25.35-AM.jpg',     vi: 'Việt Nam — 2022',           en: 'Vietnam — 2022' },
+              { src: '/vietnam-extra-WhatsApp-Image-2022-06-26-at-10.25.36-AM-1.jpg',   vi: 'Việt Nam — 2022',           en: 'Vietnam — 2022' },
+              { src: '/vietnam-extra-WhatsApp-Image-2022-06-26-at-10.25.37-AM-1.jpg',   vi: 'Việt Nam — 2022',           en: 'Vietnam — 2022' },
             ].map(({ src, vi, en }) => (
               <div key={src} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <ZoomImg
