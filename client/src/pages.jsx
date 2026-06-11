@@ -699,14 +699,8 @@ function KhenpoPage() {
           <div style={{ maxWidth: 740, marginTop: 24 }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, marginBottom: 28 }}>
               {[
-                '/puja-parinirvana-2022.jpg',
                 '/puja-WhatsApp-Image-2022-03-06-at-9.33.53-AM-1.jpg',
                 '/puja-WhatsApp-Image-2022-03-06-at-9.33.51-AM.jpg',
-                '/puja-WhatsApp-Image-2022-03-06-at-9.33.50-AM.jpg',
-                '/puja-WhatsApp-Image-2022-03-06-at-7.58.51-AM.jpg',
-                '/puja-WhatsApp-Image-2022-03-06-at-7.58.54-AM.jpg',
-                '/puja-WhatsApp-Image-2022-03-06-at-9.33.55-AM.jpg',
-                '/puja-WhatsApp-Image-2022-03-06-at-9.55.50-AM.jpg',
               ].map((src) => (
                 <ZoomImg
                   key={src}
@@ -779,9 +773,9 @@ function KhenpoPage() {
               { src: '/vietnam-phu-do-hanoi-2022.jpg',                                   vi: 'Phú Đô, Hà Nội — 2022',   en: 'Phu Do, Hanoi — 2022' },
               { src: '/vietnam-ha-nam-2022.jpg',                                         vi: 'Hà Nam — 2022',             en: 'Ha Nam — 2022' },
               { src: '/vietnam-hcm-2022.jpg',                                            vi: 'TP. Hồ Chí Minh — 2022',   en: 'Ho Chi Minh City — 2022' },
+              { src: '/vietnam-buddha-temple-2022.jpg',                                   vi: 'Việt Nam — 2022',           en: 'Vietnam — 2022' },
+              { src: '/vietnam-extra-WhatsApp-Image-2022-06-26-at-10.25.37-AM-1.jpg',   vi: 'Hạ Long Bay — 2022',        en: 'Ha Long Bay — 2022' },
               { src: '/vietnam-extra-WhatsApp-Image-2022-06-26-at-10.25.35-AM.jpg',     vi: 'Việt Nam — 2022',           en: 'Vietnam — 2022' },
-              { src: '/vietnam-extra-WhatsApp-Image-2022-06-26-at-10.25.36-AM-1.jpg',   vi: 'Việt Nam — 2022',           en: 'Vietnam — 2022' },
-              { src: '/vietnam-extra-WhatsApp-Image-2022-06-26-at-10.25.37-AM-1.jpg',   vi: 'Việt Nam — 2022',           en: 'Vietnam — 2022' },
             ].map(({ src, vi, en }) => (
               <div key={src} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <ZoomImg
