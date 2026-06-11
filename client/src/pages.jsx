@@ -834,13 +834,19 @@ function KhenpoPage() {
                 <a href="mailto:Info.dudjomdls@gmail.com" style={{ color: 'var(--maroon-700)' }}>Info.dudjomdls@gmail.com</a>
               </p>
             </div>
-            <div style={{ padding: 32, background: 'linear-gradient(160deg, #0d2d0d, #1a4a1a)', borderRadius: 4, border: '1px solid var(--gold-600)', textAlign: 'center' }}>
-              <div style={{ fontFamily: 'var(--f-serif)', fontSize: 52, marginBottom: 16, lineHeight: 1 }}>🌿</div>
-              <div style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic', fontSize: 20, color: '#c8e6c9', lineHeight: 1.7, marginBottom: 14 }}>
-                Oṃ Tāre Tuttāre<br />Ture Svāhā
-              </div>
-              <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: '#81c784', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                {t('THẦN CHÚ LỤC ĐỘ PHẬT MẪU TARA', 'GREEN TARA MANTRA')}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <ZoomImg
+                src="/greenTara.jpg"
+                alt={t('Lục Độ Phật Mẫu Tara', 'Green Tara')}
+                style={{ width: '100%', borderRadius: 4, border: '1px solid var(--gold-600)' }}
+              />
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic', fontSize: 17, color: 'var(--ink-600)', lineHeight: 1.7 }}>
+                  Oṃ Tāre Tuttāre Ture Svāhā
+                </div>
+                <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: 'var(--ink-400)', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: 4 }}>
+                  {t('THẦN CHÚ LỤC ĐỘ PHẬT MẪU TARA', 'GREEN TARA MANTRA')}
+                </div>
               </div>
             </div>
           </div>
