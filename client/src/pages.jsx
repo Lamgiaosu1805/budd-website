@@ -691,24 +691,70 @@ function KhenpoPage() {
         </div>
       </section>
 
-      {/* Puja placeholder */}
+      {/* Puja - Parinirvana Offering */}
       <section id="puja" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <Eyebrow>{t('Pháp lễ', 'Puja')}</Eyebrow>
-          <h2>{t('Lễ khóa & Cúng dường', 'Ceremonies & Offerings')}</h2>
-          <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 16 }}>
-            {t('Nội dung đang được cập nhật — sắp ra mắt.', 'Content in preparation — coming soon.')}
-          </p>
+          <Eyebrow>{t('Pháp lễ · 4 tháng 3, 2022', 'Puja · March 4, 2022')}</Eyebrow>
+          <h2>{t('Lễ Cúng Dường vì Sự Niết Bàn của Các Vị Thầy Gốc Rễ', 'Puja Offering for the Parinirvana of Our Root Masters')}</h2>
+          <div style={{ maxWidth: 740, marginTop: 24 }}>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+              {t(
+                'Vào ngày 4 tháng 3 năm 2022, Khenpo Ogen Kelsang Rinpoche đã tổ chức và chủ trì một lễ Mahaparinirvana Dechö Puja để tưởng nhớ các vị thầy gốc rễ đáng kính: Đức Kyabje Dodrupchen Rinpoche và Đức Kyabje Dudjom Rinpoche III, Sangye Pema Shepa.',
+                'On March 4, 2022, Khenpo Ogen Kelsang Rinpoche organized and presided over a Mahaparinirvana Dechö Puja in honor of our beloved root masters: the Lord of Refuge, His Holiness Kyabje Dodrupchen Rinpoche, and His Holiness Kyabje Dudjom Rinpoche III, Sangye Pema Shepa.'
+              )}
+            </p>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+              {t(
+                'Trong dịp thiêng liêng này, một nghi lễ cúng dường Dorje Sempa (Kim Cương Tát Đoả) đã được thực hiện để thanh tịnh mọi samaya bị phá vỡ và nghiệp tiêu cực mà chúng ta, với tư cách là đệ tử, có thể đã vô tình tích lũy đối với các vị thầy gốc rễ. Những chướng ngại như vậy có thể tạo ra trở ngại cho mối liên kết thanh tịnh giữa đạo sư và đệ tử, không chỉ trong đời này mà còn trong các đời tương lai.',
+                'During this sacred occasion, a Dorje Sempa (Vajrasattva) ritual offering was performed to purify any broken samaya commitments and negative karma that we, as disciples, may have unknowingly accumulated in relation to our root masters. Such obscurations can create obstacles to the pure connection between guru and disciple, not only in this life but also in future lifetimes. Therefore, we engaged in this profound practice to purify these faults and restore the integrity of our samaya.'
+              )}
+            </p>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+              {t(
+                'Điều đặc biệt quan trọng là phải hiểu rằng trí tuệ giác ngộ của đạo sư không thể tách rời khỏi trí tuệ nguyên thủy của tất cả chư Phật. Thông qua samaya, đệ tử được kết nối với bản tánh trí tuệ giác ngộ này. Khi samaya bị suy yếu, mối kết nối đó có thể bị che khuất. Bằng cách thực hành thanh tịnh chân thành, chúng ta gia tăng và củng cố mối kết nối với trí tuệ tâm ấn và gia trì của đạo sư.',
+                'It is especially important to understand that the guru\'s wisdom mind is inseparable from the primordial wisdom of all the buddhas. Through samaya, disciples are connected to this enlightened wisdom nature. When samaya is impaired, that connection can become obscured. By sincerely engaging in purification practices, we renew and strengthen our connection to the guru\'s wisdom mind and blessings.'
+              )}
+            </p>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 0, fontFamily: 'var(--f-serif)', fontStyle: 'italic' }}>
+              {t(
+                '"Nguyện cho tất cả chúng sinh nhận ra bản tánh chân thật của mình, được giải thoát khỏi khổ đau và nguyên nhân của nó, và mau chóng đạt đến trạng thái viên mãn của Phật quả."',
+                '"May all sentient beings recognize their own true nature, be freed from suffering and its causes, and swiftly attain the perfect state of complete Buddhahood."'
+              )}
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Pilgrimage placeholder */}
+      {/* Vietnam Sangha */}
       <section id="pilgrimage" className="section">
-        <Eyebrow>{t('Hành hương', 'Pilgrimage')}</Eyebrow>
-        <h2>{t('Hành hương thánh địa', 'Sacred Site Pilgrimage')}</h2>
-        <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 16 }}>
-          {t('Nội dung đang được cập nhật — sắp ra mắt.', 'Content in preparation — coming soon.')}
-        </p>
+        <Eyebrow>{t('Tăng đoàn Việt Nam · Từ năm 2018', 'Vietnam Sangha · Since 2018')}</Eyebrow>
+        <h2>Dudjom Tersar Sangchen Drubpi Gatsal</h2>
+        <div style={{ maxWidth: 740, marginTop: 24 }}>
+          <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+            {t(
+              'Từ năm 2018, Khenpo đã thường xuyên đến thăm Việt Nam và thành lập Tăng đoàn Dudjom tại đây, sau đó được đặt tên là Dudjom Tersar Sangchen Drubpi Gatsal bởi vị thầy của Ngài, Đức H.H. Kyabje Yeshe Sangpo Rinpoche. Trung tâm này là nơi học tập và hành trì Phật pháp, đặc biệt là các giáo lý và thực hành của dòng Dudjom.',
+              'Since 2018, Khenpo has been regularly visiting Vietnam and established a Dudjom Sangha there, which was later named Dudjom Tersar Sangchen Drubpi Gatsal by his teacher, H.H. Kyabje Yeshe Sangpo Rinpoche. This center serves as a place for the study and practice of the Buddhadharma, particularly the teachings and practices of the Dudjom lineage.'
+            )}
+          </p>
+          <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+            {t(
+              'Các học viên của Dudjom Tersar Sangchen Drubpi Gatsal hiện đang thực hành Ngöndro Cô Đọng Dudjom Tersar tại Việt Nam. Họ nhận được sự hướng dẫn và chỉ dạy về các pháp tu của dòng Dudjom trực tiếp từ Khenpo.',
+              'Students of Dudjom Tersar Sangchen Drubpi Gatsal are currently engaged in the practice of the Dudjom Tersar Concise Ngöndro in Vietnam. They receive guidance and instructions on the practices of the Dudjom lineage directly from Khenpo himself.'
+            )}
+          </p>
+          <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+            {t(
+              'Khenpo hy vọng rằng trong tương lai, các thành viên của Tăng đoàn sẽ thực hiện và hoàn thành khóa nhập thất ba năm truyền thống theo dòng Dudjom. Như Đức Phật dạy: "Ta chỉ cho con đường; giải thoát tùy thuộc vào bạn."',
+              'Khenpo hopes that, in the future, members of his Sangha will undertake and complete the traditional three-year retreat according to the Dudjom lineage. As the Buddha taught, "I show you the path; liberation depends on you."'
+            )}
+          </p>
+          <p style={{ color: 'var(--ink-700)', lineHeight: 1.85 }}>
+            {t(
+              'Khenpo liên tục khuyến khích học trò thực hành với tâm sùng mộ, dù pháp tu lớn hay nhỏ. Ngài nhấn mạnh rằng sự chứng ngộ chân thật đến từ trải nghiệm sâu sắc và tu tập tinh tấn, không phải từ những lời nói trống rỗng hay việc đọc sách.',
+              'Khenpo continually inspires his students to practice with devotion, whether their practice is great or small. He emphasizes that genuine realization arises through deep experience and diligent practice, not merely through empty words or the reading of books.'
+            )}
+          </p>
+        </div>
       </section>
 
       {/* Activities & events */}
@@ -718,14 +764,67 @@ function KhenpoPage() {
         <ActivityList />
       </section>
 
-      {/* Khenpo Personal Project */}
+      {/* Green Tara Practice */}
       <section id="khenpo-project" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <Eyebrow>{t('Dự án cá nhân', 'Personal Project')}</Eyebrow>
-          <h2>{t('Dự án của Khenpo', "Khenpo's Projects")}</h2>
-          <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 16 }}>
-            {t('Nội dung đang được cập nhật — sắp ra mắt.', 'Content in preparation — coming soon.')}
-          </p>
+          <Eyebrow>{t('Thực hành trực tuyến · Mỗi Chủ nhật', 'Online Practice · Every Sunday')}</Eyebrow>
+          <h2>{t('Pháp tu Lục Độ Phật Mẫu Tara — Bình an, Chữa lành & Giác ngộ', 'Green Tara Practice — Peace, Healing, and Enlightenment')}</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 48, alignItems: 'start', marginTop: 32 }} className="tantra-grid">
+            <div>
+              <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+                {t(
+                  'Hiện nay Rinpoche đang hướng dẫn thực hành Lục Độ Phật Mẫu Tara hai tuần một lần trực tuyến, nhằm tích lũy 100 triệu thần chú Tara vì lợi ích của tất cả chúng sinh.',
+                  'Rinpoche currently leads a bi-weekly online Green Tara practice dedicated to the accumulation of 100 million Tara mantras for the benefit of all sentient beings.'
+                )}
+              </p>
+              <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+                {t(
+                  'Trong Phật giáo Tây Tạng, Lục Độ Phật Mẫu Tara được tôn kính là sự hiện thân của hoạt động giác ngộ của tất cả chư Phật. Khenpo xem Ngài là nguồn chữa lành, bảo hộ và từ bi nhanh chóng đặc biệt mạnh mẽ cho cả hành giả lẫn người không tu tập.',
+                  'In Tibetan Buddhism, Green Tara is revered as the embodiment of the enlightened activity of all Buddhas. Khenpo regards her as a particularly powerful source of healing, protection, and swift compassion for both practitioners and non-practitioners.'
+                )}
+              </p>
+              <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 28 }}>
+                {t(
+                  'Tất cả đều được chào đón tham gia — người mới bắt đầu, Phật tử và những ai quan tâm đến thực hành Lục Độ Phật Mẫu Tara.',
+                  'All are welcome to participate, including beginners, Buddhists, and non-Buddhists interested in the practice of Green Tara.'
+                )}
+              </p>
+              <div style={{ background: 'var(--maroon-900)', padding: 28, borderRadius: 4, border: '1px solid var(--gold-600)', color: 'var(--cream-100)', marginBottom: 20 }}>
+                <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: 'var(--gold-400)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>
+                  {t('LỊCH THỰC HÀNH', 'PRACTICE SCHEDULE')}
+                </div>
+                <div style={{ fontFamily: 'var(--f-serif)', fontSize: 20, color: 'var(--gold-300)', marginBottom: 18 }}>
+                  {t('Hai tuần một lần · Mỗi Chủ nhật', 'Bi-Weekly · Every Sunday')}
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 18 }}>
+                  <div>
+                    <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-500)', marginBottom: 4 }}>Madrid time — Czech</div>
+                    <div style={{ fontFamily: 'var(--f-serif)', fontSize: 26, color: 'var(--cream-100)' }}>10:00am</div>
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-500)', marginBottom: 4 }}>Madrid time — English</div>
+                    <div style={{ fontFamily: 'var(--f-serif)', fontSize: 26, color: 'var(--cream-100)' }}>04:05pm</div>
+                  </div>
+                </div>
+                <div style={{ fontFamily: 'var(--f-mono)', fontSize: 13, color: 'var(--cream-300)', borderTop: '1px solid rgba(255,255,255,0.12)', paddingTop: 14 }}>
+                  Zoom ID: <strong style={{ color: 'var(--gold-300)' }}>9693456789</strong> &nbsp;·&nbsp; Passcode: <strong style={{ color: 'var(--gold-300)' }}>888888</strong>
+                </div>
+              </div>
+              <p style={{ color: 'var(--ink-500)', fontSize: 14 }}>
+                {t('Để biết thêm thông tin: ', 'For more information: ')}
+                <a href="mailto:Info.dudjomdls@gmail.com" style={{ color: 'var(--maroon-700)' }}>Info.dudjomdls@gmail.com</a>
+              </p>
+            </div>
+            <div style={{ padding: 32, background: 'linear-gradient(160deg, #0d2d0d, #1a4a1a)', borderRadius: 4, border: '1px solid var(--gold-600)', textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--f-serif)', fontSize: 52, marginBottom: 16, lineHeight: 1 }}>🌿</div>
+              <div style={{ fontFamily: 'var(--f-serif)', fontStyle: 'italic', fontSize: 20, color: '#c8e6c9', lineHeight: 1.7, marginBottom: 14 }}>
+                Oṃ Tāre Tuttāre<br />Ture Svāhā
+              </div>
+              <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10, color: '#81c784', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                {t('THẦN CHÚ LỤC ĐỘ PHẬT MẪU TARA', 'GREEN TARA MANTRA')}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -1563,10 +1662,10 @@ const LINEAGE_MASTERS = (lang) => lang === 'vi' ? [
     content: 'Dudjom Rinpoche Jigdral Yeshe Dorje (1904–1987), sinh tại đông nam Tây Tạng, là hóa thân của Dudjom Lingpa. Ngài nhận pháp Dudjom Tersar từ Gyurme Ngedon Wangpo, vị thừa kế tâm ấn gần gũi nhất của Dudjom Lingpa. Dudjom Rinpoche nổi tiếng truyền bá Dudjom Tersar khắp thế giới khi trải qua cuộc lưu vong của người Tây Tạng. Những ai có duyên gặp Ngài đều mô tả Ngài có thần nhãn thấu suốt, phong thái uyển chuyển và uy nghi. Dudjom Rinpoche được đào tạo chăm chỉ trong các giáo lý và thực hành Phật giáo từ thuở nhỏ. Tương tự Dudjom Lingpa, Dudjom Rinpoche có giao cảm trực tiếp với các thiên thần trí tuệ. Ngài soạn 25 tập trước tác, khám phá các giáo lý kho tàng và cũng biên tập lại toàn bộ kinh điển Nyingma kama (kinh điển truyền khẩu). Dudjom Rinpoche giảng dạy khắp thế giới, nhưng những năm cuối đời Ngài ở cùng gia đình tại Dordogne, Pháp.',
   },
   {
-    name: 'H.H. Dudjom Rinpoche III · Sangye Pema Shepa (1990 – Nay)',
-    dates: '1990 – Nay',
+    name: 'H.H. Dudjom Rinpoche III · Sangye Pema Shepa (1990 – 2022)',
+    dates: '1990 – 2022',
     role: 'HÓA THÂN ĐỜI THỨ BA',
-    content: 'Đức H.H. Dudjom Rinpoche III Sangye Pema Shepa (1990 – Nay), thường được gọi là Dudjom Yangsi Rinpoche, là hóa thân thứ ba và gần đây nhất của Dudjom Lingpa. Ngài sinh tại đông bắc Tây Tạng và được nhiều bậc thầy thành tựu công nhận, trong đó có H.H. Chatral Rinpoche và H.H. Thinley Norbu Rinpoche. Khi còn nhỏ, Rinpoche nổi tiếng với sự điềm tĩnh cao thượng và bất động khi ngồi trên pháp tòa hàng giờ đồng hồ. Dudjom Yangsi Rinpoche hiện trú xứ và giảng dạy tại Tây Tạng. Trước đại dịch Covid-19, Ngài dành thời gian ban các giáo lý và quán đỉnh khắp thế giới. Ngài nhận pháp và cộng tác chặt chẽ cùng H.H. Chatral Rinpoche suốt thời niên thiếu, cho đến khi Chatral Rinpoche viên tịch năm 2015. Khenpo Ogen lần đầu được thấy Dudjom Yangsi Rinpoche khi Ngài được suy tôn lên pháp tòa lúc lên bốn tuổi tại thiền viện của Chatral Rinpoche. Khenpo Ogen là người nhận quán đỉnh Dudjom đầu tiên của Dudjom Yangsi Rinpoche tại Pharping, Nepal, sau khi Ngài hoàn tất khóa nhập thất ba năm tại Gangri Thakar, Tây Tạng. H.H. Dudjom Rinpoche III cũng đã phong danh hiệu Khenpo trong dòng Dudjom cho Khenpo Ogen vào năm 2014. Vì vậy, Khenpo Ogen tu tập dưới sự hướng dẫn của Dudjom Rinpoche với tư cách người nắm giữ dòng Dudjom.',
+    content: 'Đức H.H. Dudjom Rinpoche III Sangye Pema Shepa (1990 – 2022), thường được gọi là Dudjom Yangsi Rinpoche, là hóa thân thứ ba và gần đây nhất của Dudjom Lingpa. Ngài sinh tại đông bắc Tây Tạng và được nhiều bậc thầy thành tựu công nhận, trong đó có H.H. Chatral Rinpoche và H.H. Thinley Norbu Rinpoche. Khi còn nhỏ, Rinpoche nổi tiếng với sự điềm tĩnh cao thượng và bất động khi ngồi trên pháp tòa hàng giờ đồng hồ. Trước khi viên tịch năm 2022, Ngài dành thời gian ban các giáo lý và quán đỉnh khắp thế giới. Ngài nhận pháp và cộng tác chặt chẽ cùng H.H. Chatral Rinpoche suốt thời niên thiếu, cho đến khi Chatral Rinpoche viên tịch năm 2015. Khenpo Ogen lần đầu được thấy Dudjom Yangsi Rinpoche khi Ngài được suy tôn lên pháp tòa lúc lên bốn tuổi tại thiền viện của Chatral Rinpoche. Khenpo Ogen là người nhận quán đỉnh Dudjom đầu tiên của Dudjom Yangsi Rinpoche tại Pharping, Nepal, sau khi Ngài hoàn tất khóa nhập thất ba năm tại Gangri Thakar, Tây Tạng. H.H. Dudjom Rinpoche III cũng đã phong danh hiệu Khenpo trong dòng Dudjom cho Khenpo Ogen vào năm 2014. Vì vậy, Khenpo Ogen tu tập dưới sự hướng dẫn của Dudjom Rinpoche với tư cách người nắm giữ dòng Dudjom.',
   },
   {
     name: 'H.H. Thinley Norbu Rinpoche (1931 – 2011)',
@@ -1588,10 +1687,10 @@ const LINEAGE_MASTERS = (lang) => lang === 'vi' ? [
     content: 'Dudjom Rinpoche Jigdral Yeshe Dorje (1904–1987), born in southeast Tibet, is the incarnation of Dudjom Lingpa. He received the Dudjom Tersar transmission from Dudjom Lingpa\'s heart son (closest student), Gyurme Ngedon Wangpo. Dudjom Rinpoche famously spread the Dudjom Tersar across the world as he lived through the Tibetan Diaspora. Those who crossed his path described him as penetratingly clairvoyant, graceful, and dignified. Dudjom Rinpoche was diligently trained in the teachings and practices of Buddhism from a young age. Similar to Dudjom Lingpa, Dudjom Rinpoche had direct communication with wisdom deities. He comprised 25 volumes of writings, revealed treasure teachings, and also revised the entire Nyingma canon (kama). Dudjom Rinpoche taught around the world but spent much of his later years with his family in Dordogne, France.',
   },
   {
-    name: 'H.H. Dudjom Rinpoche III · Sangye Pema Shepa (1990 – Present)',
-    dates: '1990 – Present',
+    name: 'H.H. Dudjom Rinpoche III · Sangye Pema Shepa (1990 – 2022)',
+    dates: '1990 – 2022',
     role: 'THIRD INCARNATION',
-    content: 'His Holiness Dudjom Rinpoche III Sangye Pema Shepa (1990–Present), often referred to as Dudjom Yangsi Rinpoche, is the third and most recent incarnation of Dudjom Lingpa. He was born in northeastern Tibet and recognized by many accomplished masters, including HH Chatral Rinpoche and HH Thinley Norbu Rinpoche. As a child, Rinpoche was famous for his noble and unwavering composure while sitting for hours on the throne. Dudjom Yangsi Rinpoche currently resides and teaches in Tibet. Before Covid-19, he spent time giving teachings and empowerments across the world. He received transmission and worked closely alongside HH Chatral Rinpoche throughout his youth, until Chatral Rinpoche\'s parinirvana in 2015. Khenpo Ogen first saw Dudjom Yangsi Rinpoche while he was being enthroned at the young age of four at Chatral Rinpoche\'s retreat center. Khenpo Ogen was a recipient of Dudjom Yangsi Rinpoche\'s first ever Dudjom lineage empowerment in Pharping, Nepal, after the completion of his three-year retreat in Gangri Thakar, Tibet. His Holiness Dudjom Rinpoche III also bestowed Khenpo Ogen his Khenpo title in the Dudjom lineage in 2014. Khenpo Ogen is therefore under Dudjom Rinpoche\'s guidance as a Dudjom lineage holder.',
+    content: 'His Holiness Dudjom Rinpoche III Sangye Pema Shepa (1990–2022), often referred to as Dudjom Yangsi Rinpoche, is the third and most recent incarnation of Dudjom Lingpa. He was born in northeastern Tibet and recognized by many accomplished masters, including HH Chatral Rinpoche and HH Thinley Norbu Rinpoche. As a child, Rinpoche was famous for his noble and unwavering composure while sitting for hours on the throne. Before his parinirvana in 2022, he spent time giving teachings and empowerments across the world. He received transmission and worked closely alongside HH Chatral Rinpoche throughout his youth, until Chatral Rinpoche\'s parinirvana in 2015. Khenpo Ogen first saw Dudjom Yangsi Rinpoche while he was being enthroned at the young age of four at Chatral Rinpoche\'s retreat center. Khenpo Ogen was a recipient of Dudjom Yangsi Rinpoche\'s first ever Dudjom lineage empowerment in Pharping, Nepal, after the completion of his three-year retreat in Gangri Thakar, Tibet. His Holiness Dudjom Rinpoche III also bestowed Khenpo Ogen his Khenpo title in the Dudjom lineage in 2014. Khenpo Ogen is therefore under Dudjom Rinpoche\'s guidance as a Dudjom lineage holder.',
   },
   {
     name: 'H.H. Thinley Norbu Rinpoche (1931 – 2011)',
@@ -1837,26 +1936,64 @@ function ProjectPage({ goto }) {
       {/* Monastery */}
       <section id="monastery" className="section">
         <Eyebrow>{t('Dự án', 'Project')}</Eyebrow>
-        <h2>{t('Tu viện', 'Monastery')}</h2>
-        <div style={{ marginTop: 40 }}>
-          <div className="card" style={{ padding: 40, maxWidth: 640, marginBottom: 40 }}>
-            <div style={{ fontFamily: 'var(--f-serif)', fontSize: 40, color: 'var(--gold-500)', marginBottom: 16 }}>🏯</div>
-            <h3 style={{ color: 'var(--maroon-800)', marginBottom: 8 }}>{t('Tu viện Kathmandu', 'Kathmandu Monastery')}</h3>
-            <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, letterSpacing: '0.15em', color: 'var(--gold-700)', marginBottom: 12 }}>
-              {t('ĐANG LÊN KẾ HOẠCH', 'IN PLANNING')}
-            </div>
+        <h2>{t('Dự án Tu viện Kathmandu', 'Kathmandu Monastery Project')}</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: 48, alignItems: 'start', marginTop: 40 }} className="tantra-grid">
+          <div>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+              {t(
+                'Được thúc đẩy bởi nguyện vọng chân thành của các đệ tử tại Nepal, Khenpo đã được thỉnh cầu thành lập một tu viện tại Kathmandu, nơi các tăng trẻ có thể thọ giới, tiếp nhận giáo dục Phật giáo truyền thống và tu tập tâm linh chân chính. Với tâm từ bi và dâng hiến sâu sắc, Khenpo đã chấp thuận thỉnh cầu này và có ý định thành lập một tu viện nhỏ sẽ tạo môi trường nuôi dưỡng cho khoảng mười lăm tăng trẻ dưới sự chăm sóc và hướng dẫn trực tiếp của Ngài.',
+                'Moved by the sincere aspirations of his students in Nepal, Khenpo has been requested to establish a monastery in Kathmandu where young monks may receive ordination, traditional Buddhist education, and authentic spiritual training. With great compassion and dedication, Khenpo has accepted this request and intends to establish a small monastery that will provide a nurturing environment for approximately fifteen young monks under his direct care and guidance.'
+              )}
+            </p>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+              {t(
+                'Dự án này không chỉ nhằm gìn giữ các giáo lý Phật giáo quý báu cho các thế hệ tương lai, mà còn tạo cơ hội cho các hành giả trẻ tu tập trí tuệ, từ bi và hạnh kiểm từ thuở nhỏ. Khenpo, cùng với các học trò cao niên và những người hỗ trợ, hiện đang quyên góp kinh phí để hiện thực hóa tầm nhìn này và đảm bảo tính bền vững lâu dài.',
+                'This project aims not only to preserve the precious Buddhist teachings for future generations but also to provide young practitioners with the opportunity to cultivate wisdom, compassion, and ethical conduct from an early age. Khenpo, together with his senior students and supporters, is currently raising funds to bring this vision to fruition and ensure its long-term sustainability.'
+              )}
+            </p>
             <p style={{ color: 'var(--ink-700)', fontSize: 14, lineHeight: 1.7 }}>
               {t(
-                'Khenpo Ogen đang lên kế hoạch xây dựng một tu viện nhỏ tại Kathmandu, Nepal theo yêu cầu của đệ tử Nepal.',
-                'Khenpo Ogen has begun preliminary plans to build a small monastery in Kathmandu, Nepal at the request of his Nepali students.'
+                'Để biết thêm thông tin hoặc hỗ trợ dự án này qua cúng dường, vui lòng liên hệ: ',
+                'For more information or to support this project through a donation, please contact: '
               )}
+              <a href="https://oddiyana-ling-foundation.org/index.php/ddl-shedra/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--maroon-700)' }}>
+                DDL Shedra — Oddiyana Ling Foundation
+              </a>
             </p>
           </div>
           <ZoomImg
             src="/monastery-top-view.jpg"
             alt={t('Phối cảnh tu viện — nhìn từ trên', 'Monastery rendering — top view')}
-            style={{ width: '100%', maxWidth: 860, borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 8px 32px rgba(0,0,0,0.15)', display: 'block' }}
+            style={{ width: '100%', borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}
           />
+        </div>
+      </section>
+
+      {/* Vajrayogini & Namo Buddha */}
+      <section id="vajrayogini" className="section" style={{ background: 'var(--paper)', maxWidth: 'none' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Eyebrow>{t('Dự án · Nepal', 'Project · Nepal')}</Eyebrow>
+          <h2>Vajrayogini &amp; Namo Buddha</h2>
+          <div style={{ maxWidth: 740, marginTop: 24 }}>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+              {t(
+                'Trong những năm gần đây, Khenpo đã thiết lập mối liên hệ sâu sắc và cát tường với các cộng đồng địa phương xung quanh các thánh địa Vajrayogini và Namo Buddha ở Nepal. Mặc dù vùng đất này có di sản tâm linh sâu sắc, nhiều gia đình gặp khó khăn trong việc duy trì mối liên kết bền chặt với truyền thống Phật giáo của họ giữa những thay đổi nhanh chóng của thế giới hiện đại và khả năng tiếp cận hạn chế với sự hướng dẫn tâm linh đích thực.',
+                'In recent years, Khenpo has established a profound and auspicious connection with the local communities surrounding the sacred areas of Vajrayogini and Namo Buddha in Nepal. Despite the region\'s deep spiritual heritage, many families face challenges in maintaining a strong connection to their Buddhist traditions amid the rapid changes of the modern world and limited access to qualified spiritual guidance.'
+              )}
+            </p>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85, marginBottom: 16 }}>
+              {t(
+                'Để đáp lại hoàn cảnh này, Khenpo đã bắt đầu tổ chức các buổi giảng Pháp, truyền quán đỉnh và tụ hội tu tập để hỗ trợ đời sống tâm linh của cộng đồng địa phương. Hướng tới tương lai, Khenpo và Tăng đoàn khao khát đóng góp vào sự phát triển của vùng đất này bằng cách giúp thành lập một ngôi chùa nhỏ và bảo tháp, hỗ trợ cơ hội giáo dục cho trẻ em địa phương, và trợ giúp cơ sở hạ tầng cộng đồng thiết yếu khi có thể.',
+                'In response to these circumstances, Khenpo has begun organizing Dharma teachings, empowerments, and practice gatherings to support the spiritual well-being of the local community. Looking to the future, Khenpo and his sangha aspire to contribute to the region\'s development by helping to establish a small temple and stupa, supporting educational opportunities for local children, and assisting with essential community infrastructure where possible.'
+              )}
+            </p>
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.85 }}>
+              {t(
+                'Thông qua những nỗ lực này, Khenpo hy vọng có thể giúp gìn giữ truyền thống Phật giáo sống động, củng cố nền tảng tâm linh của cộng đồng và tạo ra lợi ích lâu dài cho các thế hệ tương lai.',
+                'Through these efforts, Khenpo hopes to help preserve the living Buddhist tradition, strengthen the community\'s spiritual foundations, and create lasting benefit for generations to come.'
+              )}
+            </p>
+          </div>
         </div>
       </section>
 
@@ -2127,17 +2264,35 @@ function DonatePage() {
         <div className="grid-2" style={{ marginTop: 40, gap: 32 }}>
           <div className="card" style={{ padding: 32 }}>
             <h3 style={{ color: 'var(--maroon-800)', marginBottom: 16 }}>{t('Địa chỉ', 'Address')}</h3>
-            <p style={{ color: 'var(--ink-700)', lineHeight: 1.8 }}>
-              Samye Memorial Buddhist Vihara<br />
-              Kathmandu, Nepal
+            <p style={{ color: 'var(--ink-700)', lineHeight: 1.8, marginBottom: 12 }}>
+              Dudjom Tersar Ogmin Khachod Ling<br />
+              (Dudjom Wisdom Center)<br />
+              Tinchuli Boudhanath, Kathmandu, Nepal
             </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <a href="tel:+9779851168535" style={{ color: 'var(--maroon-700)', fontSize: 14 }}>📞 +977 985 116 8535</a>
+              <a href="mailto:Info.dudjomdls@Gmail.com" style={{ color: 'var(--maroon-700)', fontSize: 14 }}>✉️ Info.dudjomdls@Gmail.com</a>
+            </div>
           </div>
           <div className="card" style={{ padding: 32 }}>
             <h3 style={{ color: 'var(--maroon-800)', marginBottom: 16 }}>{t('Mạng xã hội', 'Social media')}</h3>
-            <p style={{ color: 'var(--ink-700)', lineHeight: 1.8 }}>
-              YouTube · Facebook<br />
-              {t('Theo dõi để nhận thông tin mới nhất.', 'Follow for the latest updates.')}
-            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <a href="https://youtube.com/@ddlshedra" target="_blank" rel="noopener noreferrer"
+                style={{ color: 'var(--maroon-700)', display: 'flex', gap: 10, alignItems: 'center', fontSize: 14 }}>
+                <span style={{ fontFamily: 'var(--f-serif)', fontSize: 18 }}>▶</span>
+                <span>YouTube — @ddlshedra</span>
+              </a>
+              <a href="https://www.facebook.com/ogen.kelsang.rinpoche" target="_blank" rel="noopener noreferrer"
+                style={{ color: 'var(--maroon-700)', display: 'flex', gap: 10, alignItems: 'center', fontSize: 14 }}>
+                <span style={{ fontFamily: 'var(--f-serif)', fontSize: 18 }}>f</span>
+                <span>Facebook — Khenpo Ogen's International Activities</span>
+              </a>
+              <a href="https://www.instagram.com/khenpo.ogen" target="_blank" rel="noopener noreferrer"
+                style={{ color: 'var(--maroon-700)', display: 'flex', gap: 10, alignItems: 'center', fontSize: 14 }}>
+                <span style={{ fontFamily: 'var(--f-serif)', fontSize: 18 }}>◉</span>
+                <span>Instagram — @khenpo.ogen</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
