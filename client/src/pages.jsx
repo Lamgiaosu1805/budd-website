@@ -754,6 +754,25 @@ function KhenpoPage() {
               'Khenpo continually inspires his students to practice with devotion, whether their practice is great or small. He emphasizes that genuine realization arises through deep experience and diligent practice, not merely through empty words or the reading of books.'
             )}
           </p>
+          {/* Vietnam 2022 photo gallery */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 36 }}>
+            {[
+              { src: '/vietnam-phu-do-hanoi-2022.jpg', vi: 'Phú Đô, Hà Nội — 2022', en: 'Phu Do, Hanoi — 2022' },
+              { src: '/vietnam-ha-nam-2022.jpg',       vi: 'Hà Nam — 2022',           en: 'Ha Nam — 2022' },
+              { src: '/vietnam-hcm-2022.jpg',          vi: 'TP. Hồ Chí Minh — 2022', en: 'Ho Chi Minh City — 2022' },
+            ].map(({ src, vi, en }) => (
+              <div key={src} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <ZoomImg
+                  src={src}
+                  alt={t(vi, en)}
+                  style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', borderRadius: 4 }}
+                />
+                <p style={{ fontSize: '0.8rem', color: 'var(--ink-500)', textAlign: 'center', margin: 0 }}>
+                  {t(vi, en)}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
