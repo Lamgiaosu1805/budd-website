@@ -699,8 +699,8 @@ function KhenpoPage() {
           <div style={{ maxWidth: 740, marginTop: 24 }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, marginBottom: 28 }}>
               {[
-                '/puja-WhatsApp-Image-2022-03-06-at-9.33.53-AM-1.jpg',
                 '/puja-WhatsApp-Image-2022-03-06-at-9.33.51-AM.jpg',
+                '/puja-WhatsApp-Image-2022-03-06-at-7.58.54-AM.jpg',
               ].map((src) => (
                 <ZoomImg
                   key={src}
