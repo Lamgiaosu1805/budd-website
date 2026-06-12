@@ -551,6 +551,12 @@ function AdminPage({ goto }) {
   const { user, logout } = useAuth();
   const [tab, setTab] = useState('events');
   const [editing, setEditing] = useState(null);
+  const [adminBlogs, setAdminBlogs] = useState(null);
+
+  const refreshAdminBlogs = () =>
+    api.listAllBlog().then(setAdminBlogs).catch(() => setAdminBlogs([]));
+
+  useEffect(() => { refreshAdminBlogs(); }, []);
 
   if (!cms) return <div className="section"><h2>Loading CMS…</h2></div>;
 
@@ -593,7 +599,7 @@ function AdminPage({ goto }) {
           <AdminTab label={`${t('Sự kiện', 'Events')} · ${cms.events.length}`} active={tab === 'events'} onClick={() => switchTab('events')} />
           <AdminTab label={`${t('Bài giảng', 'Teachings')} · ${cms.lectures.length}`} active={tab === 'lectures'} onClick={() => switchTab('lectures')} />
           <AdminTab label={`${t('Hoằng pháp', 'Activities')} · ${cms.teacherEvents.length}`} active={tab === 'teacherEvents'} onClick={() => switchTab('teacherEvents')} />
-          <AdminTab label={`Blog · ${cms.blogs.length}`} active={tab === 'blog'} onClick={() => switchTab('blog')} />
+          <AdminTab label={`Blog · ${adminBlogs ? adminBlogs.length : '…'}`} active={tab === 'blog'} onClick={() => switchTab('blog')} />
           <AdminTab label={t('Diễn đàn', 'Forum')} active={tab === 'forum'} onClick={() => switchTab('forum')} />
           <AdminTab label={t('Cài đặt', 'Settings')} active={tab === 'settings'} onClick={() => switchTab('settings')} />
         </div>
@@ -715,14 +721,18 @@ function AdminPage({ goto }) {
               <button className="btn btn-primary" onClick={() => setEditing({ kind: 'blog', item: null })} style={{ marginBottom: 20 }}>
                 + {t('Viết bài mới', 'New post')}
               </button>
-              {cms.blogs.length === 0 ? <EmptyState message={t('Chưa có bài viết nào', 'No posts yet')} /> : (
+              {adminBlogs === null ? (
+                <div style={{ padding: '20px 0', color: 'var(--ink-500)', fontSize: 14 }}>Loading…</div>
+              ) : adminBlogs.length === 0 ? (
+                <EmptyState message={t('Chưa có bài viết nào', 'No posts yet')} />
+              ) : (
                 <div>
-                  {cms.blogs.map(b => (
+                  {adminBlogs.map(b => (
                     <div key={b.id} className="admin-row">
                       {b.imageUrl && <img src={b.imageUrl} alt="" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 2, flexShrink: 0 }} />}
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                          {!b.published && <span className="tag" style={{ background: 'var(--cream-200)', color: 'var(--ink-400)' }}>Draft</span>}
+                          {!b.published && <span className="tag" style={{ background: 'var(--gold-100, #fef9e7)', color: 'var(--ink-600)', border: '1px solid var(--gold-400)' }}>Draft — ẩn khỏi Blog</span>}
                           <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--ink-500)' }}>
                             {new Date(b.createdAt).toLocaleDateString()}
                           </span>
@@ -739,9 +749,17 @@ function AdminPage({ goto }) {
             {editing?.kind === 'blog' && (
               <BlogEditor
                 post={editing.item}
-                onSave={(form) => { editing.item ? cms.updateBlog(editing.item.id, form) : cms.addBlog(form); closeEditor(); }}
+                onSave={async (form) => {
+                  editing.item ? await cms.updateBlog(editing.item.id, form) : await cms.addBlog(form);
+                  closeEditor();
+                  refreshAdminBlogs();
+                }}
                 onCancel={closeEditor}
-                onDelete={(id) => { cms.deleteBlog(id); closeEditor(); }}
+                onDelete={async (id) => {
+                  await cms.deleteBlog(id);
+                  closeEditor();
+                  refreshAdminBlogs();
+                }}
               />
             )}
           </div>

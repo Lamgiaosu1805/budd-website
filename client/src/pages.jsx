@@ -1886,15 +1886,84 @@ function TeachingPage({ goto }) {
                 'Ngondro comprises the foundational practices of Tibetan Vajrayana Buddhism, including 100,000 prostrations, Vajrasattva recitation, Mandala offering, and Guru Yoga. Khenpo Ogen Kalsang guides students through these practices in the Dudjom Tersar tradition.'
               )}
             </p>
-            <p style={{ color: 'var(--ink-500)', fontFamily: 'var(--f-mono)', fontSize: 13, letterSpacing: '0.1em', marginTop: 24 }}>
-              {t('Tài liệu chi tiết đang được cập nhật.', 'Detailed materials in preparation.')}
-            </p>
           </div>
           <ZoomImg
             src="/ngondro-cover.jpg"
             alt="Ngondro"
             style={{ width: '100%', borderRadius: 4, border: '1px solid var(--gold-700)', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}
           />
+        </div>
+
+        {/* Teaching excerpt */}
+        <div style={{ marginTop: 56, borderTop: '1px solid var(--gold-700)', paddingTop: 48 }}>
+          <div style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--gold-600)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 20 }}>
+            {t('Pháp Thoại · Trích Giảng', 'Teaching Excerpt')}
+          </div>
+          <h3 style={{ fontFamily: 'var(--f-serif)', fontSize: 22, color: 'var(--maroon-800)', marginBottom: 32, lineHeight: 1.4 }}>
+            {t('Ngöndro và Nền Tảng Tứ Diệu Đế', 'Ngöndro and the Foundation of the Four Noble Truths')}
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 48 }}>
+            {/* Vietnamese */}
+            <div style={{ color: 'var(--ink-700)', lineHeight: 1.9, fontSize: 15 }}>
+              <p>Những giáo lý Ngöndro được xây dựng trên nền tảng của Tứ Diệu Đế. Vì vậy, để thực hành Ngöndro, điều cần thiết là phải thấu hiểu Tứ Diệu Đế:</p>
+              <ul style={{ paddingLeft: 20, margin: '12px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <li>Hiểu rõ mục tiêu mà bạn đang hướng tới.</li>
+                <li>Hiểu rõ con đường.</li>
+                <li>Hiểu rõ các phương pháp thực hành.</li>
+              </ul>
+              <p style={{ marginTop: 16 }}>Trong Tứ Diệu Đế, hai chân lý đầu tiên là Khổ Đế và Tập Đế — liên quan đến các phiền não của chúng sinh. Chúng ta trải qua khổ đau trong luân hồi vì chưa thực sự thấu hiểu khổ đau và nguyên nhân của nó.</p>
+              <p style={{ marginTop: 16 }}>Khi chúng ta thực sự nhận ra khổ đau của chính mình và nguyên nhân của nó, lúc đó chúng ta mới có thể tìm ra phương pháp thực hành đúng đắn. Thông qua thực hành, chúng ta dần dần hiểu được bản chất thực sự của khổ đau và nghiệp.</p>
+              <p style={{ marginTop: 16 }}>Khổ đau của chúng ta không đến từ hoàn cảnh bên ngoài; mà phát sinh từ chính sự chấp thủ, tham ái và bám víu của chúng ta. Không có những chấp thủ này, sẽ không có điều gì khiến chúng ta trải qua khổ đau như hiện tại. Để thực sự nhận ra điều này, chúng ta phải thực hành Ngöndro.</p>
+              <p style={{ marginTop: 20, fontWeight: 600, color: 'var(--maroon-700)' }}>Trong Ngöndro:</p>
+              <ul style={{ paddingLeft: 20, margin: '8px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <li>Khổ Đế và Tập Đế liên quan đến các phiền não.</li>
+                <li>Diệt Đế và Đạo Đế cấu thành con đường thực hành.</li>
+              </ul>
+              <p style={{ marginTop: 20, fontWeight: 600, color: 'var(--maroon-700)' }}>Thông qua các pháp thực hành:</p>
+              <ul style={{ paddingLeft: 20, margin: '8px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <li>Bốn Tư Duy Chuyển Hóa Tâm</li>
+                <li>Quy Y</li>
+                <li>Phát Bồ Đề Tâm</li>
+                <li>Thực Hành Vajrasattva</li>
+                <li>Cúng Dường Maṇḍala</li>
+                <li>Guru Yoga</li>
+              </ul>
+              <p style={{ marginTop: 16 }}>Tất cả những thực hành này giúp chúng ta thanh tịnh vô minh, dẫn chúng ta từng bước đến giác ngộ. Vì vậy, trước khi bước vào thực hành Ngöndro, điều quan trọng là phải hiểu rõ và thiết lập động cơ đúng đắn.</p>
+            </div>
+            {/* English */}
+            <div style={{ color: 'var(--ink-700)', lineHeight: 1.9, fontSize: 15 }}>
+              <p>The teachings of Ngöndro are built upon the foundation of the Four Noble Truths. Therefore, in order to practice Ngöndro, it is essential to understand the Four Noble Truths:</p>
+              <ul style={{ paddingLeft: 20, margin: '12px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <li>Understand the goal toward which you are heading.</li>
+                <li>Understand the path.</li>
+                <li>Understand the methods of practice.</li>
+              </ul>
+              <p style={{ marginTop: 16 }}>Within the Four Noble Truths, the first two are the Truth of Suffering and the Truth of the Origin of Suffering. These two truths concern the afflictive emotions of sentient beings. We experience suffering in saṃsāra because we have not fully understood suffering and its causes.</p>
+              <p style={{ marginTop: 16 }}>When we genuinely recognize our own suffering and its causes, only then can we find the proper method of practice. Through practice, we gradually come to understand the true nature of suffering and karma.</p>
+              <p style={{ marginTop: 16 }}>Our suffering does not come from external circumstances; rather, it arises from our own attachment, craving, and clinging. Without these attachments, there would be nothing that causes us to experience suffering as we do now. To truly realize this, we must practice Ngöndro.</p>
+              <p style={{ marginTop: 20, fontWeight: 600, color: 'var(--maroon-700)' }}>In Ngöndro:</p>
+              <ul style={{ paddingLeft: 20, margin: '8px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <li>The Truth of Suffering and the Truth of the Origin of Suffering relate to afflictive emotions.</li>
+                <li>The Truth of Cessation and the Truth of the Path constitute the path of practice.</li>
+              </ul>
+              <p style={{ marginTop: 20, fontWeight: 600, color: 'var(--maroon-700)' }}>Through practices such as:</p>
+              <ul style={{ paddingLeft: 20, margin: '8px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <li>The Four Thoughts that Turn the Mind</li>
+                <li>Taking Refuge</li>
+                <li>Generating Bodhicitta</li>
+                <li>Vajrasattva Practice</li>
+                <li>Maṇḍala Offering</li>
+                <li>Guru Yoga</li>
+              </ul>
+              <p style={{ marginTop: 16 }}>All of these practices help us purify ignorance, leading us step by step toward realization. Therefore, before entering into Ngöndro practice, it is important to clearly understand and establish the correct motivation.</p>
+            </div>
+          </div>
+          <div style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid var(--cream-300)', fontFamily: 'var(--f-mono)', fontSize: 12, color: 'var(--gold-700)', letterSpacing: '0.12em', fontStyle: 'italic' }}>
+            {t(
+              '— Trích từ một bài pháp thoại Ngöndro của Khenpo Ogyen Rinpoche',
+              '— Excerpt from a Ngöndro teaching by Khenpo Ogyen Rinpoche'
+            )}
+          </div>
         </div>
       </section>
 
@@ -2191,15 +2260,33 @@ function ProjectPage({ goto }) {
 function BlogPage() {
   const { t, lang } = useT();
   const cms = useCMS();
-  const [selected, setSelected] = useState(null);
-
   const posts = cms?.blogs || [];
+
+  const getPostIdFromHash = () => {
+    const parts = window.location.hash.replace(/^#/, '').split('/');
+    return parts[0] === 'blog' && parts[1] ? parts[1] : null;
+  };
+
+  const [selected, setSelected] = useState(() => {
+    const id = getPostIdFromHash();
+    return id ? posts.find(p => p.id === id) || null : null;
+  });
+
+  const selectPost = (post) => {
+    setSelected(post);
+    window.history.replaceState(null, '', '#blog/' + post.id);
+  };
+
+  const goBack = () => {
+    setSelected(null);
+    window.history.replaceState(null, '', '#blog');
+  };
 
   if (selected) {
     return (
       <div className="page">
         <section className="section">
-          <button className="btn btn-ghost" onClick={() => setSelected(null)} style={{ marginBottom: 24 }}>← {t('Quay lại', 'Back')}</button>
+          <button className="btn btn-ghost" onClick={goBack} style={{ marginBottom: 24 }}>← {t('Quay lại', 'Back')}</button>
           {selected.imageUrl && (
             <div style={{ width: '100%', maxHeight: 360, overflow: 'hidden', borderRadius: 4, marginBottom: 32 }}>
               <img src={selected.imageUrl} alt="" style={{ width: '100%', objectFit: 'cover' }} />
@@ -2244,7 +2331,7 @@ function BlogPage() {
         ) : (
           <div className="grid-2" style={{ marginTop: 40, gap: 32 }}>
             {posts.map((post) => (
-              <article key={post.id} className="card" style={{ cursor: 'pointer', overflow: 'hidden' }} onClick={() => setSelected(post)}>
+              <article key={post.id} className="card" style={{ cursor: 'pointer', overflow: 'hidden' }} onClick={() => selectPost(post)}>
                 {post.imageUrl && (
                   <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
                     <img src={post.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />

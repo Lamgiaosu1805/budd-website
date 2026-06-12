@@ -12,6 +12,14 @@ router.get('/', async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
+// Admin: list ALL posts including drafts
+router.get('/all', authenticate, requireAdmin, async (req, res, next) => {
+  try {
+    const items = await Blog.find().sort({ createdAt: -1 });
+    res.json(items.map((i) => i.toJSON()));
+  } catch (e) { next(e); }
+});
+
 router.post('/', authenticate, requireAdmin, async (req, res, next) => {
   try {
     const item = await Blog.create(req.body);

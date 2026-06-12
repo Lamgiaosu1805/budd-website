@@ -66,6 +66,7 @@ export const api = {
 
   // blog
   listBlog: () => request('/blog'),
+  listAllBlog: () => request('/blog/all', { auth: true }),
   createBlog: (data) => request('/blog', { method: 'POST', body: data, auth: true }),
   updateBlog: (id, data) => request(`/blog/${id}`, { method: 'PUT', body: data, auth: true }),
   deleteBlog: (id) => request(`/blog/${id}`, { method: 'DELETE', auth: true }),

@@ -53,7 +53,7 @@ const PAGE_COMPONENTS = {
 };
 
 function readPageFromHash() {
-  const h = window.location.hash.replace(/^#/, '');
+  const h = window.location.hash.replace(/^#/, '').split('/')[0];
   return PAGE_COMPONENTS[h] ? h : 'home';
 }
 
