@@ -114,7 +114,7 @@ function Nav({ current, goto, chanting, toggleChant }) {
               {p.sub && (
                 <div className={`nav-dropdown${open && openSub === p.key ? ' mobile-open' : ''}`}>
                   {p.sub.map((s, i) => (
-                    <a key={i} onClick={() => gotoAnchor(p.key, s.anchor)}>{s.label}</a>
+                    <a key={i} href={`#${p.key}`} onClick={(e) => { e.preventDefault(); gotoAnchor(p.key, s.anchor); }}>{s.label}</a>
                   ))}
                 </div>
               )}
@@ -185,19 +185,19 @@ function Footer({ goto }) {
           <div>
             <h4>{t('Dòng truyền thừa', 'Lineage')}</h4>
             <ul>
-              <li><a onClick={() => goto('lineage')} style={{ cursor: 'pointer' }}>{t('Lịch sử Dudjom Tersar', 'Dudjom Tersar History')}</a></li>
-              <li><a onClick={() => goto('lineage')} style={{ cursor: 'pointer' }}>{t('Tiểu sử bậc thầy', 'Master Biography')}</a></li>
-              <li><a onClick={() => goto('khenpo')} style={{ cursor: 'pointer' }}>{t('Khenpo Ogen Kalsang', 'Khenpo Ogen Kalsang')}</a></li>
-              <li><a onClick={() => goto('teaching')} style={{ cursor: 'pointer' }}>{t('Bài giảng & Kinh điển', 'Teachings & Scriptures')}</a></li>
+              <li><a href="#lineage" onClick={(e) => { e.preventDefault(); goto('lineage'); }}>{t('Lịch sử Dudjom Tersar', 'Dudjom Tersar History')}</a></li>
+              <li><a href="#lineage" onClick={(e) => { e.preventDefault(); goto('lineage'); }}>{t('Tiểu sử bậc thầy', 'Master Biography')}</a></li>
+              <li><a href="#khenpo" onClick={(e) => { e.preventDefault(); goto('khenpo'); }}>{t('Khenpo Ogen Kalsang', 'Khenpo Ogen Kalsang')}</a></li>
+              <li><a href="#teaching" onClick={(e) => { e.preventDefault(); goto('teaching'); }}>{t('Bài giảng & Kinh điển', 'Teachings & Scriptures')}</a></li>
             </ul>
           </div>
           <div>
             <h4>{t('Cộng đồng', 'Community')}</h4>
             <ul>
-              <li><a onClick={() => goto('project')} style={{ cursor: 'pointer' }}>{t('Dự án tu viện', 'Monastery project')}</a></li>
-              <li><a onClick={() => goto('project')} style={{ cursor: 'pointer' }}>{t('Sự kiện & Khóa tu', 'Events & Retreats')}</a></li>
-              <li><a onClick={() => goto('forum')} style={{ cursor: 'pointer' }}>{t('Diễn đàn hỏi đáp', 'Forum & Q&A')}</a></li>
-              <li><a onClick={() => goto('donate')} style={{ cursor: 'pointer' }}>{t('Cúng dường hộ trì', 'Donate & Support')}</a></li>
+              <li><a href="#project" onClick={(e) => { e.preventDefault(); goto('project'); }}>{t('Dự án tu viện', 'Monastery project')}</a></li>
+              <li><a href="#project" onClick={(e) => { e.preventDefault(); goto('project'); }}>{t('Sự kiện & Khóa tu', 'Events & Retreats')}</a></li>
+              <li><a href="#forum" onClick={(e) => { e.preventDefault(); goto('forum'); }}>{t('Diễn đàn hỏi đáp', 'Forum & Q&A')}</a></li>
+              <li><a href="#donate" onClick={(e) => { e.preventDefault(); goto('donate'); }}>{t('Cúng dường hộ trì', 'Donate & Support')}</a></li>
             </ul>
           </div>
           <div>
